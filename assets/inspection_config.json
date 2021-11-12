@@ -1,0 +1,179 @@
+{
+    "categories":[
+        "Pick-up Pictures",
+        "Pick-up Signature",
+        "Drop-off Pictures",
+        "Drop-off Signature",
+        "Documents"
+    ],
+    "reportItems":[
+        {
+            "category": "Pick-up Pictures",
+            "name": "VIN",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Odometer",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Diagonal Front",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Front",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Left",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Right",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Back",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Diagonal Back",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Odometer",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Diagonal Front",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Front",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Left",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Right",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Back",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Signature",
+            "name": "Signature Image",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Signature",
+            "name": "Customer Name",
+            "options": [],
+            "type": "Text",
+            "format": "",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Signature",
+            "name": "Signature Image",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Signature",
+            "name": "Customer Name",
+            "options": [],
+            "type": "Text",
+            "format": "",
+            "default":  ""
+        },
+        {
+            "category": "Documents",
+            "name": "Driver License",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Documents",
+            "name": "Title",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Documents",
+            "name": "Registration",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        }
+    ]
+}
