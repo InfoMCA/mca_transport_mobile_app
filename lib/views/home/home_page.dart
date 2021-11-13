@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                           Container(
                               child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("username",
+                            child: Text(username,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
