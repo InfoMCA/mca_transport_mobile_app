@@ -18,7 +18,7 @@ class AppModule extends Module {
     ChildRoute('/security/login', child: (_, args) => LoginPage()),
     ChildRoute('/home', child:(_, args) => HomePage()),
     ChildRoute('/service/agreement', child:(_, args) => AgreementPage()),
-    ChildRoute('/service/report', child:(_, args) => InspectionMainPage()),
+    ChildRoute('/service/report', child:(_, args) => TransportationMainPage()),
     ChildRoute('/service/picture/portrait', child:(_, args) => TakePicturePortraitView()),
     ChildRoute('/service/picture/landscape', child:(_, args) => TakePictureLandscapeView()),
     ChildRoute('/service/picture/single-picture', child:(_, args) => PhotoDetails(args)),

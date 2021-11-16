@@ -5,6 +5,7 @@ enum ReportCategories {
   PICKUP_SIGNATURE,
   DROP_OFF_PICTURES,
   DROP_OFF_SIGNATURE,
+  BILL_OF_LADING
 }
 
 extension ReportCategoriesExtension on ReportCategories {
@@ -18,6 +19,8 @@ extension ReportCategoriesExtension on ReportCategories {
         return "Drop-off Pictures";
       case ReportCategories.DROP_OFF_SIGNATURE:
         return "Drop-off Signature";
+      case ReportCategories.BILL_OF_LADING:
+        return "Bill of Lading";
       default:
         return "";
     }
@@ -33,6 +36,7 @@ extension ReportCategoriesExtension on ReportCategories {
       case ReportCategories.DROP_OFF_SIGNATURE:
         return sessionStatus == SessionStatus.PICKUP ||
             sessionStatus == SessionStatus.TRANSFERRING;
+      case ReportCategories.BILL_OF_LADING:
       default:
         return false;
     }
@@ -46,6 +50,7 @@ extension ReportCategoriesExtension on ReportCategories {
       case ReportCategories.DROP_OFF_PICTURES:
       case ReportCategories.DROP_OFF_SIGNATURE:
         return sessionStatus.index >= SessionStatus.DROPPED.index;
+      case ReportCategories.BILL_OF_LADING:
       default:
         return false;
     }
@@ -60,6 +65,7 @@ extension ReportCategoriesExtension on ReportCategories {
       case ReportCategories.PICKUP_SIGNATURE:
       case ReportCategories.DROP_OFF_SIGNATURE:
         return this;
+      case ReportCategories.BILL_OF_LADING:
       default:
         return this;
     }

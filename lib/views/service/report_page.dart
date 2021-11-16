@@ -8,18 +8,19 @@ import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
 import 'package:transportation_mobile_app/utils/tab_icon_constants.dart';
+import 'package:transportation_mobile_app/views/service/tabs/bill_of_lading.dart';
 import 'package:transportation_mobile_app/views/service/tabs/pictures_grid.dart';
 import 'package:transportation_mobile_app/views/service/tabs/signature.dart';
 import 'package:transportation_mobile_app/widgets/service/call_bottom_sheet.dart';
 import 'package:transportation_mobile_app/widgets/service/call_msg_button.dart';
 import 'package:transportation_mobile_app/widgets/service/marquee_widget.dart';
 
-class InspectionMainPage extends StatefulWidget {
+class TransportationMainPage extends StatefulWidget {
   @override
-  _InspectionMainPageState createState() => _InspectionMainPageState();
+  _TransportationMainPageState createState() => _TransportationMainPageState();
 }
 
-class _InspectionMainPageState extends State<InspectionMainPage>
+class _TransportationMainPageState extends State<TransportationMainPage>
     with SingleTickerProviderStateMixin {
   ReportCategories selectedTab;
 
@@ -36,17 +37,23 @@ class _InspectionMainPageState extends State<InspectionMainPage>
     "Picking up Signature",
     "Dropping Off Pictures",
     "Dropping Off Signature",
+    "Bill of Lading"
   ];
 
   getTabBody(ReportCategories reportTabName) {
     switch (reportTabName) {
       case ReportCategories.PICKUP_PICTURES:
+        return new GridPicturePage(
+          key: Key(reportTabName.getName()),
+          reportTabName: reportTabName,
+          gridItems: session.categoryItems[reportTabName.getName()],
+          isEditable: reportTabName.canUserEditTab(session.sessionStatus));
       case ReportCategories.DROP_OFF_PICTURES:
         return new GridPicturePage(
-            key: Key(reportTabName.getName()),
-            reportTabName: reportTabName,
-            gridItems: session.categoryItems[reportTabName.getName()],
-            isEditable: reportTabName.canUserEditTab(session.sessionStatus));
+          key: Key(reportTabName.getName()),
+          reportTabName: reportTabName,
+          gridItems: session.categoryItems[reportTabName.getName()],
+          isEditable: reportTabName.canUserEditTab(session.sessionStatus));
       case ReportCategories.PICKUP_SIGNATURE:
         return new SignatureTabPage(
           key: Key(reportTabName.getName()),
@@ -58,12 +65,14 @@ class _InspectionMainPageState extends State<InspectionMainPage>
         );
       case ReportCategories.DROP_OFF_SIGNATURE:
         return new SignatureTabPage(
-            key: Key(reportTabName.getName()),
-            reportTabName: reportTabName,
-            reportingCategories: [
-              ReportCategories.DROP_OFF_PICTURES,
-              ReportCategories.DROP_OFF_SIGNATURE
-            ]);
+          key: Key(reportTabName.getName()),
+          reportTabName: reportTabName,
+          reportingCategories: [
+            ReportCategories.DROP_OFF_PICTURES,
+            ReportCategories.DROP_OFF_SIGNATURE
+          ]);
+      case ReportCategories.BILL_OF_LADING:
+        return new BillOfLadingPage();
     }
   }
 
@@ -80,7 +89,7 @@ class _InspectionMainPageState extends State<InspectionMainPage>
       selectedTab = currentSession.getCurrentReportTab();
     });
   }
-  final List<CallingOptions> calls = [];
+  // final List<CallingOptions> calls = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -226,7 +235,13 @@ class _InspectionMainPageState extends State<InspectionMainPage>
                 iconPath: TabIcons.signatures,
                 iconPrefix: "D",
                 onTap: () => changeTab(
-                    reportTabName: ReportCategories.DROP_OFF_SIGNATURE))
+                    reportTabName: ReportCategories.DROP_OFF_SIGNATURE)),
+            normalTab(
+              reportTabName: ReportCategories.BILL_OF_LADING,
+              iconPath: TabIcons.pictures,
+              iconPrefix: "B",
+              onTap: () => changeTab(
+                reportTabName: ReportCategories.BILL_OF_LADING))
           ],
         ),
       ),
