@@ -49,6 +49,8 @@ class SessionObject {
   String customerPhone;
   String broker;
   String brokerPhone;
+  String driver;
+  String truck;
   String srcName;
   Address srcAddress;
   String dstName;
@@ -83,6 +85,8 @@ class SessionObject {
     this.dstAddress,
     this.broker,
     this.brokerPhone,
+    this.driver,
+    this.truck,
     this.scheduledDate,
     this.serviceCategories,
     this.categoryItems,
@@ -121,6 +125,8 @@ class SessionObject {
       customerPhone: json['customerPhone'] as String,
       broker: json['broker'] as String,
       brokerPhone: json['brokerPhone'] as String,
+      driver: json['driver'] as String,
+      truck: json['truck'] as String,
       scheduledDate: DateTime.parse(json['scheduledDate'] as String),
       serviceAgreement: json['serviceAgreement'],
       categoryItems: inspectionConfig.categoryItems,
@@ -141,6 +147,8 @@ class SessionObject {
       'srcAddress': srcAddress,
       'broker': broker,
       'brokerPhone': brokerPhone,
+      'driver': driver,
+      'truck': truck,
       'categoryItems': categoryItems?.map(
           (key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
       'reportItems': this.reportItems?.map((i) => i.toJson())?.toList(),
@@ -327,6 +335,8 @@ class SessionObject {
     this.dstAddress = newSession.dstAddress;
     this.customer = newSession.customer;
     this.customerPhone = newSession.customerPhone;
+    this.driver = newSession.driver;
+    this.truck = newSession.truck;
     this.scheduledDate = newSession.scheduledDate;
     this.isInvalidated = true;
     this.pickupPictureIsUploaded = false;

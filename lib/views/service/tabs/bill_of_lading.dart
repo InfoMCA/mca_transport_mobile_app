@@ -13,6 +13,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:transportation_mobile_app/models/entities/address.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
+import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/session.dart';
 
 class BillOfLadingPage extends StatelessWidget {
@@ -57,8 +58,6 @@ class BillOfLadingPage extends StatelessWidget {
     final PdfDocument document = PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
     for (int i = 0; i < document.form.fields.count; i++) {
       final PdfField field = document.form.fields[i];
-      // print(i);
-      // print(field.name.toString());
       switch(i) {
         case 0:
           (field as PdfTextBoxField).text = session.id;
@@ -67,10 +66,12 @@ class BillOfLadingPage extends StatelessWidget {
           (field as PdfTextBoxField).text = session.broker;
           break;
         case 2:
-          (field as PdfTextBoxField).text = "TODO: Driver";
+          (field as PdfTextBoxField).text = session.driver;
           break;
         case 3:
-          (field as PdfTextBoxField).text = "TODO: Truck";
+          if (session.truck != null) {
+            (field as PdfTextBoxField).text = session.truck;
+          }
           break;
         case 4:
           (field as PdfTextBoxField).text = session.title;
@@ -79,7 +80,7 @@ class BillOfLadingPage extends StatelessWidget {
           (field as PdfTextBoxField).text = session.title;
           break;
         case 6:
-          (field as PdfTextBoxField).text = "TODO: Mileage";
+          (field as PdfTextBoxField).text = session.reportItems[1].value;
           break;
         case 7:
           (field as PdfTextBoxField).text = session.title;
@@ -88,7 +89,7 @@ class BillOfLadingPage extends StatelessWidget {
           (field as PdfTextBoxField).text = session.vin;
           break;
         case 9:
-          (field as PdfTextBoxField).text = "TODO: Notes";
+          (field as PdfTextBoxField).text = "";
           break;
         case 10:
           String dstName = session.dstName;
