@@ -58,94 +58,94 @@ class BillOfLadingPage extends StatelessWidget {
     final PdfDocument document = PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
     for (int i = 0; i < document.form.fields.count; i++) {
       final PdfField field = document.form.fields[i];
-      switch(i) {
-        case 0:
+      switch(field.name.toString()) {
+        case 'LID':
           (field as PdfTextBoxField).text = session.id;
           break;
-        case 1:
+        case 'Broker':
           (field as PdfTextBoxField).text = session.broker;
           break;
-        case 2:
+        case 'Driver':
           (field as PdfTextBoxField).text = session.driver;
           break;
-        case 3:
+        case 'Trucker':
           if (session.truck != null) {
             (field as PdfTextBoxField).text = session.truck;
           }
           break;
-        case 4:
+        case 'Make':
           (field as PdfTextBoxField).text = session.title;
           break;
-        case 5:
+        case 'Model':
           (field as PdfTextBoxField).text = session.title;
           break;
-        case 6:
+        case 'Mileage':
           (field as PdfTextBoxField).text = session.reportItems[1].value;
           break;
-        case 7:
+        case 'Year':
           (field as PdfTextBoxField).text = session.title;
           break;
-        case 8:
+        case 'VIN':
           (field as PdfTextBoxField).text = session.vin;
           break;
-        case 9:
+        case 'Note':
           (field as PdfTextBoxField).text = "";
           break;
-        case 10:
+        case 'DContact':
           String dstName = session.dstName;
           if (dstName != null) {
             (field as PdfTextBoxField).text = session.dstName;
           }
           break;
-        case 11:
+        case 'PContact':
           String srcName = session.srcName;
           if (srcName != null) {
             (field as PdfTextBoxField).text = session.srcName;
           }
           break;
-        case 12:
+        case 'PAddress':
           Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
             (field as PdfTextBoxField).text = session.srcAddress.address1;
           }
           break;
-        case 13:
+        case 'DAddress':
           Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
             (field as PdfTextBoxField).text = session.dstAddress.address1;
           }
           break;
-        case 14:
+        case 'PCity':
           Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
             (field as PdfTextBoxField).text = session.srcAddress.city;
           }
           break;
-        case 15:
+        case 'PState':
           Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
             (field as PdfTextBoxField).text = session.srcAddress.state;
           }
           break;
-        case 16:
+        case 'DCity':
           Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
             (field as PdfTextBoxField).text = session.dstAddress.city;
           }
           break;
-        case 17:
+        case 'DState':
           Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
             (field as PdfTextBoxField).text = session.dstAddress.state;
           }
           break;
-        case 18:
+        case 'DPhone':
           Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
             (field as PdfTextBoxField).text = session.dstAddress.phone;
           }
           break;
-        case 19:
+        case 'PPhone':
           Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
             (field as PdfTextBoxField).text = session.srcAddress.phone;
