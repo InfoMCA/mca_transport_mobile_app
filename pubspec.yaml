@@ -138,6 +138,11 @@ flutter:
     - assets/missing_error.png
     - assets/vin.png
     - assets/lottie/recoding.json
+    - assets/reporting_issues/back.png
+    - assets/reporting_issues/front.png
+    - assets/reporting_issues/left.png
+    - assets/reporting_issues/right.png
+    - assets/reporting_issues/top.png
     - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

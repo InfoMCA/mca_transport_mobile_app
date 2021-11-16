@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/modular-args.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
+import 'package:transportation_mobile_app/widgets/service/report_panel.dart';
 
 class PhotoDetails extends StatefulWidget {
   InspectionItem item;
@@ -55,27 +56,29 @@ class _PhotoDetailsState extends State<PhotoDetails> {
               ),
             ),
             Divider(),
-            TextField(
-              enabled: widget.canEdit,
-              onChanged: (issues) => widget.item.comments = issues,
-              maxLines: 5,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration.collapsed(
-                  hintText:
-                      "Describe any issues needed to be reported for this image, if any."),
-            ),
+            Text("Tap anywhere in the image below to report an issue"),
+            VehiclePanelReport(sideName: widget.item.name.toLowerCase()),
+            // TextField(
+            //   enabled: widget.canEdit,
+            //   onChanged: (issues) => widget.item.comments = issues,
+            //   maxLines: 5,
+            //   style: TextStyle(color: Colors.black),
+            //   decoration: InputDecoration.collapsed(
+            //       hintText:
+            //           "Describe any issues needed to be reported for this image, if any."),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 !widget.canEdit
                     ? Container()
                     : customButton(
-                    text: "DELETE",
-                    color: AppColors.alizarinCrimson,
-                    onPressed: () {
-                      widget.item.value = "";
-                      handlePop(context);
-                    }),
+                        text: "DELETE",
+                        color: AppColors.alizarinCrimson,
+                        onPressed: () {
+                          widget.item.value = "";
+                          handlePop(context);
+                        }),
                 customButton(
                     text: "BACK",
                     color: AppColors.portGore,
@@ -87,6 +90,7 @@ class _PhotoDetailsState extends State<PhotoDetails> {
       ),
     );
   }
+
 
   Widget customButton({String text, Color color, VoidCallback onPressed}) {
     return TextButton(
@@ -104,3 +108,5 @@ class _PhotoDetailsState extends State<PhotoDetails> {
     Navigator.pop(context, widget.item);
   }
 }
+
+

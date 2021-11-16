@@ -25,14 +25,6 @@
         },
         {
             "category": "Pick-up Pictures",
-            "name": "Diagonal Front",
-            "options": [],
-            "type": "Image",
-            "format": "image/jpg",
-            "default":  ""
-        },
-        {
-            "category": "Pick-up Pictures",
             "name": "Front",
             "options": [],
             "type": "Image",
@@ -49,14 +41,6 @@
         },
         {
             "category": "Pick-up Pictures",
-            "name": "Right",
-            "options": [],
-            "type": "Image",
-            "format": "image/jpg",
-            "default":  ""
-        },
-        {
-            "category": "Pick-up Pictures",
             "name": "Back",
             "options": [],
             "type": "Image",
@@ -65,11 +49,19 @@
         },
         {
             "category": "Pick-up Pictures",
-            "name": "Diagonal Back",
+            "name": "Right",
             "options": [],
             "type": "Image",
             "format": "image/jpg",
             "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
+            "name": "Issues",
+            "options": [],
+            "type": "Text",
+            "format": "json",
+            "default":  "[]"
         },
         {
             "category": "Drop-off Pictures",
@@ -81,14 +73,6 @@
         },
         {
             "category": "Drop-off Pictures",
-            "name": "Diagonal Front",
-            "options": [],
-            "type": "Image",
-            "format": "image/jpg",
-            "default":  ""
-        },
-        {
-            "category": "Drop-off Pictures",
             "name": "Front",
             "options": [],
             "type": "Image",
@@ -105,7 +89,7 @@
         },
         {
             "category": "Drop-off Pictures",
-            "name": "Right",
+            "name": "Back",
             "options": [],
             "type": "Image",
             "format": "image/jpg",
@@ -113,7 +97,7 @@
         },
         {
             "category": "Drop-off Pictures",
-            "name": "Back",
+            "name": "Right",
             "options": [],
             "type": "Image",
             "format": "image/jpg",
