@@ -6,9 +6,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:signature/signature.dart';
+import 'package:transportation_mobile_app/controllers/service/bill_of_lading.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
+import 'package:transportation_mobile_app/models/entities/session.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
 import 'package:transportation_mobile_app/utils/local_storage.dart';
@@ -128,6 +130,26 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                     style: TextStyle(color: Colors.black),
                   ),
                 )),
+          TextButton(
+            onPressed: () {
+              List<InspectionItem> allItems = [];
+              for (ReportCategories category in widget.reportingCategories) {
+                allItems.addAll(
+                    getCurrentSession().reportItems.where((element) => element.category == category.getName()));
+              }
+              BillOfLading().generate(currentSession, allItems);
+            },
+            child: Row(
+              children: [
+                Icon(Icons.print),
+                VerticalDivider(),
+                Text(
+                  "Generate Bill of lading",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
+          ),
           Divider(),
           if (!widget.reportTabName
               .canUserEditTab(getCurrentSession().sessionStatus))
@@ -138,7 +160,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                 onPressed: () async {
                   if (customerName.value.isEmpty || _controller.isEmpty) {
                     _showWarningDialog(context);
-                    return; // TODO: show error missing signature
+                    return;
                   }
                   await saveSignatureImage();
                   // currentSession.uploadReport(widget.reportTabName);
