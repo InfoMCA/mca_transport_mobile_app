@@ -18,35 +18,43 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
   Map<String, List<Map<String, double>>> dotCoordinates = {
     "left": [
       {"markNumber": 1, "top": 100, "left": 0},
-      {"markNumber": 2, "top": 100, "left": 120},
-      {"markNumber": 3, "top": 100, "left": 200},
-      {"markNumber": 4, "top": 70, "left": 290},
-      {"markNumber": 5, "top": 105, "left": 305},
-      {"markNumber": 6, "top": 100, "left": 40},
-      {"markNumber": 7, "top": 100, "left": 260},
-      {"markNumber": 8, "top": 50, "left": 140},
-      {"markNumber": 8, "top": 50, "left": 200},
+      {"markNumber": 2, "top": 90, "left": 110},
+      {"markNumber": 3, "top": 90, "left": 180},
+      {"markNumber": 4, "top": 70, "left": 270},
+      {"markNumber": 5, "top": 100, "left": 275},
+      {"markNumber": 6, "top": 106, "left": 37},
+      {"markNumber": 7, "top": 106, "left": 222},
+      {"markNumber": 8, "top": 54, "left": 117},
+      {"markNumber": 9, "top": 54, "left": 190},
     ],
     "back": [
-      {"markNumber": 1, "top": 15, "left": 150},
-      {"markNumber": 2, "top": 55, "left": 150},
-      {"markNumber": 3, "top": 110, "left": 150},
-      {"markNumber": 4, "top": 55, "left": 70},
-      {"markNumber": 5, "top": 55, "left": 240},
-      {"markNumber": 6, "top": 110, "left": 70},
-      {"markNumber": 7, "top": 110, "left": 240},
+      {"markNumber": 1, "top": 10, "left": 130},
+      {"markNumber": 2, "top": 60, "left": 130},
+      {"markNumber": 3, "top": 120, "left": 130},
+      {"markNumber": 4, "top": 60, "left": 220},
+      {"markNumber": 5, "top": 60, "left": 50},
+      {"markNumber": 6, "top": 120, "left": 40},
+      {"markNumber": 7, "top": 120, "left": 220},
     ],
     "right": [
-      {"markNumber": 1, "top": 240, "left": 0},
-      {"markNumber": 2, "top": 100, "left": 120},
-      {"markNumber": 3, "top": 100, "left": 50},
-      {"markNumber": 4, "top": 100, "left": 150},
+      {"markNumber": 1, "top": 100, "left": 275},
+      {"markNumber": 2, "top": 90, "left": 180},
+      {"markNumber": 3, "top": 90, "left": 110},
+      {"markNumber": 4, "top": 80, "left": 15},
+      {"markNumber": 5, "top": 100, "left": 0},
+      {"markNumber": 6, "top": 106, "left": 50},
+      {"markNumber": 7, "top": 106, "left": 235},
+      {"markNumber": 8, "top": 54, "left": 105},
+      {"markNumber": 8, "top": 54, "left": 160},
     ],
     "front": [
-      {"markNumber": 1, "top": 100, "left": 0},
-      {"markNumber": 2, "top": 100, "left": 120},
-      {"markNumber": 3, "top": 100, "left": 50},
-      {"markNumber": 4, "top": 100, "left": 150},
+      {"markNumber": 1, "top": 10, "left": 130},
+      {"markNumber": 2, "top": 60, "left": 130},
+      {"markNumber": 3, "top": 130, "left": 130},
+      {"markNumber": 4, "top": 90, "left": 220},
+      {"markNumber": 5, "top": 90, "left": 50},
+      {"markNumber": 6, "top": 130, "left": 40},
+      {"markNumber": 7, "top": 130, "left": 220},
     ],
     "top": [
       {"markNumber": 1, "top": 100, "left": 0},
@@ -58,30 +66,36 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200,
-      height: 200,
-      child: Stack(
-        children: [
-          Center(
-            child: Image.asset(
-              AppImages.report_issues_base + widget.sideName + ".png",
-              // height: 200,
-              // width: 400,
-            ),
+    if (dotCoordinates == null || !dotCoordinates.containsKey(widget.sideName)) {
+      return Container();
+    }
+    return Column(
+      children: [
+        Text("Tap anywhere in the image below to report an issue"),
+        SizedBox(
+          width: 400,
+          height: 200,
+          child: Stack(
+            children: [
+              Center(
+                child: Image.asset(
+                  AppImages.report_issues_base + widget.sideName + ".png",
+                ),
+              ),
+              ...dotCoordinates[widget.sideName]
+                  .map((Map<String, double> e) => Positioned(
+                        top: e["top"],
+                        left: e["left"],
+                        child: IssueButtonMenu(
+                            allIssues: this.issues,
+                            sideName: widget.sideName,
+                            markNumber: e["markNumber"]),
+                      ))
+                  .toList(),
+            ],
           ),
-          ...dotCoordinates[widget.sideName]
-              .map((Map<String, double> e) => Positioned(
-                    top: e["top"],
-                    left: e["left"],
-                    child: IssueButtonMenu(
-                        allIssues: this.issues,
-                        sideName: widget.sideName,
-                        markNumber: e["markNumber"]),
-                  ))
-              .toList(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

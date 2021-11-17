@@ -57,7 +57,6 @@ class _PhotoDetailsState extends State<PhotoDetails> {
               ),
             ),
             Divider(),
-            Text("Tap anywhere in the image below to report an issue"),
             VehiclePanelReport(sideName: widget.item.name.toLowerCase()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,7 +88,7 @@ class _PhotoDetailsState extends State<PhotoDetails> {
         child: Container(
           width: 120,
           height: 34,
-          child: Center(child: Text(text)),
+          child: Center(child: Text(text, style: TextStyle(color: Colors.white),)),
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(6.0)),
         ),

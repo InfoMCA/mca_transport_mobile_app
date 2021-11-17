@@ -42,24 +42,24 @@ class _GridPicturePageState extends State<GridPicturePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              makeCaptureImageCard(widget.gridItems[0], imageCardWidth),
-              makeCaptureImageCard(widget.gridItems[1], imageCardWidth),
+              makeCaptureImageCard(0, imageCardWidth),
+              makeCaptureImageCard(1, imageCardWidth),
             ],
           ),
           Row(children: [Container(height: 8)]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              makeCaptureImageCard(widget.gridItems[2], imageCardWidth),
-              makeCaptureImageCard(widget.gridItems[3], imageCardWidth),
+              makeCaptureImageCard(2, imageCardWidth),
+              makeCaptureImageCard(3, imageCardWidth),
             ],
           ),
           Row(children: [Container(height: 8)]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              makeCaptureImageCard(widget.gridItems[4], imageCardWidth),
-              makeCaptureImageCard(widget.gridItems[5], imageCardWidth),
+              makeCaptureImageCard(4, imageCardWidth),
+              makeCaptureImageCard(5, imageCardWidth),
             ],
           ),
           Row(children: [Container(height: 16)]),
@@ -79,9 +79,13 @@ class _GridPicturePageState extends State<GridPicturePage> {
     }
   }
 
-  Widget makeCaptureImageCard(InspectionItem question, double width) {
+  Widget makeCaptureImageCard(int questionId, double width) {
     Widget child;
     GestureTapCallback callback;
+    if (questionId >= widget.gridItems.length) {
+      return Container();
+    }
+    InspectionItem question = widget.gridItems[questionId];
     if (question.value == null || question.value.isEmpty) {
       callback = () {
         currentImage = question;
