@@ -62,8 +62,20 @@ class _PhotoDetailsState extends State<PhotoDetails> {
             Divider(),
             VehiclePanelReport(
                 sideName: widget.item.name.toLowerCase(),
-                onIssueReported: (List<Map<String, String>> issues) =>
-                    widget.itemIssues.value = json.encode(issues)),
+                onIssueReported: (List<Map<String, String>> newIssues) {
+                  String listString = widget.itemIssues.value.isEmpty
+                      ? "[]"
+                      : widget.itemIssues.value;
+                  List<Map<String, dynamic>> list =
+                      new List<Map<String, dynamic>>.from(
+                          json.decode(listString));
+                  for (Map<String, String> newIssue in newIssues) {
+                    list.removeWhere((element) => element["name"] == newIssue["name"]);
+                  }
+                  list.addAll(newIssues);
+                  widget.itemIssues.value = json.encode(list);
+                  return "";
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -93,7 +105,11 @@ class _PhotoDetailsState extends State<PhotoDetails> {
         child: Container(
           width: 120,
           height: 34,
-          child: Center(child: Text(text, style: TextStyle(color: Colors.white),)),
+          child: Center(
+              child: Text(
+            text,
+            style: TextStyle(color: Colors.white),
+          )),
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(6.0)),
         ),

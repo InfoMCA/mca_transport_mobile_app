@@ -56,7 +56,7 @@ class BillOfLading {
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     final PdfDocument document =
         PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
-    List<Map<String, String>> issues = [];
+    List<Map<String, dynamic>> issues = [];
     if (reportItems.firstWhere((element) => element.name == "Issues").value !=
         "") {
       issues = new List<Map<String, dynamic>>.from(json.decode(
@@ -72,6 +72,7 @@ class BillOfLading {
         (field as PdfTextBoxField).text = issues.firstWhere(
             (element) => element["name"] == field.name,
             orElse: () => {"name": field.name, 'value': ''})['value'];
+        continue;
       }
       switch (field.name.toString()) {
         case 'LID':
