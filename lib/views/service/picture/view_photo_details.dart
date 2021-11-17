@@ -61,19 +61,17 @@ class _PhotoDetailsState extends State<PhotoDetails> {
             ),
             Divider(),
             VehiclePanelReport(
+                issues: decodeIssues(widget.itemIssues.value),
                 sideName: widget.item.name.toLowerCase(),
-                onIssueReported: (List<Map<String, String>> newIssues) {
-                  String listString = widget.itemIssues.value.isEmpty
-                      ? "[]"
-                      : widget.itemIssues.value;
-                  List<Map<String, dynamic>> list =
-                      new List<Map<String, dynamic>>.from(
-                          json.decode(listString));
-                  for (Map<String, String> newIssue in newIssues) {
-                    list.removeWhere((element) => element["name"] == newIssue["name"]);
+                onIssueReported: (List<Map<String, dynamic>> newIssues) {
+                  List<Map<String, dynamic>> decodedList =
+                      decodeIssues(widget.itemIssues.value);
+                  for (Map<String, dynamic> newIssue in newIssues) {
+                    decodedList.removeWhere(
+                        (element) => element["name"] == newIssue["name"]);
                   }
-                  list.addAll(newIssues);
-                  widget.itemIssues.value = json.encode(list);
+                  decodedList.addAll(newIssues);
+                  widget.itemIssues.value = json.encode(decodedList);
                   return "";
                 }),
             Row(
@@ -98,6 +96,13 @@ class _PhotoDetailsState extends State<PhotoDetails> {
         ),
       ),
     );
+  }
+
+  List<Map<String, dynamic>> decodeIssues(String listString) {
+    listString = listString == null || listString.isEmpty ? "[]" : listString;
+    List<Map<String, dynamic>> list =
+        new List<Map<String, dynamic>>.from(json.decode(listString));
+    return list;
   }
 
   Widget customButton({String text, Color color, VoidCallback onPressed}) {

@@ -1,22 +1,24 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
 
 class VehiclePanelReport extends StatefulWidget {
-  const VehiclePanelReport({
-    Key key,
-    @required this.sideName,
-    this.onIssueReported,
-  }) : super(key: key);
+  const VehiclePanelReport(
+      {Key key,
+      @required this.sideName,
+      this.onIssueReported,
+      this.issues = const []})
+      : super(key: key);
 
   final String sideName;
-  final String Function(List<Map<String, String>> issues) onIssueReported;
+  final String Function(List<Map<String, dynamic>> issues) onIssueReported;
+  final List<Map<String, dynamic>> issues;
 
   @override
   State<VehiclePanelReport> createState() => _VehiclePanelReportState();
 }
 
 class _VehiclePanelReportState extends State<VehiclePanelReport> {
-  List<Map<String, String>> issues = [];
   Map<String, List<Map<String, double>>> dotCoordinates = {
     "left": [
       {"markNumber": 1, "top": 100, "left": 0},
@@ -68,7 +70,8 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
 
   @override
   Widget build(BuildContext context) {
-    if (dotCoordinates == null || !dotCoordinates.containsKey(widget.sideName)) {
+    if (dotCoordinates == null ||
+        !dotCoordinates.containsKey(widget.sideName)) {
       return Container();
     }
     return Column(
@@ -89,10 +92,11 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
                         top: e["top"],
                         left: e["left"],
                         child: IssueButtonMenu(
-                            allIssues: this.issues,
+                            allIssues: widget.issues,
                             sideName: widget.sideName,
                             markNumber: e["markNumber"],
-                            onChange: (allIssues) => widget.onIssueReported(allIssues)),
+                            onChange: (allIssues) =>
+                                widget.onIssueReported(allIssues)),
                       ))
                   .toList(),
             ],
@@ -111,18 +115,26 @@ class IssueButtonMenu extends StatefulWidget {
     @required double markNumber,
     this.onChange,
   })  : panelName = "${sideName}_${markNumber.round()}",
+        issueSelected = EnumToString.fromString(
+          IssueTypes.values,
+          allIssues.firstWhere(
+              (element) =>
+                  element['name'] == "${sideName}_${markNumber.round()}",
+              orElse: () => {'value': "none"})['value'],
+        ),
         super(key: key);
 
-  final List<Map<String, String>> allIssues;
+  final List<Map<String, dynamic>> allIssues;
+  IssueTypes issueSelected;
   final String panelName;
-  final String Function(List<Map<String, String>> issues) onChange;
+  final String Function(List<Map<String, dynamic>> issues) onChange;
 
   @override
   State<IssueButtonMenu> createState() => _IssueButtonMenuState();
 }
 
 class _IssueButtonMenuState extends State<IssueButtonMenu> {
-  IssueTypes _issueSelected = IssueTypes.none;
+  // IssueTypes _issueSelected = IssueTypes.none;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +146,7 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
           width: 20,
           height: 20,
           decoration: BoxDecoration(
-              color: widget.allIssues.any((Map<String, String> element) =>
+              color: widget.allIssues.any((Map<String, dynamic> element) =>
                       element["name"] == widget.panelName)
                   ? Colors.red
                   : Colors.grey,
@@ -152,7 +164,7 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
                       children: IssueTypes.values
                           .map((IssueTypes e) => ListTile(
                                 onTap: () => setState(() {
-                                  _issueSelected = e;
+                                  widget.issueSelected = e;
                                   Navigator.pop(context, e);
                                 }),
                                 title: Text(
@@ -161,10 +173,10 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
                                 ),
                                 leading: Radio<IssueTypes>(
                                   value: e,
-                                  groupValue: _issueSelected,
+                                  groupValue: widget.issueSelected,
                                   onChanged: (IssueTypes value) {
                                     setState(() {
-                                      _issueSelected = value;
+                                      widget.issueSelected = value;
                                     });
                                     Navigator.pop(context, value);
                                   },
@@ -176,7 +188,7 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
                 );
               });
           if (issueSel == IssueTypes.none) {
-            widget.allIssues.removeWhere((Map<String, String> element) =>
+            widget.allIssues.removeWhere((Map<String, dynamic> element) =>
                 element['name'] == widget.panelName);
             widget.onChange(widget.allIssues);
             return;

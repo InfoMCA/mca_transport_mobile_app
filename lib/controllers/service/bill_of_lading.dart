@@ -72,7 +72,7 @@ class BillOfLading {
         (field as PdfTextBoxField).text = issues.firstWhere(
             (element) => element["name"] == field.name,
             orElse: () => {"name": field.name, 'value': ''})['value'];
-        continue;
+        // continue;
       }
       switch (field.name.toString()) {
         case 'LID':
@@ -171,12 +171,14 @@ class BillOfLading {
           }
           break;
         case 'Shipper_Name':
+          // (field as PdfTextBoxField).text = "TEST";
+          // break;
           (field as PdfTextBoxField).text = reportItems
               .firstWhere(
                   (element) =>
                       element.name == "Customer Name" &&
                       element.category == "Pick-up Signature",
-                  orElse: () => InspectionItem(value: ""))
+                  orElse: () => InspectionItem(value: "test"))
               .value;
           break;
         case 'Receiver_Name':
@@ -187,6 +189,9 @@ class BillOfLading {
                       element.category == "Drop-off Signature",
                   orElse: () => InspectionItem(value: ""))
               .value;
+          break;
+        case "top_1":
+          (field as PdfTextBoxField).text = "ABC";
           break;
       }
     }
