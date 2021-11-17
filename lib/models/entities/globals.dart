@@ -51,6 +51,7 @@ Future<void> refreshSessions({String sessionId}) async {
   List<SessionObject> globalSessions = currentStaff.getUserSessions();
   globalSessions.clear();
   globalSessions.addAll(response.sessionsList);
+  currentStaff.setUserSessions(globalSessions);
 }
 void showSnackBar(
     {BuildContext context, String text, Color backgroundColor = Colors.red}) {
