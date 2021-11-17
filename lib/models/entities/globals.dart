@@ -45,21 +45,13 @@ Future<void> refreshSessions({String sessionId}) async {
   print("refresh Sessions");
   AppResp response = await AdminInterface()
       .getSessions(currentStaff.username, sessionId: sessionId);
-  List<SessionObject> updatedSessions = [];
-  if (response.statusCode == HttpStatus.ok) {
-    updatedSessions = response.sessionsList;
+  if (response.statusCode != HttpStatus.ok) {
+    return;
   }
   List<SessionObject> globalSessions = currentStaff.getUserSessions();
-  for (SessionObject updatedSession in updatedSessions) {
-    SessionObject globalSession = globalSessions.firstWhere(
-            (element) => element.id == updatedSession.id,
-        orElse: () => updatedSession);
-    globalSession.safeUpdateData(updatedSession);
-    globalSessions.removeWhere((element) => element.id == globalSession.id);
-    globalSessions.add(globalSession);
-    currentStaff.setUserSessions(globalSessions);
-  }
-
+  globalSessions.clear();
+  globalSessions.addAll(response.sessionsList);
+  currentStaff.setUserSessions(globalSessions);
 }
 void showSnackBar(
     {BuildContext context, String text, Color backgroundColor = Colors.red}) {

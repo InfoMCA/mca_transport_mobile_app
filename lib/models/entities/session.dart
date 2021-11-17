@@ -314,22 +314,4 @@ class SessionObject {
     }
     return ReportCategories.PICKUP_PICTURES;
   }
-
-  /// This will avoid overwriting the sessions cached data on the inspection progress
-  void safeUpdateData(SessionObject newSession) {
-    this.id = newSession.id;
-    this.sessionStatus = newSession.sessionStatus;
-    this.title = newSession.title;
-    this.vin = newSession.vin;
-    this.srcName = newSession.srcName;
-    this.srcAddress = newSession.srcAddress;
-    this.dstName = newSession.dstName;
-    this.dstAddress = newSession.dstAddress;
-    this.customer = newSession.customer;
-    this.customerPhone = newSession.customerPhone;
-    this.scheduledDate = newSession.scheduledDate;
-    this.isInvalidated = true;
-    this.pickupPictureIsUploaded = false;
-    this.dropOffPictureIsUploaded = false;
-  }
 }

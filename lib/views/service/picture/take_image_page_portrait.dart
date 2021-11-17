@@ -22,7 +22,7 @@ class TakePicturePortraitView extends StatefulWidget {
 class _TakePicturePortraitViewState extends State<TakePicturePortraitView> {
   final CameraLensDirection _direction = CameraLensDirection.back;
   CameraController _camera;
-  InspectionItem item;
+  PhotoDetailsArgs args;
 
   @override
   void initState() {
@@ -64,11 +64,11 @@ class _TakePicturePortraitViewState extends State<TakePicturePortraitView> {
 
   @override
   Widget build(BuildContext context) {
-    if (item == null) {
-      item = ModalRoute
+    if (args == null) {
+      args = ModalRoute
           .of(context)
           .settings
-          .arguments as InspectionItem;
+          .arguments as PhotoDetailsArgs;
     }
     var screen = MediaQuery.of(context).size;
     return Scaffold(
@@ -158,10 +158,10 @@ class _TakePicturePortraitViewState extends State<TakePicturePortraitView> {
     try {
       await _camera.takePicture().then((file) {
         print("Capture Image on " + file.path);
-        item.value = file.path;
+        args.item.value = file.path;
         Modular.to
             .pushReplacementNamed('single-picture',
-            arguments: PhotoDetailsArgs(item, true));
+            arguments: PhotoDetailsArgs(item: args.item, isEditable: true, itemIssues: args.itemIssues));
       });
     } on CameraException catch (e) {
       print(e.toString());

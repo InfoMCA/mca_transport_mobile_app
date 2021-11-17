@@ -85,6 +85,7 @@ flutter:
     - assets/right.png
     - assets/back.png
     - assets/front.png
+    - assets/top.png
     - assets/vin_reader.png
     - assets/attachment-1.png
     - assets/attachment-2.png
@@ -138,6 +139,11 @@ flutter:
     - assets/missing_error.png
     - assets/vin.png
     - assets/lottie/recoding.json
+    - assets/reporting_issues/iss_back.png
+    - assets/reporting_issues/iss_front.png
+    - assets/reporting_issues/iss_left.png
+    - assets/reporting_issues/iss_right.png
+    - assets/reporting_issues/iss_top.png
     - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

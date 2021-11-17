@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,14 +7,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/modular-args.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
+import 'package:transportation_mobile_app/widgets/service/report_panel.dart';
 
 class PhotoDetails extends StatefulWidget {
   InspectionItem item;
+  InspectionItem itemIssues;
   bool canEdit;
 
   PhotoDetails(ModularArguments args) {
     PhotoDetailsArgs argsItem = args.data as PhotoDetailsArgs;
     item = argsItem.item;
+    itemIssues = argsItem.itemIssues;
     canEdit = argsItem.isEditable;
   }
 
@@ -44,6 +48,7 @@ class _PhotoDetailsState extends State<PhotoDetails> {
         ),
       ),
       body: Container(
+        color: Colors.white,
         padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
         child: ListView(
           children: [
@@ -55,27 +60,22 @@ class _PhotoDetailsState extends State<PhotoDetails> {
               ),
             ),
             Divider(),
-            TextField(
-              enabled: widget.canEdit,
-              onChanged: (issues) => widget.item.comments = issues,
-              maxLines: 5,
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration.collapsed(
-                  hintText:
-                      "Describe any issues needed to be reported for this image, if any."),
-            ),
+            VehiclePanelReport(
+                sideName: widget.item.name.toLowerCase(),
+                onIssueReported: (List<Map<String, String>> issues) =>
+                    widget.itemIssues.value = json.encode(issues)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 !widget.canEdit
                     ? Container()
                     : customButton(
-                    text: "DELETE",
-                    color: AppColors.alizarinCrimson,
-                    onPressed: () {
-                      widget.item.value = "";
-                      handlePop(context);
-                    }),
+                        text: "DELETE",
+                        color: AppColors.alizarinCrimson,
+                        onPressed: () {
+                          widget.item.value = "";
+                          handlePop(context);
+                        }),
                 customButton(
                     text: "BACK",
                     color: AppColors.portGore,
@@ -93,7 +93,7 @@ class _PhotoDetailsState extends State<PhotoDetails> {
         child: Container(
           width: 120,
           height: 34,
-          child: Center(child: Text(text)),
+          child: Center(child: Text(text, style: TextStyle(color: Colors.white),)),
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(6.0)),
         ),

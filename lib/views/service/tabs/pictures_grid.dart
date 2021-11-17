@@ -33,39 +33,54 @@ class _GridPicturePageState extends State<GridPicturePage> {
 
   Widget build(BuildContext context) {
     double imageCardWidth = (MediaQuery.of(context).size.width - 48) / 2;
-    return SingleChildScrollView(
-        child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      child: Column(
-        children: <Widget>[
-          Row(children: [Container(height: 32)]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              makeCaptureImageCard(widget.gridItems[0], imageCardWidth),
-              makeCaptureImageCard(widget.gridItems[1], imageCardWidth),
-            ],
+    return Center(
+      child: Container(
+        color: Colors.white,
+        height: double.infinity,
+        child: SingleChildScrollView(
+            child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              child: Column(
+                children: getPictureCards(
+                    imageCardWidth,
+                    widget.gridItems
+                        .where((InspectionItem element) =>
+                            element.name != "Issues")
+                        .toList(),
+                    widget.gridItems.firstWhere((InspectionItem element) =>
+                        element.name == "Issues")).toList(),
+              ),
+            ),
           ),
-          Row(children: [Container(height: 8)]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              makeCaptureImageCard(widget.gridItems[2], imageCardWidth),
-              makeCaptureImageCard(widget.gridItems[3], imageCardWidth),
-            ],
-          ),
-          Row(children: [Container(height: 8)]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              makeCaptureImageCard(widget.gridItems[4], imageCardWidth),
-              makeCaptureImageCard(widget.gridItems[5], imageCardWidth),
-            ],
-          ),
-          Row(children: [Container(height: 16)]),
-        ],
+        )),
       ),
-    ));
+    );
+  }
+
+  List<Widget> getPictureCards(double imageCardWidth,
+      List<InspectionItem> gridItems, InspectionItem issuesItem) {
+    List<Widget> cards = [];
+    for (int i = 0; i < gridItems.length; i += 2) {
+      List<Widget> newRowChildren = [];
+      newRowChildren
+          .add(makeCaptureImageCard(gridItems[i], imageCardWidth, issuesItem));
+      if (i + 1 < gridItems.length) {
+        newRowChildren.add(
+            makeCaptureImageCard(gridItems[i + 1], imageCardWidth, issuesItem));
+      }
+      cards.addAll([
+        Row(children: [Container(height: 8)]),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: newRowChildren,
+        )
+      ]);
+    }
+    return cards;
   }
 
   FutureOr onGoBack(Object value) {
@@ -79,14 +94,19 @@ class _GridPicturePageState extends State<GridPicturePage> {
     }
   }
 
-  Widget makeCaptureImageCard(InspectionItem question, double width) {
+  Widget makeCaptureImageCard(
+      InspectionItem question, double width, InspectionItem questionIssues) {
     Widget child;
     GestureTapCallback callback;
     if (question.value == null || question.value.isEmpty) {
       callback = () {
         currentImage = question;
         Modular.to
-            .pushNamed(findOrientation(question.name), arguments: question)
+            .pushNamed(findOrientation(question.name),
+                arguments: PhotoDetailsArgs(
+                    item: question,
+                    isEditable: widget.isEditable,
+                    itemIssues: questionIssues))
             .then(onGoBack);
       };
       child = Container(
@@ -104,7 +124,10 @@ class _GridPicturePageState extends State<GridPicturePage> {
         currentImage = question;
         Modular.to
             .pushNamed('picture/single-picture',
-                arguments: PhotoDetailsArgs(question, widget.isEditable))
+                arguments: PhotoDetailsArgs(
+                    item: question,
+                    isEditable: widget.isEditable,
+                    itemIssues: questionIssues))
             .then(onGoBack);
       };
       child = Container(

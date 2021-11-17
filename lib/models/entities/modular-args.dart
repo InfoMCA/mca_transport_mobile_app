@@ -1,8 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 
 class PhotoDetailsArgs {
   bool isEditable;
   InspectionItem item;
+  InspectionItem itemIssues;
 
-  PhotoDetailsArgs(this.item, this.isEditable);
+  PhotoDetailsArgs(
+      {@required this.item,
+      this.isEditable,
+      @required this.itemIssues});
 }
