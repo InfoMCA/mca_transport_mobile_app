@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,7 +13,23 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:transportation_mobile_app/models/entities/address.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
+import 'package:transportation_mobile_app/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/models/entities/session.dart';
+
+class IssueItemJson {
+  String name;
+  String value;
+
+  IssueItemJson(this.name, this.value);
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'value': value
+  };
+
+  factory IssueItemJson.fromJson(dynamic json) {
+    return IssueItemJson(json['name'], json['value']);
+  }
+}
 
 class BillOfLading {
   SessionObject session = getCurrentSession();
@@ -24,13 +42,13 @@ class BillOfLading {
         Platform.isLinux ||
         Platform.isWindows) {
       final Directory directory =
-          await path_provider.getApplicationSupportDirectory();
+      await path_provider.getApplicationSupportDirectory();
       path = directory.path;
     } else {
       path = await PathProviderPlatform.instance.getApplicationSupportPath();
     }
     final File file =
-        File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
+    File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
     await file.writeAsBytes(bytes, flush: true);
     if (Platform.isAndroid || Platform.isIOS) {
       //Launch the file (used open_file package)
@@ -55,12 +73,16 @@ class BillOfLading {
     await file.writeAsBytes(byteData.buffer
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     final PdfDocument document =
-        PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
-    List<Map<String, dynamic>> issues = [];
-    if (reportItems.firstWhere((element) => element.name == "Issues").value !=
-        "") {
-      issues = new List<Map<String, dynamic>>.from(json.decode(
-          reportItems.firstWhere((element) => element.name == "Issues").value));
+    PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
+
+    String issues = reportItems
+        .firstWhere((element) => element.name == "Issues")
+        .value;
+    List<IssueItemJson> issueItems = [];
+    if (issues.isNotEmpty) {
+      for (Map item in jsonDecode(issues)) {
+        issueItems.add(IssueItemJson.fromJson(item));
+      }
     }
     for (int i = 0; i < document.form.fields.count; i++) {
       final PdfField field = document.form.fields[i];
@@ -68,11 +90,12 @@ class BillOfLading {
           field.name.contains("back_") ||
           field.name.contains("right_") ||
           field.name.contains("front_") ||
-          field.name.contains("right_")) {
-        (field as PdfTextBoxField).text = issues.firstWhere(
-            (element) => element["name"] == field.name,
-            orElse: () => {"name": field.name, 'value': ''})['value'];
-        // continue;
+          field.name.contains("left_")) {
+        (field as PdfTextBoxField).text = issueItems
+            .firstWhere(
+                (element) => element.name == field.name,
+            orElse: () => IssueItemJson(field.name, ''))
+            .value;
       }
       switch (field.name.toString()) {
         case 'LID':
@@ -98,7 +121,7 @@ class BillOfLading {
         case 'Mileage':
           (field as PdfTextBoxField).text = reportItems
               .firstWhere((element) => element.name == "Odometer",
-                  orElse: () => InspectionItem(value: ""))
+              orElse: () => InspectionItem(value: ""))
               .value;
           break;
         case 'Year':
@@ -171,14 +194,13 @@ class BillOfLading {
           }
           break;
         case 'Shipper_Name':
-          // (field as PdfTextBoxField).text = "TEST";
-          // break;
           (field as PdfTextBoxField).text = reportItems
               .firstWhere(
                   (element) =>
-                      element.name == "Customer Name" &&
-                      element.category == "Pick-up Signature",
-                  orElse: () => InspectionItem(value: "test"))
+              element.name == ReportCategoryItems.CustomerName.getName() &&
+                  element.category ==
+                      ReportCategories.PICKUP_SIGNATURE.getName(),
+              orElse: () => InspectionItem(value: ""))
               .value;
           break;
         case 'Receiver_Name':
@@ -190,21 +212,50 @@ class BillOfLading {
                   orElse: () => InspectionItem(value: ""))
               .value;
           break;
-        case "top_1":
-          (field as PdfTextBoxField).text = "ABC";
+        case 'Driver_Name':
+          (field as PdfTextBoxField).text = session.driver;
           break;
       }
     }
+
+    reportItems.forEach((element) {print(element.name + " " + element.category);});
+    Iterable<InspectionItem> shipperSignature = reportItems
+        .where((element) => element.name == ReportCategoryItems.SignatureImage.getName() &&
+        element.category == ReportCategories.PICKUP_SIGNATURE.getName());
+
+    if (shipperSignature.isNotEmpty) {
+      Uint8List signaturePng = shipperSignature.first.data;
+      if (signaturePng != null) {
+        print("add signature");
+        document.pages[0]
+            .graphics
+            .drawImage(
+            PdfBitmap(signaturePng), Rect.fromLTWH(195, 635, 100, 24));
+      }
+    }
+
+    Iterable<InspectionItem> receiverSignature = reportItems
+        .where((element) =>
+    element.name == ReportCategoryItems.SignatureImage.getName() &&
+        element.category == ReportCategories.DROP_OFF_SIGNATURE.getName());
+    if (receiverSignature.isNotEmpty) {
+      Uint8List signaturePng = receiverSignature.first.data;
+      if (signaturePng != null) {
+        document.pages[0]
+            .graphics
+            .drawImage(
+            PdfBitmap(signaturePng), Rect.fromLTWH(425, 635, 100, 24));
+      }
+    }
+
+
     final List<int> bytes = document.save();
     document.dispose();
     File pdfFile = await _saveAndLaunchFile(bytes, 'bill.pdf');
-    // docInspectionItemsPdf[bill].value = pdfFile.path;
-    // final data = rootBundle.load(bill);
-    // final buffer = data.buffer;
-    // final PdfDocument document = PdfDocument(inputBytes: await buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-    // (document.form.fields[0] as PdfTextBoxField).text = 'test';
-    // final file = File('filled_bill.pdf');
-    // file.writeAsBytesSync(document.save());
-    // return file.path;
+    InspectionItem inspectionItem = reportItems
+        .where((element) =>
+    element.name == ReportCategoryItems.BillOfLading.getName())
+        .first;
+    inspectionItem.value = pdfFile.path;
   }
 }

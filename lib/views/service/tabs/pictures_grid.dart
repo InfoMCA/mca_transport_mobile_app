@@ -33,18 +33,10 @@ class _GridPicturePageState extends State<GridPicturePage> {
 
   Widget build(BuildContext context) {
     double imageCardWidth = (MediaQuery.of(context).size.width - 48) / 2;
-    return Center(
-      child: Container(
-        color: Colors.white,
-        height: double.infinity,
-        child: SingleChildScrollView(
-            child: Center(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-              child: Column(
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30),
+      child: SingleChildScrollView(
+        child: Column(
                 children: getPictureCards(
                     imageCardWidth,
                     widget.gridItems
@@ -55,29 +47,29 @@ class _GridPicturePageState extends State<GridPicturePage> {
                         element.name == "Issues")).toList(),
               ),
             ),
-          ),
-        )),
-      ),
     );
   }
 
   List<Widget> getPictureCards(double imageCardWidth,
       List<InspectionItem> gridItems, InspectionItem issuesItem) {
     List<Widget> cards = [];
-    for (int i = 0; i < gridItems.length; i += 2) {
+    for (int i = 0; i < 6; i += 2) {
       List<Widget> newRowChildren = [];
       newRowChildren
           .add(makeCaptureImageCard(gridItems[i], imageCardWidth, issuesItem));
       if (i + 1 < gridItems.length) {
         newRowChildren.add(
             makeCaptureImageCard(gridItems[i + 1], imageCardWidth, issuesItem));
+      } else {
+        newRowChildren.add(Container(width:150));
       }
       cards.addAll([
         Row(children: [Container(height: 8)]),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: newRowChildren,
-        )
+        ),
+        Row(children: [Container(height: 8)]),
       ]);
     }
     return cards;

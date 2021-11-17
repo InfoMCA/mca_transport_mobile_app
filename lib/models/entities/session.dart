@@ -242,7 +242,6 @@ class SessionObject {
     } else if (reportCategory == ReportCategories.DROP_OFF_PICTURES) {
       dropOffPictureIsUploaded = true;
     } else if (reportCategory == ReportCategories.DROP_OFF_SIGNATURE) {
-      updateStatus(SessionStatus.DROPPED);
       updateStatus(SessionStatus.COMPLETED);
     }
   }
@@ -267,7 +266,7 @@ class SessionObject {
   }
 
   // Update status of Session, sending an update to admin and refresh dashboard
-  Future<void> updateStatus(SessionStatus sessionStatus) async {
+  void updateStatus(SessionStatus sessionStatus) async {
     print(this.title + " status is updated to: " + sessionStatus.toString());
     SessionStatus oldStatus = this.sessionStatus;
     this.sessionStatus = sessionStatus;

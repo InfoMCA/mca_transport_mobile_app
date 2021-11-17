@@ -64,6 +64,7 @@ class _PhotoDetailsState extends State<PhotoDetails> {
                 issues: decodeIssues(widget.itemIssues.value),
                 sideName: widget.item.name.toLowerCase(),
                 onIssueReported: (List<Map<String, dynamic>> newIssues) {
+                  print (newIssues);
                   List<Map<String, dynamic>> decodedList =
                       decodeIssues(widget.itemIssues.value);
                   for (Map<String, dynamic> newIssue in newIssues) {

@@ -78,7 +78,7 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       children: [
         Text("Tap anywhere in the image below to report an issue"),
         SizedBox(
-          width: 200,
+          width: 400,
           height: 200,
           child: Stack(
             children: [
