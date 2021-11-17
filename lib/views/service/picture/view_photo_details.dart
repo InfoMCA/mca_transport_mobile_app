@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,11 +11,13 @@ import 'package:transportation_mobile_app/widgets/service/report_panel.dart';
 
 class PhotoDetails extends StatefulWidget {
   InspectionItem item;
+  InspectionItem itemIssues;
   bool canEdit;
 
   PhotoDetails(ModularArguments args) {
     PhotoDetailsArgs argsItem = args.data as PhotoDetailsArgs;
     item = argsItem.item;
+    itemIssues = argsItem.itemIssues;
     canEdit = argsItem.isEditable;
   }
 
@@ -58,7 +61,10 @@ class _PhotoDetailsState extends State<PhotoDetails> {
             ),
             Divider(),
             Text("Tap anywhere in the image below to report an issue"),
-            VehiclePanelReport(sideName: widget.item.name.toLowerCase()),
+            VehiclePanelReport(
+                sideName: widget.item.name.toLowerCase(),
+                onIssueReported: (List<Map<String, String>> issues) =>
+                    widget.itemIssues.value = json.encode(issues)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -83,7 +89,6 @@ class _PhotoDetailsState extends State<PhotoDetails> {
     );
   }
 
-
   Widget customButton({String text, Color color, VoidCallback onPressed}) {
     return TextButton(
         child: Container(
@@ -100,5 +105,3 @@ class _PhotoDetailsState extends State<PhotoDetails> {
     Navigator.pop(context, widget.item);
   }
 }
-
-

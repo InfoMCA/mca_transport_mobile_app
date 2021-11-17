@@ -57,10 +57,18 @@
         },
         {
             "category": "Pick-up Pictures",
+            "name": "Top",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Pick-up Pictures",
             "name": "Issues",
             "options": [],
             "type": "Text",
-            "format": "json",
+            "format": "",
             "default":  "[]"
         },
         {
@@ -102,6 +110,22 @@
             "type": "Image",
             "format": "image/jpg",
             "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Top",
+            "options": [],
+            "type": "Image",
+            "format": "image/jpg",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Pictures",
+            "name": "Issues",
+            "options": [],
+            "type": "Text",
+            "format": "",
+            "default":  "[]"
         },
         {
             "category": "Pick-up Signature",

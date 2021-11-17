@@ -5,9 +5,11 @@ class VehiclePanelReport extends StatefulWidget {
   const VehiclePanelReport({
     Key key,
     @required this.sideName,
+    this.onIssueReported,
   }) : super(key: key);
 
   final String sideName;
+  final String Function(List<Map<String, String>> issues) onIssueReported;
 
   @override
   State<VehiclePanelReport> createState() => _VehiclePanelReportState();
@@ -66,8 +68,6 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
           Center(
             child: Image.asset(
               AppImages.report_issues_base + widget.sideName + ".png",
-              // height: 200,
-              // width: 400,
             ),
           ),
           ...dotCoordinates[widget.sideName]
@@ -77,7 +77,8 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
                     child: IssueButtonMenu(
                         allIssues: this.issues,
                         sideName: widget.sideName,
-                        markNumber: e["markNumber"]),
+                        markNumber: e["markNumber"],
+                        onChange: (allIssues) => widget.onIssueReported(allIssues)),
                   ))
               .toList(),
         ],
@@ -92,11 +93,13 @@ class IssueButtonMenu extends StatefulWidget {
     @required this.allIssues,
     @required String sideName,
     @required double markNumber,
-  })  : panelName = "${sideName}_$markNumber",
+    this.onChange,
+  })  : panelName = "${sideName}_${markNumber.round()}",
         super(key: key);
 
   final List<Map<String, String>> allIssues;
   final String panelName;
+  final String Function(List<Map<String, String>> issues) onChange;
 
   @override
   State<IssueButtonMenu> createState() => _IssueButtonMenuState();
@@ -159,10 +162,12 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
           if (issueSel == IssueTypes.none) {
             widget.allIssues.removeWhere((Map<String, String> element) =>
                 element['name'] == widget.panelName);
+            widget.onChange(widget.allIssues);
             return;
           }
           widget.allIssues.add(
               {"name": widget.panelName, "value": issueSel.getAbbreviation()});
+          widget.onChange(widget.allIssues);
         },
       ),
     );

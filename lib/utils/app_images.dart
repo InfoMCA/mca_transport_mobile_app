@@ -47,11 +47,6 @@ class AppImages {
   static const recordingGif = _basePath + "recording_gif" + _extGif;
 
   //Report issues
-  static const report_issues_base = _basePath + "reporting_issues/";
-  static const report_issues_back = _basePath + "reporting_issues/back-side" + _extPng;
-  static const report_issues_front = _basePath + "reporting_issues/front-side" + _extPng;
-  static const report_issues_right = _basePath + "reporting_issues/right-side" + _extPng;
-  static const report_issues_left = _basePath + "reporting_issues/left-side" + _extPng;
-  static const report_issues_top = _basePath + "reporting_issues/top-side" + _extPng;
+  static const report_issues_base = _basePath + "reporting_issues/iss_";
 
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
+import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/models/entities/session.dart';
 import 'package:transportation_mobile_app/models/entities/calling_options.dart';
@@ -80,7 +81,9 @@ class _InspectionMainPageState extends State<InspectionMainPage>
       selectedTab = currentSession.getCurrentReportTab();
     });
   }
+
   final List<CallingOptions> calls = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
