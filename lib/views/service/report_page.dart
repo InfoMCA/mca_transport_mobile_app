@@ -71,7 +71,9 @@ class _TransportationMainPageState extends State<TransportationMainPage>
             ReportCategories.DROP_OFF_PICTURES,
             ReportCategories.DROP_OFF_SIGNATURE
           ]);
-      case ReportCategories.BILL_OF_LADING:
+      case ReportCategories.PICKUP_BILL:
+        return new BillOfLadingPage();
+      case ReportCategories.DROP_OFF_BILL:
         return new BillOfLadingPage();
     }
   }
@@ -207,7 +209,7 @@ class _TransportationMainPageState extends State<TransportationMainPage>
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.only(left: 100),
+        padding: const EdgeInsets.only(left: 50),
         child: Stack(
           children: [
             normalTab(
@@ -225,6 +227,12 @@ class _TransportationMainPageState extends State<TransportationMainPage>
                   changeTab(reportTabName: ReportCategories.PICKUP_SIGNATURE),
             ),
             normalTab(
+                reportTabName: ReportCategories.PICKUP_BILL,
+                iconPath: TabIcons.signatures,
+                iconPrefix: "B",
+                onTap: () => changeTab(
+                    reportTabName: ReportCategories.PICKUP_BILL)),
+            normalTab(
                 reportTabName: ReportCategories.DROP_OFF_PICTURES,
                 iconPath: TabIcons.pictures,
                 iconPrefix: "D",
@@ -237,11 +245,11 @@ class _TransportationMainPageState extends State<TransportationMainPage>
                 onTap: () => changeTab(
                     reportTabName: ReportCategories.DROP_OFF_SIGNATURE)),
             normalTab(
-              reportTabName: ReportCategories.BILL_OF_LADING,
-              iconPath: TabIcons.pictures,
+              reportTabName: ReportCategories.DROP_OFF_BILL,
+              iconPath: TabIcons.signatures,
               iconPrefix: "B",
               onTap: () => changeTab(
-                reportTabName: ReportCategories.BILL_OF_LADING))
+                reportTabName: ReportCategories.DROP_OFF_BILL))
           ],
         ),
       ),

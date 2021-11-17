@@ -3,9 +3,10 @@ import 'package:transportation_mobile_app/models/entities/session.dart';
 enum ReportCategories {
   PICKUP_PICTURES,
   PICKUP_SIGNATURE,
+  PICKUP_BILL,
   DROP_OFF_PICTURES,
   DROP_OFF_SIGNATURE,
-  BILL_OF_LADING
+  DROP_OFF_BILL
 }
 
 extension ReportCategoriesExtension on ReportCategories {
@@ -15,12 +16,14 @@ extension ReportCategoriesExtension on ReportCategories {
         return "Pick-up Pictures";
       case ReportCategories.PICKUP_SIGNATURE:
         return "Pick-up Signature";
+      case ReportCategories.PICKUP_BILL:
+        return "Pick-up Bill of Lading";
       case ReportCategories.DROP_OFF_PICTURES:
         return "Drop-off Pictures";
       case ReportCategories.DROP_OFF_SIGNATURE:
         return "Drop-off Signature";
-      case ReportCategories.BILL_OF_LADING:
-        return "Bill of Lading";
+      case ReportCategories.DROP_OFF_BILL:
+        return "Drop-off Bill of Lading";
       default:
         return "";
     }
@@ -32,11 +35,12 @@ extension ReportCategoriesExtension on ReportCategories {
       case ReportCategories.PICKUP_SIGNATURE:
         return sessionStatus == SessionStatus.DISPATCHED ||
             sessionStatus == SessionStatus.STARTED;
+      case ReportCategories.PICKUP_BILL:
       case ReportCategories.DROP_OFF_PICTURES:
       case ReportCategories.DROP_OFF_SIGNATURE:
         return sessionStatus == SessionStatus.PICKUP ||
             sessionStatus == SessionStatus.TRANSFERRING;
-      case ReportCategories.BILL_OF_LADING:
+      case ReportCategories.DROP_OFF_BILL:
       default:
         return false;
     }
@@ -47,10 +51,11 @@ extension ReportCategoriesExtension on ReportCategories {
       case ReportCategories.PICKUP_PICTURES:
       case ReportCategories.PICKUP_SIGNATURE:
         return sessionStatus.index >= SessionStatus.PICKUP.index;
+      case ReportCategories.PICKUP_BILL:
       case ReportCategories.DROP_OFF_PICTURES:
       case ReportCategories.DROP_OFF_SIGNATURE:
         return sessionStatus.index >= SessionStatus.DROPPED.index;
-      case ReportCategories.BILL_OF_LADING:
+      case ReportCategories.DROP_OFF_BILL:
       default:
         return false;
     }
@@ -65,7 +70,8 @@ extension ReportCategoriesExtension on ReportCategories {
       case ReportCategories.PICKUP_SIGNATURE:
       case ReportCategories.DROP_OFF_SIGNATURE:
         return this;
-      case ReportCategories.BILL_OF_LADING:
+      case ReportCategories.PICKUP_BILL:
+      case ReportCategories.DROP_OFF_BILL:
       default:
         return this;
     }
