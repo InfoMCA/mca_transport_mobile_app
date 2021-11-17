@@ -45,6 +45,7 @@ class _PhotoDetailsState extends State<PhotoDetails> {
         ),
       ),
       body: Container(
+        color: Colors.white,
         padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
         child: ListView(
           children: [
@@ -58,15 +59,6 @@ class _PhotoDetailsState extends State<PhotoDetails> {
             Divider(),
             Text("Tap anywhere in the image below to report an issue"),
             VehiclePanelReport(sideName: widget.item.name.toLowerCase()),
-            // TextField(
-            //   enabled: widget.canEdit,
-            //   onChanged: (issues) => widget.item.comments = issues,
-            //   maxLines: 5,
-            //   style: TextStyle(color: Colors.black),
-            //   decoration: InputDecoration.collapsed(
-            //       hintText:
-            //           "Describe any issues needed to be reported for this image, if any."),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

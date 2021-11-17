@@ -28,13 +28,16 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       {"markNumber": 8, "top": 50, "left": 200},
     ],
     "back": [
-      {"markNumber": 1, "top": 100, "left": 0},
-      {"markNumber": 2, "top": 100, "left": 120},
-      {"markNumber": 3, "top": 100, "left": 50},
-      {"markNumber": 4, "top": 100, "left": 150},
+      {"markNumber": 1, "top": 15, "left": 150},
+      {"markNumber": 2, "top": 55, "left": 150},
+      {"markNumber": 3, "top": 110, "left": 150},
+      {"markNumber": 4, "top": 55, "left": 70},
+      {"markNumber": 5, "top": 55, "left": 240},
+      {"markNumber": 6, "top": 110, "left": 70},
+      {"markNumber": 7, "top": 110, "left": 240},
     ],
     "right": [
-      {"markNumber": 1, "top": 100, "left": 0},
+      {"markNumber": 1, "top": 240, "left": 0},
       {"markNumber": 2, "top": 100, "left": 120},
       {"markNumber": 3, "top": 100, "left": 50},
       {"markNumber": 4, "top": 100, "left": 150},
@@ -55,29 +58,30 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-
-        Center(
-          child: Image.asset(
-            AppImages.report_issues_base + widget.sideName + ".png",
-            height: 200,
+    return SizedBox(
+      width: 200,
+      height: 200,
+      child: Stack(
+        children: [
+          Center(
+            child: Image.asset(
+              AppImages.report_issues_base + widget.sideName + ".png",
+              // height: 200,
+              // width: 400,
+            ),
           ),
-        ),
-        ...dotCoordinates[widget.sideName]
-            .map((Map<String, double> e) => Positioned(
-                  top: e["top"],
-                  left: e["left"],
-                  child: IssueButtonMenu(
-                      allIssues: this.issues,
-                      sideName: widget.sideName,
-                      markNumber: e["markNumber"]),
-                ))
-            .toList(),
-        ElevatedButton(onPressed: ()=> setState(() {
-          dotCoordinates[widget.sideName] = dotCoordinates[widget.sideName];
-        }), child: Text("Refresh")),
-      ],
+          ...dotCoordinates[widget.sideName]
+              .map((Map<String, double> e) => Positioned(
+                    top: e["top"],
+                    left: e["left"],
+                    child: IssueButtonMenu(
+                        allIssues: this.issues,
+                        sideName: widget.sideName,
+                        markNumber: e["markNumber"]),
+                  ))
+              .toList(),
+        ],
+      ),
     );
   }
 }
