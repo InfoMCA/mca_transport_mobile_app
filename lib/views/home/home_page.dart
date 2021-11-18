@@ -5,7 +5,7 @@ import 'package:transportation_mobile_app/controllers/login_controller.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/local_storage.dart';
-import 'package:transportation_mobile_app/views/service/handlers/lifecycle_handler.dart';
+import 'package:transportation_mobile_app/views/report/handlers/lifecycle_handler.dart';
 import 'package:transportation_mobile_app/widgets/home/session_page.dart';
 
 class HomePage extends StatefulWidget {

@@ -13,11 +13,11 @@ import 'package:transportation_mobile_app/models/entities/session.dart';
 import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
-import 'package:transportation_mobile_app/widgets/service/call_bottom_sheet.dart';
-import 'package:transportation_mobile_app/widgets/service/call_msg_button.dart';
-import 'package:transportation_mobile_app/widgets/service/marquee_widget.dart';
-import 'package:transportation_mobile_app/widgets/service/rectangular_button.dart';
-import 'package:transportation_mobile_app/widgets/service/time_left_widget.dart';
+import 'package:transportation_mobile_app/widgets/report/call_bottom_sheet.dart';
+import 'package:transportation_mobile_app/widgets/report/call_msg_button.dart';
+import 'package:transportation_mobile_app/widgets/report/marquee_widget.dart';
+import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
+import 'package:transportation_mobile_app/widgets/report/time_left_widget.dart';
 
 class AgreementPage extends StatefulWidget {
   @override

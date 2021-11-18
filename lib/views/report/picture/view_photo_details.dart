@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/modular-args.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
-import 'package:transportation_mobile_app/widgets/service/report_panel.dart';
+import 'package:transportation_mobile_app/widgets/report/report_panel.dart';
 
 class PhotoDetails extends StatefulWidget {
   InspectionItem item;

@@ -3,7 +3,7 @@ import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
-import 'package:transportation_mobile_app/widgets/service/rectangular_button.dart';
+import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
 
 class CallBottomSheet {
   void showBottomSheet({var context, List<CallingOptions> numbers}) {

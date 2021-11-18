@@ -2,18 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
-import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/models/entities/session.dart';
 import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
 import 'package:transportation_mobile_app/utils/tab_icon_constants.dart';
-import 'package:transportation_mobile_app/views/service/tabs/pictures_grid.dart';
-import 'package:transportation_mobile_app/views/service/tabs/signature.dart';
-import 'package:transportation_mobile_app/widgets/service/call_bottom_sheet.dart';
-import 'package:transportation_mobile_app/widgets/service/call_msg_button.dart';
-import 'package:transportation_mobile_app/widgets/service/marquee_widget.dart';
+import 'package:transportation_mobile_app/views/report/tabs/pictures_grid.dart';
+import 'package:transportation_mobile_app/views/report/tabs/signature.dart';
+import 'package:transportation_mobile_app/widgets/report/call_bottom_sheet.dart';
+import 'package:transportation_mobile_app/widgets/report/call_msg_button.dart';
+import 'package:transportation_mobile_app/widgets/report/marquee_widget.dart';
 
 class InspectionMainPage extends StatefulWidget {
   @override

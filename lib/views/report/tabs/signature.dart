@@ -6,16 +6,16 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:signature/signature.dart';
-import 'package:transportation_mobile_app/controllers/service/bill_of_lading.dart';
+import 'package:transportation_mobile_app/controllers/report/bill_of_lading.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
 import 'package:transportation_mobile_app/utils/local_storage.dart';
-import 'package:transportation_mobile_app/widgets/service/button_widget.dart';
-import 'package:transportation_mobile_app/widgets/service/digital_input_menu.dart';
-import 'package:transportation_mobile_app/widgets/service/rectangular_button.dart';
+import 'package:transportation_mobile_app/widgets/report/button_widget.dart';
+import 'package:transportation_mobile_app/widgets/report/digital_input_menu.dart';
+import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
 
 class SignatureTabPage extends StatefulWidget {
   final ReportCategories reportTabName;
@@ -73,6 +73,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Divider(
               height: 50,
@@ -134,8 +135,8 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
               onPressed: () {
                 List<InspectionItem> allItems = [];
                 for (ReportCategories category in widget.reportingCategories) {
-                  allItems.addAll(
-                      getCurrentSession().reportItems.where((element) => element.category == category.getName()));
+                  allItems.addAll(getCurrentSession().reportItems.where(
+                      (element) => element.category == category.getName()));
                 }
                 saveSignatureImage();
                 BillOfLading().generate(currentSession, allItems);
@@ -206,36 +207,36 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
               content: new SingleChildScrollView(
                   child: Container(
                       child: Column(children: <Widget>[
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Image.asset(
-                          AppImages.missingError,
-                          height: 50.0,
-                          width: 70.0,
-                        ),
-                        Container(
-                          height: 15.7,
-                        ),
-                        Container(
-                            child: Text(
-                              missingPictures.isEmpty
-                                  ? "You are about to submit your progress. You CANNOT UNDO this action."
-                                  : 'MISSING INFO IN FOLLOWING AREAS:',
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            )),
-                        Container(
-                          height: 20,
-                        ),
-                        Column(
-                            children: missingPictures
-                                .map((e) => DigitalInputErrorMenu(error: e))
-                                .toList()),
-                      ]))),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Image.asset(
+                  AppImages.missingError,
+                  height: 50.0,
+                  width: 70.0,
+                ),
+                Container(
+                  height: 15.7,
+                ),
+                Container(
+                    child: Text(
+                  missingPictures.isEmpty
+                      ? "You are about to submit your progress. You CANNOT UNDO this action."
+                      : 'MISSING INFO IN THE FOLLOWING AREAS:',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                )),
+                Container(
+                  height: 20,
+                ),
+                Column(
+                    children: missingPictures
+                        .map((e) => DigitalInputErrorMenu(error: e))
+                        .toList()),
+              ]))),
               actions: <Widget>[
                 // usually buttons at the bottom of the dialog
                 Row(
@@ -245,7 +246,8 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                     RectangularButton(
                         backgroundColor: AppColors.alizarinCrimson,
                         onTap: () {
-                          for (ReportCategories category in widget.reportingCategories) {
+                          for (ReportCategories category
+                              in widget.reportingCategories) {
                             getCurrentSession().uploadReport(category);
                           }
                           Navigator.of(context).pop();
@@ -270,7 +272,8 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
 
   List<String> getMissingPicture() {
     List<String> missingItems = [];
-    if (signatureImage.signaturePoints == null || signatureImage.signaturePoints.length < 20) {
+    if (signatureImage.signaturePoints == null ||
+        signatureImage.signaturePoints.length < 20) {
       missingItems.add("Signature");
     }
     if (customerName.value == null || customerName.value.isEmpty) {
@@ -346,7 +349,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
               onTap: () {
                 uploadTimer.cancel();
                 Modular.to.popAndPushNamed('/home');
-                },
+              },
             ),
           ],
         );
