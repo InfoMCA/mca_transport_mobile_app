@@ -61,9 +61,20 @@ class _PhotoDetailsState extends State<PhotoDetails> {
             ),
             Divider(),
             VehiclePanelReport(
+                issues: decodeIssues(widget.itemIssues.value),
                 sideName: widget.item.name.toLowerCase(),
-                onIssueReported: (List<Map<String, String>> issues) =>
-                    widget.itemIssues.value = json.encode(issues)),
+                onIssueReported: (List<Map<String, dynamic>> newIssues) {
+                  print (newIssues);
+                  List<Map<String, dynamic>> decodedList =
+                      decodeIssues(widget.itemIssues.value);
+                  for (Map<String, dynamic> newIssue in newIssues) {
+                    decodedList.removeWhere(
+                        (element) => element["name"] == newIssue["name"]);
+                  }
+                  decodedList.addAll(newIssues);
+                  widget.itemIssues.value = json.encode(decodedList);
+                  return "";
+                }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,12 +99,23 @@ class _PhotoDetailsState extends State<PhotoDetails> {
     );
   }
 
+  List<Map<String, dynamic>> decodeIssues(String listString) {
+    listString = listString == null || listString.isEmpty ? "[]" : listString;
+    List<Map<String, dynamic>> list =
+        new List<Map<String, dynamic>>.from(json.decode(listString));
+    return list;
+  }
+
   Widget customButton({String text, Color color, VoidCallback onPressed}) {
     return TextButton(
         child: Container(
           width: 120,
           height: 34,
-          child: Center(child: Text(text, style: TextStyle(color: Colors.white),)),
+          child: Center(
+              child: Text(
+            text,
+            style: TextStyle(color: Colors.white),
+          )),
           decoration: BoxDecoration(
               color: color, borderRadius: BorderRadius.circular(6.0)),
         ),

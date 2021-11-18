@@ -57,6 +57,8 @@ class SessionObject {
   String title;
   String vin;
   String serviceAgreement;
+  String driver;
+  String truck;
 
   Map<String, List<InspectionItem>> categoryItems;
   List<InspectionItem> reportItems;
@@ -90,6 +92,8 @@ class SessionObject {
     this.uploaded,
     this.uploadingItems,
     this.isInvalidated,
+    this.driver,
+    this.truck
   }) {
     uploaded = 0;
     uploadingItems = 0;
@@ -121,6 +125,8 @@ class SessionObject {
       customerPhone: json['customerPhone'] as String,
       broker: json['broker'] as String,
       brokerPhone: json['brokerPhone'] as String,
+      driver: json['driver'] as String,
+      truck: json['truck'] as String,
       scheduledDate: DateTime.parse(json['scheduledDate'] as String),
       serviceAgreement: json['serviceAgreement'],
       categoryItems: inspectionConfig.categoryItems,
@@ -141,6 +147,8 @@ class SessionObject {
       'srcAddress': srcAddress,
       'broker': broker,
       'brokerPhone': brokerPhone,
+      'driver': driver,
+      'truck': truck,
       'categoryItems': categoryItems?.map(
           (key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
       'reportItems': this.reportItems?.map((i) => i.toJson())?.toList(),
@@ -234,7 +242,6 @@ class SessionObject {
     } else if (reportCategory == ReportCategories.DROP_OFF_PICTURES) {
       dropOffPictureIsUploaded = true;
     } else if (reportCategory == ReportCategories.DROP_OFF_SIGNATURE) {
-      updateStatus(SessionStatus.DROPPED);
       updateStatus(SessionStatus.COMPLETED);
     }
   }
@@ -259,7 +266,7 @@ class SessionObject {
   }
 
   // Update status of Session, sending an update to admin and refresh dashboard
-  Future<void> updateStatus(SessionStatus sessionStatus) async {
+  void updateStatus(SessionStatus sessionStatus) async {
     print(this.title + " status is updated to: " + sessionStatus.toString());
     SessionStatus oldStatus = this.sessionStatus;
     this.sessionStatus = sessionStatus;

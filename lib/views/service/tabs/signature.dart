@@ -6,6 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:signature/signature.dart';
+import 'package:transportation_mobile_app/controllers/service/bill_of_lading.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
@@ -58,7 +59,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
       canUserEdit = widget.reportTabName
           .canUserEditTab(getCurrentSession().sessionStatus);
       _controller = SignatureController(
-          penStrokeWidth: 5,
+          penStrokeWidth: 1,
           penColor: Colors.black,
           exportBackgroundColor: Colors.white,
           onDrawEnd: savePoints,
@@ -70,98 +71,119 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
-      child: ListView(
-        children: [
-          Divider(
-            height: 50,
-          ),
-          Text("Receiving customer's Name",
-              style: TextStyle(fontFamily: 'poppins')),
-          TextFormField(
-            style: TextStyle(fontFamily: 'poppins', color: Colors.black),
-            initialValue: customerName.value,
-            enabled: widget.reportTabName
-                .canUserEditTab(getCurrentSession().sessionStatus),
-            onChanged: (String value) => customerName.value = value,
-          ),
-          Divider(
-            height: 50,
-          ),
-          Text(
-            "Please have receiver electronically sign below",
-            style: TextStyle(fontFamily: 'poppins'),
-          ),
-          if (canUserEdit) ...[
-            Signature(
-              controller: _controller,
-              height: 150,
-              backgroundColor: Color(0xFFccdcf0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Divider(
+              height: 50,
             ),
-            TextButton(
-                onPressed: () {
-                  _controller.clear();
-                  savePoints();
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      "Clear",
-                      style: TextStyle(color: AppColors.portGore),
-                    ),
-                    Icon(
-                      Icons.clear,
-                      color: AppColors.alizarinCrimson,
-                      size: 16,
-                    ),
-                  ],
-                )),
-          ] else if (signatureImage.data != null &&
-              signatureImage.data.isNotEmpty)
-            Image.memory(signatureImage.data)
-          else
-            Container(
-                color: Colors.grey,
-                padding: EdgeInsets.all(10),
-                child: Center(
-                  child: Text(
-                    "No signature to show",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )),
-          Divider(),
-          if (!widget.reportTabName
-              .canUserEditTab(getCurrentSession().sessionStatus))
-            Container()
-          else
-            Center(
-              child: TextButton(
-                onPressed: () async {
-                  if (customerName.value.isEmpty || _controller.isEmpty) {
-                    _showWarningDialog(context);
-                    return; // TODO: show error missing signature
-                  }
-                  await saveSignatureImage();
-                  // currentSession.uploadReport(widget.reportTabName);
-                  // Modular.to.pushReplacementNamed("/home");
-                  _showWarningDialog(context);
-                },
-                child: Container(
-                  height: 40.0,
-                  width: 160.0,
-                  decoration: BoxDecoration(
-                      color: AppColors.portGore,
-                      borderRadius: BorderRadius.circular(16.0)),
+            Text("Receiving customer's Name",
+                style: TextStyle(fontFamily: 'poppins')),
+            TextFormField(
+              style: TextStyle(fontFamily: 'poppins', color: Colors.black),
+              initialValue: customerName.value,
+              enabled: widget.reportTabName
+                  .canUserEditTab(getCurrentSession().sessionStatus),
+              onChanged: (String value) => customerName.value = value,
+            ),
+            Divider(
+              height: 50,
+            ),
+            Text(
+              "Please have receiver electronically sign below",
+              style: TextStyle(fontFamily: 'poppins'),
+            ),
+            if (canUserEdit) ...[
+              Signature(
+                controller: _controller,
+                height: 100,
+                backgroundColor: Color(0xFFccdcf0),
+              ),
+              TextButton(
+                  onPressed: () {
+                    _controller.clear();
+                    savePoints();
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        "Clear",
+                        style: TextStyle(color: AppColors.portGore),
+                      ),
+                      Icon(
+                        Icons.clear,
+                        color: AppColors.alizarinCrimson,
+                        size: 16,
+                      ),
+                    ],
+                  )),
+            ] else if (signatureImage.data != null &&
+                signatureImage.data.isNotEmpty)
+              Image.memory(signatureImage.data)
+            else
+              Container(
+                  color: Colors.grey,
+                  padding: EdgeInsets.all(10),
                   child: Center(
                     child: Text(
-                      "Submit",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      "No signature to show",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  )),
+            TextButton(
+              onPressed: () {
+                List<InspectionItem> allItems = [];
+                for (ReportCategories category in widget.reportingCategories) {
+                  allItems.addAll(
+                      getCurrentSession().reportItems.where((element) => element.category == category.getName()));
+                }
+                saveSignatureImage();
+                BillOfLading().generate(currentSession, allItems);
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.print),
+                  VerticalDivider(),
+                  Text(
+                    "Generate Bill of lading",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            if (!widget.reportTabName
+                .canUserEditTab(getCurrentSession().sessionStatus))
+              Container()
+            else
+              Center(
+                child: TextButton(
+                  onPressed: () async {
+                    if (customerName.value.isEmpty || _controller.isEmpty) {
+                      _showWarningDialog(context);
+                      return;
+                    }
+                    await saveSignatureImage();
+                    _showWarningDialog(context);
+                  },
+                  child: Container(
+                    height: 40.0,
+                    width: 160.0,
+                    decoration: BoxDecoration(
+                        color: AppColors.portGore,
+                        borderRadius: BorderRadius.circular(16.0)),
+                    child: Center(
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -184,36 +206,36 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
               content: new SingleChildScrollView(
                   child: Container(
                       child: Column(children: <Widget>[
-                SizedBox(
-                  height: 10.0,
-                ),
-                Image.asset(
-                  AppImages.missingError,
-                  height: 50.0,
-                  width: 70.0,
-                ),
-                Container(
-                  height: 15.7,
-                ),
-                Container(
-                    child: Text(
-                  missingPictures.isEmpty
-                      ? "You are about to submit your progress. You CANNOT UNDO this action."
-                      : 'MISSING INFO IN FOLLOWING AREAS:',
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                )),
-                Container(
-                  height: 20,
-                ),
-                Column(
-                    children: missingPictures
-                        .map((e) => DigitalInputErrorMenu(error: e))
-                        .toList()),
-              ]))),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Image.asset(
+                          AppImages.missingError,
+                          height: 50.0,
+                          width: 70.0,
+                        ),
+                        Container(
+                          height: 15.7,
+                        ),
+                        Container(
+                            child: Text(
+                              missingPictures.isEmpty
+                                  ? "You are about to submit your progress. You CANNOT UNDO this action."
+                                  : 'MISSING INFO IN FOLLOWING AREAS:',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            )),
+                        Container(
+                          height: 20,
+                        ),
+                        Column(
+                            children: missingPictures
+                                .map((e) => DigitalInputErrorMenu(error: e))
+                                .toList()),
+                      ]))),
               actions: <Widget>[
                 // usually buttons at the bottom of the dialog
                 Row(
@@ -223,14 +245,13 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                     RectangularButton(
                         backgroundColor: AppColors.alizarinCrimson,
                         onTap: () {
-                          for (ReportCategories category
-                              in widget.reportingCategories) {
+                          for (ReportCategories category in widget.reportingCategories) {
                             getCurrentSession().uploadReport(category);
                           }
                           Navigator.of(context).pop();
                           _showUploadDialog(context);
                         },
-                        text: "PROCEED ANYWAY".padLeft(20).padRight(26),
+                        text: "PROCEED ANYWAY".padLeft(18).padRight(24),
                         textColor: Colors.white),
                     Container(width: 16),
                     RectangularButton(
@@ -248,11 +269,14 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
   }
 
   List<String> getMissingPicture() {
-    return getCurrentSession()
-        .categoryItems[widget.reportTabName.getName()]
-        .where((element) => element != null && element.value.isEmpty)
-        .map((e) => e.name)
-        .toList();
+    List<String> missingItems = [];
+    if (signatureImage.signaturePoints == null || signatureImage.signaturePoints.length < 20) {
+      missingItems.add("Signature");
+    }
+    if (customerName.value == null || customerName.value.isEmpty) {
+      missingItems.add("Customer Name");
+    }
+    return missingItems;
   }
 
   void _showUploadDialog(context) {
@@ -271,7 +295,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                   uploadProgress = getCurrentSession().getUploadProgress();
                   if (uploadProgress == 100) {
                     uploadTimer.cancel();
-                    Modular.to.pushReplacementNamed("/service/report");
+                    Modular.to.popAndPushNamed('/home');
                   }
                   uploadProgress = min(uploadProgress, 100);
                 });
@@ -321,8 +345,8 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
               text: 'Continue Upload in Background',
               onTap: () {
                 uploadTimer.cancel();
-                Modular.to.pushReplacementNamed("/service/report");
-              },
+                Modular.to.popAndPushNamed('/home');
+                },
             ),
           ],
         );

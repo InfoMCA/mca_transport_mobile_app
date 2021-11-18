@@ -144,6 +144,22 @@
             "default":  ""
         },
         {
+            "category": "Pick-up Signature",
+            "name": "BillOfLading",
+            "options": [],
+            "type": "Image",
+            "format": "image/pdf",
+            "default":  ""
+        },
+        {
+            "category": "Drop-off Signature",
+            "name": "BillOfLading",
+            "options": [],
+            "type": "Image",
+            "format": "image/pdf",
+            "default":  ""
+        },
+        {
             "category": "Drop-off Signature",
             "name": "Signature Image",
             "options": [],

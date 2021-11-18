@@ -79,7 +79,8 @@ enum ReportCategoryItems {
   CustomerName,
   DriverLicense,
   Title,
-  Registration
+  Registration,
+  BillOfLading,
 }
 
 extension CategoryNamesExtension on ReportCategoryItems {
@@ -111,6 +112,8 @@ extension CategoryNamesExtension on ReportCategoryItems {
         return "Title";
       case ReportCategoryItems.Registration:
         return "Registration";
+      case ReportCategoryItems.BillOfLading:
+        return "BillOfLading";
       default:
         return "";
     }
