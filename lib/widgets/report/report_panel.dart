@@ -19,46 +19,54 @@ class VehiclePanelReport extends StatefulWidget {
 }
 
 class _VehiclePanelReportState extends State<VehiclePanelReport> {
-  Map<String, List<Map<String, double>>> dotCoordinates = {
+  final Map<String, Map<String, double>> imageProperties = {
+    "left": {"width": 280, "height": 150, "left": 30, "top": 0},
+    "back": {"width": 200, "height": 150, "left": 70, "top": 0},
+    "right": {"width": 280, "height": 150, "left": 30, "top": 0},
+    "front": {"width": 250, "height": 150, "left": 30, "top": 0},
+    "top": {"width": 250, "height": 150, "left": 30, "top": 0},
+  };
+
+  final Map<String, List<Map<String, double>>> dotCoordinates = {
     "left": [
-      {"markNumber": 1, "top": 100, "left": 0},
-      {"markNumber": 2, "top": 90, "left": 110},
-      {"markNumber": 3, "top": 90, "left": 180},
-      {"markNumber": 4, "top": 70, "left": 270},
-      {"markNumber": 5, "top": 100, "left": 275},
-      {"markNumber": 6, "top": 106, "left": 37},
-      {"markNumber": 7, "top": 106, "left": 222},
-      {"markNumber": 8, "top": 54, "left": 117},
-      {"markNumber": 9, "top": 54, "left": 190},
+      {"markNumber": 1, "top": 80, "left": 30},
+      {"markNumber": 2, "top": 60, "left": 110},
+      {"markNumber": 3, "top": 60, "left": 180},
+      {"markNumber": 4, "top": 50, "left": 255},
+      {"markNumber": 5, "top": 80, "left": 260},
+      {"markNumber": 6, "top": 80, "left": 60},
+      {"markNumber": 7, "top": 80, "left": 225},
+      {"markNumber": 8, "top": 30, "left": 130},
+      {"markNumber": 9, "top": 30, "left": 190},
     ],
     "back": [
-      {"markNumber": 1, "top": 10, "left": 130},
-      {"markNumber": 2, "top": 60, "left": 130},
-      {"markNumber": 3, "top": 120, "left": 130},
-      {"markNumber": 4, "top": 60, "left": 220},
-      {"markNumber": 5, "top": 60, "left": 50},
-      {"markNumber": 6, "top": 120, "left": 40},
-      {"markNumber": 7, "top": 120, "left": 220},
+      {"markNumber": 1, "top": 5, "left": 150},
+      {"markNumber": 2, "top": 40, "left": 150},
+      {"markNumber": 3, "top": 90, "left": 150},
+      {"markNumber": 4, "top": 65, "left": 80},
+      {"markNumber": 5, "top": 65, "left": 225},
+      {"markNumber": 6, "top": 90, "left": 80},
+      {"markNumber": 7, "top": 90, "left": 225},
     ],
     "right": [
-      {"markNumber": 1, "top": 100, "left": 275},
-      {"markNumber": 2, "top": 90, "left": 180},
-      {"markNumber": 3, "top": 90, "left": 110},
-      {"markNumber": 4, "top": 80, "left": 15},
-      {"markNumber": 5, "top": 100, "left": 0},
-      {"markNumber": 6, "top": 106, "left": 50},
-      {"markNumber": 7, "top": 106, "left": 235},
-      {"markNumber": 8, "top": 54, "left": 105},
-      {"markNumber": 9, "top": 54, "left": 160},
+      {"markNumber": 1, "top": 80, "left": 270},
+      {"markNumber": 2, "top": 60, "left": 200},
+      {"markNumber": 3, "top": 60, "left": 130},
+      {"markNumber": 4, "top": 50, "left": 50},
+      {"markNumber": 5, "top": 80, "left": 30},
+      {"markNumber": 6, "top": 80, "left": 240},
+      {"markNumber": 7, "top": 80, "left": 75},
+      {"markNumber": 8, "top": 30, "left": 170},
+      {"markNumber": 9, "top": 30, "left": 110},
     ],
     "front": [
-      {"markNumber": 1, "top": 10, "left": 130},
-      {"markNumber": 2, "top": 60, "left": 130},
-      {"markNumber": 3, "top": 130, "left": 130},
-      {"markNumber": 4, "top": 90, "left": 220},
-      {"markNumber": 5, "top": 90, "left": 50},
-      {"markNumber": 6, "top": 130, "left": 40},
-      {"markNumber": 7, "top": 130, "left": 220},
+      {"markNumber": 1, "top": 5, "left": 130},
+      {"markNumber": 2, "top": 40, "left": 130},
+      {"markNumber": 3, "top": 100, "left": 130},
+      {"markNumber": 4, "top": 65, "left": 205},
+      {"markNumber": 5, "top": 65, "left": 60},
+      {"markNumber": 6, "top": 100, "left": 205},
+      {"markNumber": 7, "top": 100, "left": 60},
     ],
     "top": [
       {"markNumber": 1, "top": 100, "left": 0},
@@ -78,17 +86,18 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       children: [
         Text("Tap anywhere in the image below to report an issue"),
         SizedBox(
-          width: 400,
-          height: 200,
+          // width: 300,
+          height: 150,
           child: Stack(
             children: [
-              Center(
-                child: SizedBox(
-                  width: 250,
-                  child: Image.asset(
-                    AppImages.report_issues_base + widget.sideName + ".png",
-                    fit: BoxFit.fitWidth,
-                  ),
+              Positioned(
+                top: imageProperties[widget.sideName]['top'],
+                left: imageProperties[widget.sideName]['left'],
+                child: Image.asset(
+                  AppImages.report_issues_base + widget.sideName + ".png",
+                  width: imageProperties[widget.sideName]['width'],
+                  height: imageProperties[widget.sideName]['height'],
+                  fit: BoxFit.fill,
                 ),
               ),
               ...dotCoordinates[widget.sideName]
@@ -142,7 +151,6 @@ class IssueButtonMenu extends StatefulWidget {
 }
 
 class _IssueButtonMenuState extends State<IssueButtonMenu> {
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
