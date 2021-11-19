@@ -30,19 +30,23 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _refreshSessions() async {
     try {
-      setState(() {
-        _isFetchingSessions = true;
-        print("_isFetchingSessions set to true");
+      _isFetchingSessions = true;
+      print("_isFetchingSessions set to true");
+      if (mounted) {
+        setState(() {});
+      }
+      await refreshSessions().whenComplete(() {
+        if (mounted) {
+          setState(() {});
+        }
       });
-      refreshSessions().whenComplete(() => setState(() {}));
-      return true;
     } catch (e) {
       print(e);
-      return false;
     } finally {
-      setState(() {
-        _isFetchingSessions = false;
-      });
+      _isFetchingSessions = false;
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 

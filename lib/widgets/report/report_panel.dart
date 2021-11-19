@@ -49,7 +49,7 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       {"markNumber": 6, "top": 106, "left": 50},
       {"markNumber": 7, "top": 106, "left": 235},
       {"markNumber": 8, "top": 54, "left": 105},
-      {"markNumber": 8, "top": 54, "left": 160},
+      {"markNumber": 9, "top": 54, "left": 160},
     ],
     "front": [
       {"markNumber": 1, "top": 10, "left": 130},
@@ -83,8 +83,12 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
           child: Stack(
             children: [
               Center(
-                child: Image.asset(
-                  AppImages.report_issues_base + widget.sideName + ".png",
+                child: SizedBox(
+                  width: 250,
+                  child: Image.asset(
+                    AppImages.report_issues_base + widget.sideName + ".png",
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
               ...dotCoordinates[widget.sideName]
@@ -105,6 +109,10 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       ],
     );
   }
+
+  double normalizeValue(double i, bool isHorizontalAxis) {
+    MediaQuery.of(context).size.height;
+  }
 }
 
 class IssueButtonMenu extends StatefulWidget {
@@ -115,7 +123,7 @@ class IssueButtonMenu extends StatefulWidget {
     @required double markNumber,
     this.onChange,
   })  : panelName = "${sideName}_${markNumber.round()}",
-        issueSelected = EnumToString.fromString(
+        _issueSelected = EnumToString.fromString(
           IssueTypes.values,
           allIssues.firstWhere(
               (element) =>
@@ -125,7 +133,7 @@ class IssueButtonMenu extends StatefulWidget {
         super(key: key);
 
   final List<Map<String, dynamic>> allIssues;
-  IssueTypes issueSelected;
+  IssueTypes _issueSelected;
   final String panelName;
   final String Function(List<Map<String, dynamic>> issues) onChange;
 
@@ -134,7 +142,6 @@ class IssueButtonMenu extends StatefulWidget {
 }
 
 class _IssueButtonMenuState extends State<IssueButtonMenu> {
-  // IssueTypes _issueSelected = IssueTypes.none;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +171,7 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
                       children: IssueTypes.values
                           .map((IssueTypes e) => ListTile(
                                 onTap: () => setState(() {
-                                  widget.issueSelected = e;
+                                  widget._issueSelected = e;
                                   Navigator.pop(context, e);
                                 }),
                                 title: Text(
@@ -173,10 +180,10 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
                                 ),
                                 leading: Radio<IssueTypes>(
                                   value: e,
-                                  groupValue: widget.issueSelected,
+                                  groupValue: widget._issueSelected,
                                   onChanged: (IssueTypes value) {
                                     setState(() {
-                                      widget.issueSelected = value;
+                                      widget._issueSelected = value;
                                     });
                                     Navigator.pop(context, value);
                                   },

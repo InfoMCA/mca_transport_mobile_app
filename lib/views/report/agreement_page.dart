@@ -13,7 +13,7 @@ import 'package:transportation_mobile_app/models/entities/session.dart';
 import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
-import 'package:transportation_mobile_app/widgets/report/call_bottom_sheet.dart';
+import 'package:transportation_mobile_app/widgets/report/bottom_sheet.dart';
 import 'package:transportation_mobile_app/widgets/report/call_msg_button.dart';
 import 'package:transportation_mobile_app/widgets/report/marquee_widget.dart';
 import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
@@ -51,7 +51,7 @@ class _AgreementPageState extends State<AgreementPage>
         actions: <Widget>[
           CallMsgButton(
             onTap: () {
-              CallBottomSheet().showBottomSheet(
+              showCallOptionsBottomSheet(
                 context: context,
                 numbers: [
                   CallingOptions(

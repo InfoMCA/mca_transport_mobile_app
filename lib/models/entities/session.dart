@@ -57,6 +57,7 @@ class SessionObject {
   String title;
   String vin;
   String serviceAgreement;
+  List<String> notes;
   String driver;
   String truck;
 
@@ -71,30 +72,30 @@ class SessionObject {
   bool pickupPictureIsUploaded;
   bool dropOffPictureIsUploaded;
 
-  SessionObject({
-    this.id,
-    this.sessionStatus,
-    this.title,
-    this.vin,
-    this.customer,
-    this.customerPhone,
-    this.serviceAgreement,
-    this.srcName,
-    this.srcAddress,
-    this.dstName,
-    this.dstAddress,
-    this.broker,
-    this.brokerPhone,
-    this.scheduledDate,
-    this.serviceCategories,
-    this.categoryItems,
-    this.reportItems,
-    this.uploaded,
-    this.uploadingItems,
-    this.isInvalidated,
-    this.driver,
-    this.truck
-  }) {
+  SessionObject(
+      {this.id,
+      this.sessionStatus,
+      this.title,
+      this.vin,
+      this.customer,
+      this.customerPhone,
+      this.serviceAgreement,
+      this.notes,
+      this.srcName,
+      this.srcAddress,
+      this.dstName,
+      this.dstAddress,
+      this.broker,
+      this.brokerPhone,
+      this.scheduledDate,
+      this.serviceCategories,
+      this.categoryItems,
+      this.reportItems,
+      this.uploaded,
+      this.uploadingItems,
+      this.isInvalidated,
+      this.driver,
+      this.truck}) {
     uploaded = 0;
     uploadingItems = 0;
     isInvalidated = false;
@@ -102,33 +103,34 @@ class SessionObject {
     dropOffPictureIsUploaded = false;
   }
 
-  factory SessionObject.fromJson(dynamic json) {
+  factory SessionObject.fromJson(dynamic jsonData) {
     Map<String, dynamic> confMap = Map();
     Map<String, dynamic> defaultConfig = getInspectionConfig();
     confMap['reportItems'] =
-        json['reportItems'] ?? defaultConfig['reportItems'];
+        jsonData['reportItems'] ?? defaultConfig['reportItems'];
     confMap['categories'] =
-        json['serviceCategories'] ?? defaultConfig['categories'];
+        jsonData['serviceCategories'] ?? defaultConfig['categories'];
     InspectionConfig inspectionConfig = InspectionConfig.fromJson(confMap);
 
     return SessionObject(
-      id: json['id'] as String,
+      id: jsonData['id'] as String,
       sessionStatus: EnumToString.fromString(
-          SessionStatus.values, json['status'] as String),
-      title: json['title'] as String,
-      vin: json['vin'] as String,
-      srcName: json['address1'] as String,
-      srcAddress: Address.fromJson(json['srcAddress']),
-      dstName: json['address1'] as String,
-      dstAddress: Address.fromJson(json['dstAddress']),
-      customer: json['customer'] as String,
-      customerPhone: json['customerPhone'] as String,
-      broker: json['broker'] as String,
-      brokerPhone: json['brokerPhone'] as String,
-      driver: json['driver'] as String,
-      truck: json['truck'] as String,
-      scheduledDate: DateTime.parse(json['scheduledDate'] as String),
-      serviceAgreement: json['serviceAgreement'],
+          SessionStatus.values, jsonData['status'] as String),
+      title: jsonData['title'] as String,
+      vin: jsonData['vin'] as String,
+      srcName: jsonData['address1'] as String,
+      srcAddress: Address.fromJson(jsonData['srcAddress']),
+      dstName: jsonData['address1'] as String,
+      dstAddress: Address.fromJson(jsonData['dstAddress']),
+      customer: jsonData['customer'] as String,
+      customerPhone: jsonData['customerPhone'] as String,
+      broker: jsonData['broker'] as String,
+      brokerPhone: jsonData['brokerPhone'] as String,
+      driver: jsonData['driver'] as String,
+      truck: jsonData['truck'] as String,
+      scheduledDate: DateTime.parse(jsonData['scheduledDate'] as String),
+      serviceAgreement: jsonData['serviceAgreement'],
+      notes: List<String>.from(jsonData['notes'] ?? ["No notes to show"]),
       categoryItems: inspectionConfig.categoryItems,
       reportItems: inspectionConfig.items,
       serviceCategories: inspectionConfig.categories,
@@ -153,6 +155,7 @@ class SessionObject {
           (key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
       'reportItems': this.reportItems?.map((i) => i.toJson())?.toList(),
       'serviceCategories': serviceCategories,
+      'notes': json.encode(notes),
       'uploaded': uploaded,
       'uploadingItems': uploadingItems,
       'isInvalidated': isInvalidated,

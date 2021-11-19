@@ -1,4 +1,3 @@
-
 import 'package:transportation_mobile_app/models/entities/session.dart';
 
 class AuthUserModel {
@@ -13,26 +12,33 @@ class AuthUserModel {
   void setUserSessions(List<SessionObject> sessions) {
     this.userSessions = Map();
     for (SessionObject sessionObject in sessions ?? []) {
-      this.userSessions
+      this
+          .userSessions
           .putIfAbsent(sessionObject.sessionStatus, () => [])
           .add(sessionObject);
     }
   }
 
   List<SessionObject> getUserSessions({SessionStatus sessionStatus}) {
-    if (this.userSessions == null) {
+    if (this.userSessions == null || this.userSessions.length == 0) {
       return [];
     }
     if (sessionStatus == null) {
-      return this.userSessions.values.toList()
+      return this
+          .userSessions
+          .values
+          .toList()
           .reduce((value, element) => value..addAll(element));
     }
     return this.userSessions.putIfAbsent(sessionStatus, () => []);
   }
 
-  void updateSessionStatus(SessionObject sessionObject, SessionStatus oldStatus) {
+  void updateSessionStatus(
+      SessionObject sessionObject, SessionStatus oldStatus) {
     this.userSessions.putIfAbsent(oldStatus, () => null).remove(sessionObject);
-    this.userSessions.putIfAbsent(sessionObject.sessionStatus, () => [])
+    this
+        .userSessions
+        .putIfAbsent(sessionObject.sessionStatus, () => [])
         .add(sessionObject);
   }
 

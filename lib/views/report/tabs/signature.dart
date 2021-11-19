@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,6 +38,8 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
   bool canUserEdit = false;
   Timer uploadTimer;
   int uploadProgress = 0;
+  bool signatureAvail = false;
+  static const String NO_SIGNATURE_NOTE = "No signer available";
 
   void savePoints() {
     signatureImage.signaturePoints = _controller.points;
@@ -46,7 +48,6 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
   @override
   void initState() {
     super.initState();
-
     setState(() {
       signatureImage = getCurrentSession()
           .categoryItems[widget.reportTabName.getName()]
@@ -56,6 +57,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
           .categoryItems[widget.reportTabName.getName()]
           .firstWhere((element) =>
               element.name == ReportCategoryItems.CustomerName.getName());
+      signatureAvail = customerName.value != NO_SIGNATURE_NOTE;
       canUserEdit = widget.reportTabName
           .canUserEditTab(getCurrentSession().sessionStatus);
       _controller = SignatureController(
@@ -78,59 +80,36 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
             Divider(
               height: 50,
             ),
-            Text("Receiving customer's Name",
-                style: TextStyle(fontFamily: 'poppins')),
-            TextFormField(
-              style: TextStyle(fontFamily: 'poppins', color: Colors.black),
-              initialValue: customerName.value,
-              enabled: widget.reportTabName
-                  .canUserEditTab(getCurrentSession().sessionStatus),
-              onChanged: (String value) => customerName.value = value,
-            ),
-            Divider(
-              height: 50,
-            ),
-            Text(
-              "Please have receiver electronically sign below",
-              style: TextStyle(fontFamily: 'poppins'),
-            ),
-            if (canUserEdit) ...[
-              Signature(
-                controller: _controller,
-                height: 100,
-                backgroundColor: Color(0xFFccdcf0),
-              ),
-              TextButton(
-                  onPressed: () {
-                    _controller.clear();
-                    savePoints();
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        "Clear",
-                        style: TextStyle(color: AppColors.portGore),
-                      ),
-                      Icon(
-                        Icons.clear,
-                        color: AppColors.alizarinCrimson,
-                        size: 16,
-                      ),
-                    ],
-                  )),
-            ] else if (signatureImage.data != null &&
-                signatureImage.data.isNotEmpty)
-              Image.memory(signatureImage.data)
-            else
-              Container(
-                  color: Colors.grey,
-                  padding: EdgeInsets.all(10),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  signatureAvail = !signatureAvail;
+                  if (!signatureAvail) {
+                    customerName.value = NO_SIGNATURE_NOTE;
+                  } else {
+                    customerName.value = "";
+                  }
+                });
+              },
+              child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.portGore),
+                    color: !signatureAvail ? AppColors.portGore : Colors.white,
+                  ),
+                  width: double.maxFinite,
+                  margin: EdgeInsets.all(0),
+                  padding: EdgeInsets.symmetric(vertical: 20),
                   child: Center(
                     child: Text(
-                      "No signature to show",
-                      style: TextStyle(color: Colors.black),
-                    ),
+                        "Signature available: ${signatureAvail ? "Yes" : "No"}",
+                        style: TextStyle(
+                            fontFamily: 'poppins',
+                            color:
+                                !signatureAvail ? Colors.white : Colors.black)),
                   )),
+            ),
+            Divider(),
+            if (signatureAvail) ...getSignatureWidgets(),
             TextButton(
               onPressed: () {
                 List<InspectionItem> allItems = [];
@@ -138,7 +117,9 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                   allItems.addAll(getCurrentSession().reportItems.where(
                       (element) => element.category == category.getName()));
                 }
-                saveSignatureImage();
+                if (signatureAvail) {
+                  saveSignatureImage();
+                }
                 BillOfLading().generate(currentSession, allItems);
               },
               child: Row(
@@ -160,11 +141,9 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
               Center(
                 child: TextButton(
                   onPressed: () async {
-                    if (customerName.value.isEmpty || _controller.isEmpty) {
-                      _showWarningDialog(context);
-                      return;
+                    if (signatureAvail) {
+                      await saveSignatureImage();
                     }
-                    await saveSignatureImage();
                     _showWarningDialog(context);
                   },
                   child: Container(
@@ -192,6 +171,9 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
   Future saveSignatureImage() async {
     signatureImage.data = await _controller.toPngBytes();
     signatureImage.image = await _controller.toImage();
+    if (signatureImage.image == null || signatureImage.data == null) {
+      return;
+    }
     signatureImage.value = await LocalStorage.saveFile(
         ReportCategoryItems.SignatureImage.getName(),
         FileType.png,
@@ -199,7 +181,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
   }
 
   void _showWarningDialog(context) {
-    List<String> missingPictures = getMissingPicture();
+    List<String> missingPictures = signatureAvail ? getMissingPicture() : [];
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -249,6 +231,20 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                           for (ReportCategories category
                               in widget.reportingCategories) {
                             getCurrentSession().uploadReport(category);
+                          }
+                          if (widget.reportingCategories
+                              .contains(ReportCategories.PICKUP_PICTURES)) {
+                            copyInspectionItemValues(
+                                src: getCurrentSession().reportItems.where(
+                                    (element) =>
+                                        element.category ==
+                                        ReportCategories.PICKUP_PICTURES
+                                            .getName()),
+                                dst: getCurrentSession().reportItems.where(
+                                    (element) =>
+                                        element.category ==
+                                        ReportCategories.DROP_OFF_PICTURES
+                                            .getName()));
                           }
                           Navigator.of(context).pop();
                           _showUploadDialog(context);
@@ -365,5 +361,74 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
         uploadTimer.cancel();
       }
     }
+  }
+
+  List<Widget> getSignatureWidgets() {
+    return [
+      Text("Receiving customer's Name",
+          style: TextStyle(fontFamily: 'poppins')),
+      TextFormField(
+        style: TextStyle(fontFamily: 'poppins', color: Colors.black),
+        initialValue: customerName.value,
+        enabled: widget.reportTabName
+            .canUserEditTab(getCurrentSession().sessionStatus),
+        onChanged: (String value) => customerName.value = value,
+      ),
+      Divider(
+        height: 50,
+      ),
+      Text(
+        "Please have receiver electronically sign below",
+        style: TextStyle(fontFamily: 'poppins'),
+      ),
+      if (canUserEdit) ...[
+        Signature(
+          controller: _controller,
+          height: 100,
+          backgroundColor: Color(0xFFccdcf0),
+        ),
+        TextButton(
+            onPressed: () {
+              _controller.clear();
+              savePoints();
+            },
+            child: Row(
+              children: [
+                Text(
+                  "Clear",
+                  style: TextStyle(color: AppColors.portGore),
+                ),
+                Icon(
+                  Icons.clear,
+                  color: AppColors.alizarinCrimson,
+                  size: 16,
+                ),
+              ],
+            )),
+      ] else if (signatureImage.data != null && signatureImage.data.isNotEmpty)
+        Image.memory(signatureImage.data)
+      else
+        Container(
+            color: Colors.grey,
+            padding: EdgeInsets.all(10),
+            child: Center(
+              child: Text(
+                "No signature to show",
+                style: TextStyle(color: Colors.black),
+              ),
+            )),
+    ];
+  }
+
+  void copyInspectionItemValues(
+      {@required List<InspectionItem> src,
+      @required List<InspectionItem> dst}) {
+    for (InspectionItem item in src) {
+      dst
+          .firstWhere((element) => element.name == item.name,
+              orElse: () => InspectionItem())
+          .value = item.value;
+    }
+    dev.log("Copied inspection items");
   }
 }

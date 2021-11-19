@@ -10,7 +10,7 @@ import 'package:transportation_mobile_app/utils/app_images.dart';
 import 'package:transportation_mobile_app/utils/tab_icon_constants.dart';
 import 'package:transportation_mobile_app/views/report/tabs/pictures_grid.dart';
 import 'package:transportation_mobile_app/views/report/tabs/signature.dart';
-import 'package:transportation_mobile_app/widgets/report/call_bottom_sheet.dart';
+import 'package:transportation_mobile_app/widgets/report/bottom_sheet.dart';
 import 'package:transportation_mobile_app/widgets/report/call_msg_button.dart';
 import 'package:transportation_mobile_app/widgets/report/marquee_widget.dart';
 
@@ -114,9 +114,23 @@ class _InspectionMainPageState extends State<InspectionMainPage>
         backgroundColor: AppColors.portGore,
         elevation: 0.0,
         actions: [
+          TextButton(
+            onPressed: () => showNotesBottomSheet(context: context, notes: session.notes),
+              child: Container(
+            height: 24.0,
+            width: 24.0,
+            decoration: BoxDecoration(
+                color: AppColors.alizarinCrimson,
+                borderRadius: BorderRadius.circular(30.0)),
+            child: Icon(
+              Icons.comment,
+              size: 16,
+              color: Colors.black,
+            ),
+          )),
           CallMsgButton(
             onTap: () {
-              CallBottomSheet().showBottomSheet(
+              showCallOptionsBottomSheet(
                 context: context,
                 numbers: [
                   CallingOptions(
