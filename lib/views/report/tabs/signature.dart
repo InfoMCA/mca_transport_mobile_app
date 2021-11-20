@@ -12,7 +12,7 @@ import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
-import 'package:transportation_mobile_app/utils/local_storage.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
 import 'package:transportation_mobile_app/widgets/report/button_widget.dart';
 import 'package:transportation_mobile_app/widgets/report/digital_input_menu.dart';
 import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
@@ -63,7 +63,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
       _controller = SignatureController(
           penStrokeWidth: 1,
           penColor: Colors.black,
-          exportBackgroundColor: Colors.white,
+          exportBackgroundColor: Colors.transparent,
           onDrawEnd: savePoints,
           points: signatureImage.signaturePoints);
     });
@@ -89,6 +89,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                   } else {
                     customerName.value = "";
                   }
+                  getCurrentSession().saveToLocalStorage();
                 });
               },
               child: Container(
@@ -144,6 +145,7 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                     if (signatureAvail) {
                       await saveSignatureImage();
                     }
+                    getCurrentSession().saveToLocalStorage();
                     _showWarningDialog(context);
                   },
                   child: Container(

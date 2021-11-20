@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
-import 'package:transportation_mobile_app/models/interfaces/admin_interface.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
+import 'package:transportation_mobile_app/utils/interfaces/admin_interface.dart';
 
 import '../../controllers/login_controller.dart';
 

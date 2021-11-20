@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
-import 'package:transportation_mobile_app/models/interfaces/admin_interface.dart';
-import 'package:transportation_mobile_app/models/interfaces/data_interface.dart';
+import 'package:transportation_mobile_app/utils/interfaces/admin_interface.dart';
+import 'package:transportation_mobile_app/utils/interfaces/data_interface.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
 
 import 'address.dart';
 
@@ -140,22 +142,25 @@ class SessionObject {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'sessionStatus': EnumToString.convertToString(sessionStatus),
+      'status': EnumToString.convertToString(sessionStatus),
       'title': title,
       'vin': vin,
       'customer': customer,
       'customerPhone': customerPhone,
       'srcName': srcName,
       'srcAddress': srcAddress,
+      'dstName': dstName,
+      'dstAddress': dstAddress,
       'broker': broker,
       'brokerPhone': brokerPhone,
       'driver': driver,
       'truck': truck,
+      'scheduledDate': scheduledDate.toString(),
       'categoryItems': categoryItems?.map(
           (key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
       'reportItems': this.reportItems?.map((i) => i.toJson())?.toList(),
       'serviceCategories': serviceCategories,
-      'notes': json.encode(notes),
+      'notes': notes,
       'uploaded': uploaded,
       'uploadingItems': uploadingItems,
       'isInvalidated': isInvalidated,
@@ -323,5 +328,24 @@ class SessionObject {
         break;
     }
     return ReportCategories.PICKUP_PICTURES;
+  }
+
+  void saveToLocalStorage() {
+    LocalStorage.saveObject(
+        type: ObjectType.sessionObject, object: this, objectId: this.id);
+  }
+
+  static Future<SessionObject> getFromLocalStorage(String sessionId) async {
+
+    try {
+      return SessionObject.fromJson(json.decode(await LocalStorage.getObject(
+          ObjectType.sessionObject,
+          objectId: sessionId)));
+    } catch (e) {
+      print(e);
+      // log(e, stackTrace: e);
+      log("No session found in local storage");
+      return null;
+    }
   }
 }

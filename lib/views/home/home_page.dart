@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/controllers/login_controller.dart';
-import 'package:transportation_mobile_app/controllers/services/location_handler.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
-import 'package:transportation_mobile_app/utils/local_storage.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
+import 'package:transportation_mobile_app/utils/services/location_handler.dart';
 import 'package:transportation_mobile_app/views/report/handlers/lifecycle_handler.dart';
 import 'package:transportation_mobile_app/widgets/home/session_page.dart';
 

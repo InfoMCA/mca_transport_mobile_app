@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:location/location.dart';
-import 'package:transportation_mobile_app/models/interfaces/admin_interface.dart';
+import 'package:transportation_mobile_app/utils/interfaces/admin_interface.dart';
 
 class LocationHandler {
   static bool _isLocationServiceStarted = false;

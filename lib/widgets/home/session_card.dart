@@ -42,8 +42,12 @@ class _SessionCardState extends State<SessionCard> {
     }
 
     return GestureDetector(
-      onTap: () {
-        setCurrentSession(widget.session);
+      onTap: () async {
+        SessionObject session = await SessionObject.getFromLocalStorage(widget.session.id);
+        if (session == null) {
+          session = widget.session;
+        }
+        setCurrentSession(session);
         Modular.to.pushNamed(followupScreen);
       },
       child: Row(

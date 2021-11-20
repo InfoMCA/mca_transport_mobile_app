@@ -9,7 +9,7 @@ import 'package:transportation_mobile_app/app/app_module.dart';
 import 'package:transportation_mobile_app/app/app_widget.dart';
 import 'package:transportation_mobile_app/models/entities/auth_user.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
-import 'package:transportation_mobile_app/utils/local_storage.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
 
 Future<void> _loadConfigFile() async {
   String configJson =
@@ -23,7 +23,7 @@ Future<void> main() async {
   await _loadConfigFile();
   try {
     String object = await LocalStorage.getObject(ObjectType.driver);
-    if (object == null) {
+    if (object == null || object.isEmpty) {
       log("No user found, proceeding to login page");
     } else {
       currentStaff = AuthUserModel.fromJson(json.decode(object));

@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:transportation_mobile_app/models/entities/auth_user.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
-import 'package:transportation_mobile_app/models/interfaces/admin_interface.dart';
-import 'package:transportation_mobile_app/utils/local_storage.dart';
+import 'package:transportation_mobile_app/utils/interfaces/admin_interface.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
 import 'package:transportation_mobile_app/utils/encryption.dart';
 
 class LoginController {
