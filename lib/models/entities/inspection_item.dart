@@ -4,15 +4,7 @@ import 'package:signature/signature.dart';
 
 import 'package:enum_to_string/enum_to_string.dart';
 
-
-enum InspectionInputType {
-  Text,
-  Image,
-  Audio,
-  Animation,
-  Video,
-  Menu
-}
+enum InspectionInputType { Text, Image, Audio, Animation, Video, Menu }
 
 class InspectionItem {
   static const APPROVED_DOCUMENT = "Approved Documents";
@@ -28,25 +20,28 @@ class InspectionItem {
   ui.Image image;
   List<Point> signaturePoints;
 
-  InspectionItem({
-    this.category,
-    this.name,
-    this.options,
-    this.type,
-    this.format,
-    this.value,
-    this.comments = "",
-    this.data
-  });
+  InspectionItem(
+      {this.category,
+      this.name,
+      this.options,
+      this.type,
+      this.format,
+      this.value,
+      this.comments = "",
+      this.data});
 
   factory InspectionItem.fromJson(Map<String, dynamic> parsedJson) {
     return InspectionItem(
-        category: parsedJson['category'],
-        name: parsedJson['name'],
-        options: List<dynamic>.from(parsedJson['options']),
-        type:  EnumToString.fromString(InspectionInputType.values, parsedJson['type']),
-        format: parsedJson['format'],
-        value: "",
+      category: parsedJson['category'],
+      name: parsedJson['name'],
+      options: List<dynamic>.from(parsedJson['options']),
+      type: EnumToString.fromString(
+          InspectionInputType.values, parsedJson['type']),
+      format: parsedJson['format'],
+      value: parsedJson['value'] == null ||
+              parsedJson['value'] == "NA"
+          ? ""
+          : parsedJson['value'],
     );
   }
 
@@ -94,7 +89,7 @@ class InspectionConfig {
     }
   }
 
-    factory InspectionConfig.fromJson(Map<String, dynamic> parsedJson) {
+  factory InspectionConfig.fromJson(Map<String, dynamic> parsedJson) {
     var categories = List<String>.from(parsedJson['categories'] as List);
     var inputsJson = parsedJson['reportItems'] as List;
     var inputs = inputsJson.map((i) => InspectionItem.fromJson(i)).toList();
