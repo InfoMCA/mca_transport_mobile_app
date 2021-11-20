@@ -8,6 +8,10 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Tracking driver's locations to assign new jobs</string>
+	<key>UIBackgroundModes</key>
+	<string>location</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

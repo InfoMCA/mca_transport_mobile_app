@@ -118,10 +118,6 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       ],
     );
   }
-
-  double normalizeValue(double i, bool isHorizontalAxis) {
-    MediaQuery.of(context).size.height;
-  }
 }
 
 class IssueButtonMenu extends StatefulWidget {

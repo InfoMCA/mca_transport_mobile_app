@@ -3,38 +3,28 @@ import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
-import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
 
 void showCallOptionsBottomSheet({var context, List<CallingOptions> numbers}) {
   showModalBottomSheet(
       context: context,
       builder: (builder) {
-        return Container(
-          height: 280.0,
-          color: Colors.transparent, //could change this to Color(0xFF737373),
-          child: new Container(
-              decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.only(
-                      topLeft: const Radius.circular(10.0),
-                      topRight: const Radius.circular(10.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      ..._getPhoneList(numbers),
-                      RectangularButton(
-                          backgroundColor: AppColors.alizarinCrimson,
-                          onTap: () => Navigator.pop(context),
-                          text: "Cancel",
-                          textColor: Colors.white)
-                    ],
-                  ),
+        return new Container(
+            decoration: new BoxDecoration(
+                color: Colors.white,
+                borderRadius: new BorderRadius.only(
+                    topLeft: const Radius.circular(10.0),
+                    topRight: const Radius.circular(10.0))),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    ..._getPhoneList(numbers),
+                  ],
                 ),
-              )),
-        );
+              ),
+            ));
       });
 }
 
@@ -43,28 +33,48 @@ void showNotesBottomSheet({BuildContext context, List<String> notes}) {
       context: context,
       builder: (builder) {
         return Container(
-          height: 280.0,
           color: Colors.transparent, //could change this to Color(0xFF737373),
-          child: new Container(
-              decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.only(
-                      topLeft: const Radius.circular(10.0),
-                      topRight: const Radius.circular(10.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                      children: notes
-                          .map((e) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(e),
-                              ))
-                          .toList()),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "Notes:",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
-              )),
+              ),
+              new Container(
+                  decoration: new BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.only(
+                          topLeft: const Radius.circular(10.0),
+                          topRight: const Radius.circular(10.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
+                          children: notes
+                              .map((e) => Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                            color: AppColors.blueHaze,
+                                            width: 1.0)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        e,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ),
+                                  ))
+                              .toList()),
+                    ),
+                  )),
+            ],
+          ),
         );
       });
 }
@@ -92,7 +102,6 @@ Widget _contactItem({var icon, var text, var label}) {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(color: AppColors.blueHaze, width: 1.0)),
-      height: 60.0,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(

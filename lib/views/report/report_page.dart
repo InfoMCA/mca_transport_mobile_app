@@ -117,14 +117,14 @@ class _InspectionMainPageState extends State<InspectionMainPage>
           TextButton(
             onPressed: () => showNotesBottomSheet(context: context, notes: session.notes),
               child: Container(
-            height: 24.0,
-            width: 24.0,
+            height: 30.0,
+            width: 30.0,
             decoration: BoxDecoration(
                 color: AppColors.alizarinCrimson,
-                borderRadius: BorderRadius.circular(30.0)),
+                borderRadius: BorderRadius.circular(40.0)),
             child: Icon(
               Icons.comment,
-              size: 16,
+              size: 20,
               color: Colors.black,
             ),
           )),
