@@ -51,10 +51,8 @@ class SessionObject {
   String customerPhone;
   String broker;
   String brokerPhone;
-  String srcName;
-  Address srcAddress;
-  String dstName;
-  Address dstAddress;
+  Address source;
+  Address destination;
   DateTime scheduledDate;
   String title;
   String vin;
@@ -83,10 +81,8 @@ class SessionObject {
       this.customerPhone,
       this.serviceAgreement,
       this.notes,
-      this.srcName,
-      this.srcAddress,
-      this.dstName,
-      this.dstAddress,
+      this.source,
+      this.destination,
       this.broker,
       this.brokerPhone,
       this.scheduledDate,
@@ -120,10 +116,8 @@ class SessionObject {
           SessionStatus.values, jsonData['status'] as String),
       title: jsonData['title'] as String,
       vin: jsonData['vin'] as String,
-      srcName: jsonData['address1'] as String,
-      srcAddress: Address.fromJson(jsonData['srcAddress']),
-      dstName: jsonData['address1'] as String,
-      dstAddress: Address.fromJson(jsonData['dstAddress']),
+      source: Address.fromJson(jsonData['source']),
+      destination: Address.fromJson(jsonData['destination']),
       customer: jsonData['customer'] as String,
       customerPhone: jsonData['customerPhone'] as String,
       broker: jsonData['broker'] as String,
@@ -147,10 +141,8 @@ class SessionObject {
       'vin': vin,
       'customer': customer,
       'customerPhone': customerPhone,
-      'srcName': srcName,
-      'srcAddress': srcAddress,
-      'dstName': dstName,
-      'dstAddress': dstAddress,
+      'source': source,
+      'destination': destination,
       'broker': broker,
       'brokerPhone': brokerPhone,
       'driver': driver,

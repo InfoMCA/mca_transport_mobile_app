@@ -43,7 +43,7 @@ class _SessionCardState extends State<SessionCard> {
 
     return GestureDetector(
       onTap: () async {
-        SessionObject session = await SessionObject.getFromLocalStorage(widget.session.id);
+        SessionObject session = null;//await SessionObject.getFromLocalStorage(widget.session.id);
         if (session == null) {
           session = widget.session;
         }
@@ -203,7 +203,7 @@ class _SessionCardState extends State<SessionCard> {
             children: [
               Expanded(
                 child: TextButton(
-                  onPressed: () => MapsLauncher.launchQuery(widget.session.srcAddress.toString()),
+                  onPressed: () => MapsLauncher.launchQuery(widget.session.source.toString()),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Center(
@@ -219,7 +219,7 @@ class _SessionCardState extends State<SessionCard> {
                           SizedBox(
                             width: 8.0,
                           ),
-                          Text("From: ${widget.session.srcAddress.city} , ${widget.session.srcAddress.state}",
+                          Text("From: ${widget.session.source.city} , ${widget.session.source.state}",
                               style: TextStyle(
                                   fontSize: 12,
                                   fontFamily: 'Poppins',
@@ -242,7 +242,7 @@ class _SessionCardState extends State<SessionCard> {
               Expanded(
                 flex: 1,
                 child: TextButton(
-                  onPressed:() => MapsLauncher.launchQuery(widget.session.dstAddress.toString())
+                  onPressed:() => MapsLauncher.launchQuery(widget.session.destination.toString())
                   ,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -259,7 +259,7 @@ class _SessionCardState extends State<SessionCard> {
                           SizedBox(
                             width: 8.0,
                           ),
-                          Text("To: ${widget.session.dstAddress.city} , ${widget.session.dstAddress.state}",
+                          Text("To: ${widget.session.destination.city} , ${widget.session.destination.state}",
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   color: HexColor('#525252'),

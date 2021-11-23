@@ -144,13 +144,13 @@ class _InspectionMainPageState extends State<InspectionMainPage>
                         session.brokerPhone ?? "Phone number is not available",
                   ),
                   CallingOptions(
-                    name: session.srcName ?? "Pickup Location",
-                    phoneNumber: session.srcAddress.phone ??
+                    name: session.source.firstName ?? "Pickup Location",
+                    phoneNumber: session.source.phone ??
                         "Phone number is not available",
                   ),
                   CallingOptions(
-                    name: session.dstName ?? "Drop off Location",
-                    phoneNumber: session.dstAddress.phone ??
+                    name: session.destination.firstName ?? "Drop off Location",
+                    phoneNumber: session.destination.phone ??
                         "Phone number is not available",
                   )
                 ],

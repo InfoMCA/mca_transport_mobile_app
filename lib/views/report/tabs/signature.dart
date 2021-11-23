@@ -241,12 +241,12 @@ class _SignatureTabPageState extends State<SignatureTabPage> {
                                     (element) =>
                                         element.category ==
                                         ReportCategories.PICKUP_PICTURES
-                                            .getName()),
+                                            .getName()).toList(),
                                 dst: getCurrentSession().reportItems.where(
                                     (element) =>
                                         element.category ==
                                         ReportCategories.DROP_OFF_PICTURES
-                                            .getName()));
+                                            .getName()).toList());
                           }
                           Navigator.of(context).pop();
                           _showUploadDialog(context);

@@ -65,13 +65,13 @@ class _AgreementPageState extends State<AgreementPage>
                         session.brokerPhone ?? "Phone number is not available",
                   ),
                   CallingOptions(
-                    name: session.srcName ?? "Pickup Location",
-                    phoneNumber: session.srcAddress.phone ??
+                    name: session.source ?? "Pickup Location",
+                    phoneNumber: session.source.phone ??
                         "Phone number is not available",
                   ),
                   CallingOptions(
-                    name: session.dstName ?? "Drop off Location",
-                    phoneNumber: session.dstAddress.phone ??
+                    name: session.destination ?? "Drop off Location",
+                    phoneNumber: session.destination.phone ??
                         "Phone number is not available",
                   )
                 ],
@@ -258,16 +258,16 @@ class _AgreementPageState extends State<AgreementPage>
             height: 16.0,
           ),
           GestureDetector(
-              onTap: () => MapsLauncher.launchQuery(session.srcAddress.toString()),
+              onTap: () => MapsLauncher.launchQuery(session.source.toString()),
               child: singleItem(
-                  text: "Pickup:" + session.srcAddress.toStringShort(), icon: AppImages.location)),
+                  text: "Pickup:" + session.source.toStringShort(), icon: AppImages.location)),
           SizedBox(
             height: 16.0,
           ),
           GestureDetector(
-              onTap: () => MapsLauncher.launchQuery(session.srcAddress.toString()),
+              onTap: () => MapsLauncher.launchQuery(session.destination.toString()),
               child: singleItem(
-                  text: "Drop: " + session.dstAddress.toStringShort(), icon: AppImages.location)),
+                  text: "Drop: " + session.destination.toStringShort(), icon: AppImages.location)),
           SizedBox(
             height: 16.0,
           ),

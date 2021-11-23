@@ -74,6 +74,8 @@ class BillOfLading {
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     final PdfDocument document =
     PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
+    Address srcAddress = session.source;
+    Address dstAddress = session.destination;
 
     String issues = reportItems
         .firstWhere((element) => element.name == "Issues")
@@ -134,63 +136,55 @@ class BillOfLading {
           (field as PdfTextBoxField).text = "";
           break;
         case 'DContact':
-          String dstName = session.dstName;
-          if (dstName != null) {
-            (field as PdfTextBoxField).text = session.dstName;
+          if (dstAddress != null) {
+            (field as PdfTextBoxField).text = dstAddress.firstName + " " + dstAddress.lastName;
           }
           break;
         case 'PContact':
-          String srcName = session.srcName;
-          if (srcName != null) {
-            (field as PdfTextBoxField).text = session.srcName;
+          if (srcAddress != null) {
+            (field as PdfTextBoxField).text = srcAddress.firstName + " " + srcAddress.lastName;
           }
           break;
         case 'PAddress':
-          Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
-            (field as PdfTextBoxField).text = session.srcAddress.address1;
+            (field as PdfTextBoxField).text = srcAddress.address1;
           }
           break;
         case 'DAddress':
-          Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
-            (field as PdfTextBoxField).text = session.dstAddress.address1;
+            (field as PdfTextBoxField).text = dstAddress.address1;
           }
           break;
         case 'PCity':
-          Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
-            (field as PdfTextBoxField).text = session.srcAddress.city;
+            (field as PdfTextBoxField).text = srcAddress.city;
           }
           break;
         case 'PState':
-          Address srcAddress = session.srcAddress;
           if (srcAddress != null) {
-            (field as PdfTextBoxField).text = session.srcAddress.state;
+            (field as PdfTextBoxField).text = srcAddress.state;
           }
           break;
         case 'DCity':
-          Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
-            (field as PdfTextBoxField).text = session.dstAddress.city;
+            (field as PdfTextBoxField).text = dstAddress.city;
           }
           break;
         case 'DState':
-          Address dstAddress = session.dstAddress;
           if (dstAddress != null) {
-            (field as PdfTextBoxField).text = session.dstAddress.state;
+            (field as PdfTextBoxField).text = dstAddress.state;
           }
           break;
         case 'DPhone':
-          Address dstAddress = session.dstAddress;
+          Address dstAddress = session.destination;
           if (dstAddress != null) {
-            (field as PdfTextBoxField).text = session.dstAddress.phone;
+            (field as PdfTextBoxField).text = dstAddress.phone;
           }
           break;
         case 'PPhone':
-          Address srcAddress = session.srcAddress;
+          Address srcAddress = session.source;
           if (srcAddress != null) {
-            (field as PdfTextBoxField).text = session.srcAddress.phone;
+            (field as PdfTextBoxField).text = srcAddress.phone;
           }
           break;
         case 'Shipper_Name':
