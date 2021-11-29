@@ -193,7 +193,7 @@ class BillOfLading {
                   (element) =>
               element.name == ReportCategoryItems.CustomerName.getName() &&
                   element.category ==
-                      ReportCategories.PICKUP_SIGNATURE.getName(),
+                      ReportCategories.PickupSignature.getName(),
               orElse: () => InspectionItem(value: ""))
               .value;
           break;
@@ -215,7 +215,7 @@ class BillOfLading {
     reportItems.forEach((element) {print(element.name + " " + element.category);});
     Iterable<InspectionItem> shipperSignature = reportItems
         .where((element) => element.name == ReportCategoryItems.SignatureImage.getName() &&
-        element.category == ReportCategories.PICKUP_SIGNATURE.getName());
+        element.category == ReportCategories.PickupSignature.getName());
 
     if (shipperSignature.isNotEmpty) {
       Uint8List signaturePng = shipperSignature.first.data;
@@ -231,7 +231,7 @@ class BillOfLading {
     Iterable<InspectionItem> receiverSignature = reportItems
         .where((element) =>
     element.name == ReportCategoryItems.SignatureImage.getName() &&
-        element.category == ReportCategories.DROP_OFF_SIGNATURE.getName());
+        element.category == ReportCategories.DropOffSignature.getName());
     if (receiverSignature.isNotEmpty) {
       Uint8List signaturePng = receiverSignature.first.data;
       if (signaturePng != null) {

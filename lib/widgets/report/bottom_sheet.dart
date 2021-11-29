@@ -15,7 +15,7 @@ void showCallOptionsBottomSheet({var context, List<CallingOptions> numbers}) {
                     topLeft: const Radius.circular(10.0),
                     topRight: const Radius.circular(10.0))),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
@@ -81,17 +81,17 @@ void showNotesBottomSheet({BuildContext context, List<String> notes}) {
 
 List<Widget> _getPhoneList(List<CallingOptions> numbers) {
   List<Widget> phoneList = [];
-  for (CallingOptions number in numbers) {
+  numbers.where((element) => element.phoneNumber != null).forEach((element) {
     phoneList.add(
       _contactItem(
-          text: number.phoneNumber ?? "No phone provided",
-          icon: AppImages.phoneCustomer,
-          label: number.name),
+          text: element.phoneNumber,
+          icon: AppImages.phoneUser,
+          label: element.name),
     );
     phoneList.add(SizedBox(
-      height: 24.0,
+      height: 8.0,
     ));
-  }
+  });
   return phoneList;
 }
 
@@ -99,6 +99,7 @@ Widget _contactItem({var icon, var text, var label}) {
   return GestureDetector(
     onTap: () => launchURL(text, scheme: "tel"),
     child: Container(
+      height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           border: Border.all(color: AppColors.blueHaze, width: 1.0)),
@@ -118,18 +119,24 @@ Widget _contactItem({var icon, var text, var label}) {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: 4.0,
+                ),
                 Text(
                   label,
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.black, fontFamily:'poppins', fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
-                  height: 8.0,
+                  height: 4.0,
                 ),
                 Text(
                   text,
-                  style: TextStyle(color: AppColors.emperor),
-                )
+                  style: TextStyle(color: AppColors.emperor, fontFamily:'poppins', fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 4.0,
+                ),
               ],
             ),
           ],

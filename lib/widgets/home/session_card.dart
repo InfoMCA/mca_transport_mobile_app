@@ -142,8 +142,9 @@ class _SessionCardState extends State<SessionCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 4),
                   Text(
-                    widget.session.title.toUpperCase(),
+                      widget.session.sessionStatus.getName() + ": " + widget.session.title.toUpperCase(),
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 14.0,
@@ -173,7 +174,7 @@ class _SessionCardState extends State<SessionCard> {
                               fontWeight: FontWeight.w500)),
                     ],
                   ), 
-                Text("ID:" + widget.session.id.substring(0, 5))],
+                ],
               )),
           Expanded(
               flex: 1,
@@ -199,79 +200,69 @@ class _SessionCardState extends State<SessionCard> {
               width: double.infinity,
               height: 1.0,
               color: Colors.grey.withOpacity(0.5)),
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () => MapsLauncher.launchQuery(widget.session.source.toString()),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(width: 16),
-                          Icon(
-                            Icons.location_city_sharp,
-                            color: Colors.black,
-                            size: 16.0,
-                          ),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Text("From: ${widget.session.source.city} , ${widget.session.source.state}",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'Poppins',
-                                  color: AppColors.emperor,
-                                  fontWeight: FontWeight.w500)),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                        ],
-                      ),
-                    ),
+          Container(
+              width: double.infinity,
+              height: 40,
+            child: TextButton(
+              onPressed: () => MapsLauncher.launchQuery(widget.session.source.toString()),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(width: 8),
+                  Icon(
+                    Icons.location_city_sharp,
+                    color: Colors.black,
+                    size: 16.0,
                   ),
-                ),
-              ),
-              Container(
-                height: 40.0,
-                color: Colors.grey.withOpacity(0.5),
-                width: 1.0,
-              ),
-              Expanded(
-                flex: 1,
-                child: TextButton(
-                  onPressed:() => MapsLauncher.launchQuery(widget.session.destination.toString())
-                  ,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(width: 16),
-                          Icon(
-                            Icons.map_outlined,
-                            color: Colors.black,
-                            size: 16.0,
-                          ),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Text("To: ${widget.session.destination.city} , ${widget.session.destination.state}",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: HexColor('#525252'),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12)),
-                        ],
-                      ),
-                    ),
+                  SizedBox(
+                    width: 8.0,
                   ),
-                ),
+                  Text("From: ${widget.session.source.toString()}",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          color: AppColors.emperor,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                ],
               ),
-            ],
+            ),
+          ),
+          Container(
+              width: double.infinity,
+              height: 1.0,
+              color: Colors.grey.withOpacity(0.5)),
+          Container(
+            width: double.infinity,
+            height: 40,
+            child: TextButton(
+              onPressed: () => MapsLauncher.launchQuery(widget.session.destination.toString()),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(width: 8),
+                  Icon(
+                    Icons.location_city_sharp,
+                    color: Colors.black,
+                    size: 16.0,
+                  ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Text("To: ${widget.session.destination.toString()}",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
+                          color: AppColors.emperor,
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                ],
+              ),
+            ),
           ),
           Container(
               width: double.infinity,
@@ -284,15 +275,20 @@ class _SessionCardState extends State<SessionCard> {
 
   getCardBackgroundColor() {
     if (widget.session.sessionStatus == SessionStatus.DISPATCHED) {
-      cardBackgroundColor = AppColors.blueHaze;
+      cardBackgroundColor = AppColors.lightBlue;
       iconColor = AppColors.cadetBlue;
       statusIcon = AppImages.ongoingSession;
-      stepperColor = AppColors.athenesGrey;
+      stepperColor = AppColors.lightBlue;
+    } else if (widget.session.sessionStatus == SessionStatus.STARTED) {
+      cardBackgroundColor = AppColors.lightRed;
+      iconColor = Colors.white;
+      statusIcon = AppImages.ongoingSession;
+      stepperColor = AppColors.darkRed;
     } else if (widget.session.sessionStatus == SessionStatus.PICKUP) {
-      cardBackgroundColor = AppColors.upcomingSession;
-      iconColor = AppColors.cadetBlue;
+      cardBackgroundColor = AppColors.lightYellow;
+      iconColor = Colors.white;
       statusIcon = AppImages.upcomingSession;
-      stepperColor = AppColors.athenesGrey;
+      stepperColor = AppColors.darkYellow;
     } else if (widget.session.sessionStatus == SessionStatus.TRANSFERRING) {
       cardBackgroundColor = AppColors.stillUploadingSession;
       iconColor = AppColors.cadetBlue;
@@ -317,35 +313,28 @@ class _SessionCardState extends State<SessionCard> {
   }
 
   Widget cardRightSide(width) {
-    return Expanded(
-      flex: 11,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.session.sessionStatus.toString().substring(14),
-            style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w700,
-                fontSize: 14,
-                color: HexColor('#1d1d1d')),
-          ),
-          SizedBox(
-            height: 12.0,
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: cardBackgroundColor,
-                borderRadius: BorderRadius.circular(8.0)),
-            child: Column(
-              children: [
-                cardHeader(),
-                cardDateAndCity(width),
-                SizedBox(height: 24,)
-              ],
+    return Container(
+      width: 320,
+      child: Card(
+        color: Colors.transparent,
+        elevation: 8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+
+              decoration: BoxDecoration(
+                  color: cardBackgroundColor,
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Column(
+                children: [
+                  cardHeader(),
+                  cardDateAndCity(width),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

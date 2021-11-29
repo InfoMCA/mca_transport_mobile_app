@@ -351,7 +351,7 @@ class _AgreementPageState extends State<AgreementPage>
               onTap: () {
                 if (_hasAgreedConditions) {
                   currentSession.updateStatus(SessionStatus.STARTED);
-                  Modular.to.popAndPushNamed('/service/report', arguments: ReportCategories.PICKUP_PICTURES);
+                  Modular.to.popAndPushNamed('/service/report', arguments: ReportCategories.PickupPictures);
                 } else {
                   final snackBar = SnackBar(
                       backgroundColor: Colors.red,

@@ -25,7 +25,7 @@ class CallMsgButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: SvgPicture.asset(AppImages.phoneMsg,
-                    height: 20.0, width: 20.0),
+                    height: 15.0, width: 15.0),
               ),
             ),
           ),
