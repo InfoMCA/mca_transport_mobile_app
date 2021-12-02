@@ -408,6 +408,7 @@ class _InspectionMainPageState extends State<InspectionMainPage>
                                         ReportCategories.DropOffPictures
                                             .getName()).toList());
                           }
+                          getCurrentSession().saveToLocalStorage();
                           Navigator.of(context).pop();
                           _showUploadDialog(context);
                         },
