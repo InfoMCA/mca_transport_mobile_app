@@ -1,11 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:transportation_mobile_app/views/home/home_page.dart';
 import 'package:transportation_mobile_app/views/security/login_page.dart';
-import 'package:transportation_mobile_app/views/service/agreement_page.dart';
-import 'package:transportation_mobile_app/views/service/picture/take_image_page_landscape.dart';
-import 'package:transportation_mobile_app/views/service/picture/take_image_page_portrait.dart';
-import 'package:transportation_mobile_app/views/service/picture/view_photo_details.dart';
-import 'package:transportation_mobile_app/views/service/report_page.dart';
+import 'package:transportation_mobile_app/views/report/agreement_page.dart';
+import 'package:transportation_mobile_app/views/report/picture/take_image_page_landscape.dart';
+import 'package:transportation_mobile_app/views/report/picture/take_image_page_portrait.dart';
+import 'package:transportation_mobile_app/views/report/picture/view_photo_details.dart';
+import 'package:transportation_mobile_app/views/report/report_page.dart';
 
 
 class AppModule extends Module {

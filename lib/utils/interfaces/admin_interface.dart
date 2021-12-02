@@ -27,13 +27,14 @@ class AppReq {
   String password;
   String fcmToken;
 
-  AppReq({this.cmd,
-    this.sessionId,
-    this.sessionStatus,
-    this.objectName,
-    this.username,
-    this.password,
-    this.fcmToken});
+  AppReq(
+      {this.cmd,
+      this.sessionId,
+      this.sessionStatus,
+      this.objectName,
+      this.username,
+      this.password,
+      this.fcmToken});
 
   Map<String, dynamic> toJson() {
     return {
@@ -57,11 +58,12 @@ class AppResp {
   String preSignedUrl;
   List<SessionObject> sessionsList;
 
-  AppResp({this.message,
-    this.status,
-    this.preSignedUrl,
-    this.sessionsList,
-    this.statusCode});
+  AppResp(
+      {this.message,
+      this.status,
+      this.preSignedUrl,
+      this.sessionsList,
+      this.statusCode});
 
   factory AppResp.fromJson(Map<String, dynamic> parsedJson) {
     List<SessionObject> sessions = [];
@@ -69,16 +71,14 @@ class AppResp {
       var sessionsObjJson = parsedJson['sessionsList'] as List;
       sessions = new List<SessionObject>.from(sessionsObjJson
           .map((sessionsJson) => SessionObject.fromJson(sessionsJson))
-          .toList())
-      ;
+          .toList());
     }
     return AppResp(
         message: parsedJson['message'],
         status: parsedJson['status'],
         statusCode: parsedJson['statusCode'],
         preSignedUrl: parsedJson['preSignedUrl'],
-        sessionsList: sessions
-    );
+        sessionsList: sessions);
   }
 }
 
@@ -222,7 +222,7 @@ class AdminInterface {
   }
 
   Future<AppResp> updateLocation(
-      String username, String latitude, String longitude) async {
+      {String username, String latitude, String longitude}) async {
     try {
       String object =
           "$latitude:$longitude:${DateTime.now().millisecondsSinceEpoch}";
@@ -237,8 +237,7 @@ class AdminInterface {
         print(appResp.message);
         return appResp;
       } else {
-        print("location updated failed");
-        return null;
+        throw ("Response status code is not successful. Code: ${response.statusCode}");
       }
     } catch (e) {
       print("Error updating location");

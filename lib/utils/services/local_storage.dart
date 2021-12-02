@@ -34,7 +34,7 @@ class LocalStorage {
           objectId.isEmpty ? type.toString() : "${type.toString()}#$objectId";
       return prefs.getString(objectName);
     } catch (e) {
-      return null;
+      return "";
     }
   }
 

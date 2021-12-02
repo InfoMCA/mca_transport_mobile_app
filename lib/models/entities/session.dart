@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/models/entities/report_enums.dart';
-import 'package:transportation_mobile_app/models/interfaces/admin_interface.dart';
-import 'package:transportation_mobile_app/models/interfaces/data_interface.dart';
+import 'package:transportation_mobile_app/utils/interfaces/admin_interface.dart';
+import 'package:transportation_mobile_app/utils/interfaces/data_interface.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
 
 import 'address.dart';
 
@@ -24,17 +26,20 @@ enum SessionStatus {
 
 extension SessionStatusString on SessionStatus {
   String getName() {
+    print(this);
     switch (this) {
       case SessionStatus.DISPATCHED:
         return "Dispatched";
+      case SessionStatus.STARTED:
+        return "Started";
       case SessionStatus.PICKUP:
-        return "Picking Up";
+        return "Picked Up";
       case SessionStatus.TRANSFERRING:
         return "In Transit";
       case SessionStatus.DROPPED:
-        return "Dropping Off";
+        return "Drop Off";
       case SessionStatus.COMPLETED:
-        return "Cancelled";
+        return "Completed";
       default:
         return "Unknown";
     }
@@ -49,14 +54,13 @@ class SessionObject {
   String customerPhone;
   String broker;
   String brokerPhone;
-  String srcName;
-  Address srcAddress;
-  String dstName;
-  Address dstAddress;
+  Address source;
+  Address destination;
   DateTime scheduledDate;
   String title;
   String vin;
   String serviceAgreement;
+  List<String> notes;
   String driver;
   String truck;
 
@@ -71,30 +75,28 @@ class SessionObject {
   bool pickupPictureIsUploaded;
   bool dropOffPictureIsUploaded;
 
-  SessionObject({
-    this.id,
-    this.sessionStatus,
-    this.title,
-    this.vin,
-    this.customer,
-    this.customerPhone,
-    this.serviceAgreement,
-    this.srcName,
-    this.srcAddress,
-    this.dstName,
-    this.dstAddress,
-    this.broker,
-    this.brokerPhone,
-    this.scheduledDate,
-    this.serviceCategories,
-    this.categoryItems,
-    this.reportItems,
-    this.uploaded,
-    this.uploadingItems,
-    this.isInvalidated,
-    this.driver,
-    this.truck
-  }) {
+  SessionObject(
+      {this.id,
+      this.sessionStatus,
+      this.title,
+      this.vin,
+      this.customer,
+      this.customerPhone,
+      this.serviceAgreement,
+      this.notes,
+      this.source,
+      this.destination,
+      this.broker,
+      this.brokerPhone,
+      this.scheduledDate,
+      this.serviceCategories,
+      this.categoryItems,
+      this.reportItems,
+      this.uploaded,
+      this.uploadingItems,
+      this.isInvalidated,
+      this.driver,
+      this.truck}) {
     uploaded = 0;
     uploadingItems = 0;
     isInvalidated = false;
@@ -102,33 +104,32 @@ class SessionObject {
     dropOffPictureIsUploaded = false;
   }
 
-  factory SessionObject.fromJson(dynamic json) {
+  factory SessionObject.fromJson(dynamic jsonData) {
     Map<String, dynamic> confMap = Map();
     Map<String, dynamic> defaultConfig = getInspectionConfig();
     confMap['reportItems'] =
-        json['reportItems'] ?? defaultConfig['reportItems'];
+        jsonData['reportItems'] ?? defaultConfig['reportItems'];
     confMap['categories'] =
-        json['serviceCategories'] ?? defaultConfig['categories'];
+        jsonData['serviceCategories'] ?? defaultConfig['categories'];
     InspectionConfig inspectionConfig = InspectionConfig.fromJson(confMap);
 
     return SessionObject(
-      id: json['id'] as String,
+      id: jsonData['id'] as String,
       sessionStatus: EnumToString.fromString(
-          SessionStatus.values, json['status'] as String),
-      title: json['title'] as String,
-      vin: json['vin'] as String,
-      srcName: json['address1'] as String,
-      srcAddress: Address.fromJson(json['srcAddress']),
-      dstName: json['address1'] as String,
-      dstAddress: Address.fromJson(json['dstAddress']),
-      customer: json['customer'] as String,
-      customerPhone: json['customerPhone'] as String,
-      broker: json['broker'] as String,
-      brokerPhone: json['brokerPhone'] as String,
-      driver: json['driver'] as String,
-      truck: json['truck'] as String,
-      scheduledDate: DateTime.parse(json['scheduledDate'] as String),
-      serviceAgreement: json['serviceAgreement'],
+          SessionStatus.values, jsonData['status'] as String),
+      title: jsonData['title'] as String,
+      vin: jsonData['vin'] as String,
+      source: Address.fromJson(jsonData['source']),
+      destination: Address.fromJson(jsonData['destination']),
+      customer: jsonData['customer'] as String,
+      customerPhone: jsonData['customerPhone'] as String,
+      broker: jsonData['broker'] as String,
+      brokerPhone: jsonData['brokerPhone'] as String,
+      driver: jsonData['driver'] as String,
+      truck: jsonData['truck'] as String,
+      scheduledDate: DateTime.parse(jsonData['scheduledDate'] as String),
+      serviceAgreement: jsonData['serviceAgreement'],
+      notes: List<String>.from(jsonData['notes'] ?? ["No notes to show"]),
       categoryItems: inspectionConfig.categoryItems,
       reportItems: inspectionConfig.items,
       serviceCategories: inspectionConfig.categories,
@@ -138,21 +139,23 @@ class SessionObject {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'sessionStatus': EnumToString.convertToString(sessionStatus),
+      'status': EnumToString.convertToString(sessionStatus),
       'title': title,
       'vin': vin,
       'customer': customer,
       'customerPhone': customerPhone,
-      'srcName': srcName,
-      'srcAddress': srcAddress,
+      'source': source,
+      'destination': destination,
       'broker': broker,
       'brokerPhone': brokerPhone,
       'driver': driver,
       'truck': truck,
+      'scheduledDate': scheduledDate.toString(),
       'categoryItems': categoryItems?.map(
           (key, value) => MapEntry(key, value.map((e) => e.toJson()).toList())),
       'reportItems': this.reportItems?.map((i) => i.toJson())?.toList(),
       'serviceCategories': serviceCategories,
+      'notes': notes,
       'uploaded': uploaded,
       'uploadingItems': uploadingItems,
       'isInvalidated': isInvalidated,
@@ -234,14 +237,14 @@ class SessionObject {
 
     uploaded = uploadingItems;
     print("Upload is completed");
-    if (reportCategory == ReportCategories.PICKUP_PICTURES) {
+    if (reportCategory == ReportCategories.PickupPictures) {
       pickupPictureIsUploaded = true;
-    } else if (reportCategory == ReportCategories.PICKUP_SIGNATURE) {
+    } else if (reportCategory == ReportCategories.PickupSignature) {
       updateStatus(SessionStatus.PICKUP);
       updateStatus(SessionStatus.TRANSFERRING);
-    } else if (reportCategory == ReportCategories.DROP_OFF_PICTURES) {
+    } else if (reportCategory == ReportCategories.DropOffPictures) {
       dropOffPictureIsUploaded = true;
-    } else if (reportCategory == ReportCategories.DROP_OFF_SIGNATURE) {
+    } else if (reportCategory == ReportCategories.DropOffSignature) {
       updateStatus(SessionStatus.COMPLETED);
     }
   }
@@ -298,18 +301,18 @@ class SessionObject {
     switch (this.sessionStatus) {
       case SessionStatus.STARTED:
         if (pickupPictureIsUploaded) {
-          return ReportCategories.PICKUP_SIGNATURE;
+          return ReportCategories.PickupSignature;
         } else {
-          return ReportCategories.PICKUP_PICTURES;
+          return ReportCategories.PickupPictures;
         }
         break;
       case SessionStatus.PICKUP:
       case SessionStatus.DROPPED:
       case SessionStatus.TRANSFERRING:
         if (dropOffPictureIsUploaded) {
-          return ReportCategories.DROP_OFF_SIGNATURE;
+          return ReportCategories.DropOffSignature;
         } else {
-          return ReportCategories.DROP_OFF_PICTURES;
+          return ReportCategories.DropOffPictures;
         }
         break;
       case SessionStatus.DISPATCHED:
@@ -319,6 +322,25 @@ class SessionObject {
       case SessionStatus.NONE:
         break;
     }
-    return ReportCategories.PICKUP_PICTURES;
+    return ReportCategories.PickupPictures;
+  }
+
+  void saveToLocalStorage() {
+    LocalStorage.saveObject(
+        type: ObjectType.sessionObject, object: this, objectId: this.id);
+  }
+
+  static Future<SessionObject> getFromLocalStorage(String sessionId) async {
+
+    try {
+      return SessionObject.fromJson(json.decode(await LocalStorage.getObject(
+          ObjectType.sessionObject,
+          objectId: sessionId)));
+    } catch (e) {
+      print(e);
+      // log(e, stackTrace: e);
+      log("No session found in local storage");
+      return null;
+    }
   }
 }

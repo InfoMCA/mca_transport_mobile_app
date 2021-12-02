@@ -1,23 +1,17 @@
 import 'package:transportation_mobile_app/models/entities/session.dart';
 
-enum ReportCategories {
-  PICKUP_PICTURES,
-  PICKUP_SIGNATURE,
-  DROP_OFF_PICTURES,
-  DROP_OFF_SIGNATURE,
+enum ReportTabs {
+  PickUp,
+  DropOff,
 }
 
-extension ReportCategoriesExtension on ReportCategories {
+extension ReportCTabsExtension on ReportTabs {
   String getName() {
     switch (this) {
-      case ReportCategories.PICKUP_PICTURES:
-        return "Pick-up Pictures";
-      case ReportCategories.PICKUP_SIGNATURE:
-        return "Pick-up Signature";
-      case ReportCategories.DROP_OFF_PICTURES:
-        return "Drop-off Pictures";
-      case ReportCategories.DROP_OFF_SIGNATURE:
-        return "Drop-off Signature";
+      case ReportTabs.PickUp:
+        return "Pick-up Information";
+      case ReportTabs.DropOff:
+        return "Drop-off Information";
       default:
         return "";
     }
@@ -25,12 +19,62 @@ extension ReportCategoriesExtension on ReportCategories {
 
   bool canUserEditTab(SessionStatus sessionStatus) {
     switch (this) {
-      case ReportCategories.PICKUP_PICTURES:
-      case ReportCategories.PICKUP_SIGNATURE:
+      case ReportTabs.PickUp:
         return sessionStatus == SessionStatus.DISPATCHED ||
             sessionStatus == SessionStatus.STARTED;
-      case ReportCategories.DROP_OFF_PICTURES:
-      case ReportCategories.DROP_OFF_SIGNATURE:
+      case ReportTabs.DropOff:
+        return sessionStatus == SessionStatus.PICKUP ||
+            sessionStatus == SessionStatus.TRANSFERRING;
+      default:
+        return false;
+    }
+  }
+}
+
+enum ReportCategories {
+  PickupPictures,
+  PickupSignature,
+  DropOffPictures,
+  DropOffSignature,
+}
+
+extension ReportCategoriesExtension on ReportCategories {
+  String getName() {
+    switch (this) {
+      case ReportCategories.PickupPictures:
+        return "Pick-up Pictures";
+      case ReportCategories.PickupSignature:
+        return "Pick-up Signature";
+      case ReportCategories.DropOffPictures:
+        return "Drop-off Pictures";
+      case ReportCategories.DropOffSignature:
+        return "Drop-off Signature";
+      default:
+        return "";
+    }
+  }
+
+  String getTitle() {
+    switch (this) {
+      case ReportCategories.PickupPictures:
+      case ReportCategories.DropOffPictures:
+        return "Pictures";
+      case ReportCategories.PickupSignature:
+      case ReportCategories.DropOffSignature:
+        return "Signature";
+      default:
+        return "";
+    }
+  }
+
+  bool canUserEditTab(SessionStatus sessionStatus) {
+    switch (this) {
+      case ReportCategories.PickupPictures:
+      case ReportCategories.PickupSignature:
+        return sessionStatus == SessionStatus.DISPATCHED ||
+            sessionStatus == SessionStatus.STARTED;
+      case ReportCategories.DropOffPictures:
+      case ReportCategories.DropOffSignature:
         return sessionStatus == SessionStatus.PICKUP ||
             sessionStatus == SessionStatus.TRANSFERRING;
       default:
@@ -40,11 +84,11 @@ extension ReportCategoriesExtension on ReportCategories {
 
   bool isTabFilled(SessionStatus sessionStatus) {
     switch (this) {
-      case ReportCategories.PICKUP_PICTURES:
-      case ReportCategories.PICKUP_SIGNATURE:
+      case ReportCategories.PickupPictures:
+      case ReportCategories.PickupSignature:
         return sessionStatus.index >= SessionStatus.PICKUP.index;
-      case ReportCategories.DROP_OFF_PICTURES:
-      case ReportCategories.DROP_OFF_SIGNATURE:
+      case ReportCategories.DropOffPictures:
+      case ReportCategories.DropOffSignature:
         return sessionStatus.index >= SessionStatus.DROPPED.index;
       default:
         return false;
@@ -53,12 +97,12 @@ extension ReportCategoriesExtension on ReportCategories {
 
   ReportCategories getNextPage() {
     switch (this) {
-      case ReportCategories.PICKUP_PICTURES:
-        return ReportCategories.PICKUP_SIGNATURE;
-      case ReportCategories.DROP_OFF_PICTURES:
-        return ReportCategories.DROP_OFF_SIGNATURE;
-      case ReportCategories.PICKUP_SIGNATURE:
-      case ReportCategories.DROP_OFF_SIGNATURE:
+      case ReportCategories.PickupPictures:
+        return ReportCategories.PickupSignature;
+      case ReportCategories.DropOffPictures:
+        return ReportCategories.DropOffSignature;
+      case ReportCategories.PickupSignature:
+      case ReportCategories.DropOffSignature:
         return this;
       default:
         return this;
@@ -119,31 +163,3 @@ extension CategoryNamesExtension on ReportCategoryItems {
     }
   }
 }
-
-// ignore: non_constant_identifier_names
-// final Map<ReportCategories, Set<CategoryItems>> ReportCategoriesItems = {
-//   ReportCategories.PICKUP_PICTURES: {
-//     CategoryItems.VIN,
-//     CategoryItems.Odometer,
-//     CategoryItems.DiagonalFront,
-//     CategoryItems.Front,
-//     CategoryItems.Left,
-//     CategoryItems.Right,
-//     CategoryItems.Back,
-//     CategoryItems.DiagonalBack,
-//   },
-//   ReportCategories.PICKUP_SIGNATURE: {
-//     CategoryItems.Signature,
-//   },
-//   ReportCategories.DROP_OFF_PICTURES: {
-//     CategoryItems.Odometer,
-//     CategoryItems.DiagonalFront,
-//     CategoryItems.Front,
-//     CategoryItems.Left,
-//     CategoryItems.Right,
-//     CategoryItems.Back,
-//   },
-//   ReportCategories.DROP_OFF_SIGNATURE: {
-//     CategoryItems.Signature,
-//   },
-// };

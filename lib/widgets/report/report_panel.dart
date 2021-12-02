@@ -1,5 +1,7 @@
-import 'package:enum_to_string/enum_to_string.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_picker/flutter_picker.dart';
+import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
 
 class VehiclePanelReport extends StatefulWidget {
@@ -19,46 +21,54 @@ class VehiclePanelReport extends StatefulWidget {
 }
 
 class _VehiclePanelReportState extends State<VehiclePanelReport> {
-  Map<String, List<Map<String, double>>> dotCoordinates = {
+  final Map<String, Map<String, double>> imageProperties = {
+    "left": {"width": 280, "height": 150, "left": 30, "top": 0},
+    "back": {"width": 200, "height": 150, "left": 70, "top": 0},
+    "right": {"width": 280, "height": 150, "left": 30, "top": 0},
+    "front": {"width": 250, "height": 150, "left": 30, "top": 0},
+    "top": {"width": 250, "height": 150, "left": 30, "top": 0},
+  };
+
+  final Map<String, List<Map<String, double>>> dotCoordinates = {
     "left": [
-      {"markNumber": 1, "top": 100, "left": 0},
-      {"markNumber": 2, "top": 90, "left": 110},
-      {"markNumber": 3, "top": 90, "left": 180},
-      {"markNumber": 4, "top": 70, "left": 270},
-      {"markNumber": 5, "top": 100, "left": 275},
-      {"markNumber": 6, "top": 106, "left": 37},
-      {"markNumber": 7, "top": 106, "left": 222},
-      {"markNumber": 8, "top": 54, "left": 117},
-      {"markNumber": 9, "top": 54, "left": 190},
+      {"markNumber": 1, "top": 80, "left": 30},
+      {"markNumber": 2, "top": 60, "left": 110},
+      {"markNumber": 3, "top": 60, "left": 180},
+      {"markNumber": 4, "top": 50, "left": 255},
+      {"markNumber": 5, "top": 80, "left": 260},
+      {"markNumber": 6, "top": 80, "left": 60},
+      {"markNumber": 7, "top": 80, "left": 225},
+      {"markNumber": 8, "top": 30, "left": 130},
+      {"markNumber": 9, "top": 30, "left": 190},
     ],
     "back": [
-      {"markNumber": 1, "top": 10, "left": 130},
-      {"markNumber": 2, "top": 60, "left": 130},
-      {"markNumber": 3, "top": 120, "left": 130},
-      {"markNumber": 4, "top": 60, "left": 220},
-      {"markNumber": 5, "top": 60, "left": 50},
-      {"markNumber": 6, "top": 120, "left": 40},
-      {"markNumber": 7, "top": 120, "left": 220},
+      {"markNumber": 1, "top": 5, "left": 150},
+      {"markNumber": 2, "top": 40, "left": 150},
+      {"markNumber": 3, "top": 90, "left": 150},
+      {"markNumber": 4, "top": 40, "left": 80},
+      {"markNumber": 5, "top": 40, "left": 225},
+      {"markNumber": 6, "top": 90, "left": 80},
+      {"markNumber": 7, "top": 90, "left": 225},
     ],
     "right": [
-      {"markNumber": 1, "top": 100, "left": 275},
-      {"markNumber": 2, "top": 90, "left": 180},
-      {"markNumber": 3, "top": 90, "left": 110},
-      {"markNumber": 4, "top": 80, "left": 15},
-      {"markNumber": 5, "top": 100, "left": 0},
-      {"markNumber": 6, "top": 106, "left": 50},
-      {"markNumber": 7, "top": 106, "left": 235},
-      {"markNumber": 8, "top": 54, "left": 105},
-      {"markNumber": 8, "top": 54, "left": 160},
+      {"markNumber": 1, "top": 80, "left": 270},
+      {"markNumber": 2, "top": 60, "left": 200},
+      {"markNumber": 3, "top": 60, "left": 130},
+      {"markNumber": 4, "top": 50, "left": 50},
+      {"markNumber": 5, "top": 80, "left": 30},
+      {"markNumber": 6, "top": 80, "left": 240},
+      {"markNumber": 7, "top": 80, "left": 75},
+      {"markNumber": 8, "top": 30, "left": 170},
+      {"markNumber": 9, "top": 30, "left": 110},
     ],
     "front": [
-      {"markNumber": 1, "top": 10, "left": 130},
-      {"markNumber": 2, "top": 60, "left": 130},
-      {"markNumber": 3, "top": 130, "left": 130},
-      {"markNumber": 4, "top": 90, "left": 220},
-      {"markNumber": 5, "top": 90, "left": 50},
-      {"markNumber": 6, "top": 130, "left": 40},
-      {"markNumber": 7, "top": 130, "left": 220},
+      {"markNumber": 1, "top": 5, "left": 130},
+      {"markNumber": 2, "top": 40, "left": 130},
+      {"markNumber": 3, "top": 100, "left": 130},
+      {"markNumber": 4, "top": 65, "left": 205},
+      {"markNumber": 5, "top": 65, "left": 60},
+      {"markNumber": 6, "top": 100, "left": 205},
+      {"markNumber": 7, "top": 100, "left": 60},
     ],
     "top": [
       {"markNumber": 1, "top": 100, "left": 0},
@@ -78,13 +88,18 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       children: [
         Text("Tap anywhere in the image below to report an issue"),
         SizedBox(
-          width: 400,
-          height: 200,
+          // width: 300,
+          height: 150,
           child: Stack(
             children: [
-              Center(
+              Positioned(
+                top: imageProperties[widget.sideName]['top'],
+                left: imageProperties[widget.sideName]['left'],
                 child: Image.asset(
                   AppImages.report_issues_base + widget.sideName + ".png",
+                  width: imageProperties[widget.sideName]['width'],
+                  height: imageProperties[widget.sideName]['height'],
+                  fit: BoxFit.fill,
                 ),
               ),
               ...dotCoordinates[widget.sideName]
@@ -115,29 +130,22 @@ class IssueButtonMenu extends StatefulWidget {
     @required double markNumber,
     this.onChange,
   })  : panelName = "${sideName}_${markNumber.round()}",
-        issueSelected = EnumToString.fromString(
-          IssueTypes.values,
-          allIssues.firstWhere(
-              (element) =>
-                  element['name'] == "${sideName}_${markNumber.round()}",
-              orElse: () => {'value': "none"})['value'],
-        ),
-        super(key: key);
+    super(key: key);
 
   final List<Map<String, dynamic>> allIssues;
-  IssueTypes issueSelected;
   final String panelName;
   final String Function(List<Map<String, dynamic>> issues) onChange;
+  List<String> data = IssueTypes.values.map((e) => e.getName()).toList();
 
   @override
   State<IssueButtonMenu> createState() => _IssueButtonMenuState();
 }
 
 class _IssueButtonMenuState extends State<IssueButtonMenu> {
-  // IssueTypes _issueSelected = IssueTypes.none;
-
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> currentIssues = widget.allIssues.where((
+        element) => element['name'] == widget.panelName).toList();
     return SizedBox(
       height: 40,
       width: 40,
@@ -146,59 +154,68 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
           width: 20,
           height: 20,
           decoration: BoxDecoration(
-              color: widget.allIssues.any((Map<String, dynamic> element) =>
-                      element["name"] == widget.panelName)
+              color: currentIssues.isNotEmpty
                   ? Colors.red
                   : Colors.grey,
               shape: BoxShape.circle),
         ),
         onPressed: () async {
-          IssueTypes issueSel = await showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Issue types'),
-                  content: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: IssueTypes.values
-                          .map((IssueTypes e) => ListTile(
-                                onTap: () => setState(() {
-                                  widget.issueSelected = e;
-                                  Navigator.pop(context, e);
-                                }),
-                                title: Text(
-                                  e.getName(),
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                leading: Radio<IssueTypes>(
-                                  value: e,
-                                  groupValue: widget.issueSelected,
-                                  onChanged: (IssueTypes value) {
-                                    setState(() {
-                                      widget.issueSelected = value;
-                                    });
-                                    Navigator.pop(context, value);
-                                  },
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                );
-              });
-          if (issueSel == IssueTypes.none) {
-            widget.allIssues.removeWhere((Map<String, dynamic> element) =>
-                element['name'] == widget.panelName);
-            widget.onChange(widget.allIssues);
+          IssueTypes issueSel = IssueTypes.none;
+          List<IssueTypes> selected = [IssueTypes.none];
+          if (currentIssues.isNotEmpty) {
+            selected = IssueTypes.values.where((element) => element
+                .getAbbreviation() == currentIssues.first['value']).toList();
+          }
+
+          List<int> issues = await showPickerModal(context, selected);
+          if (issues == null) {
             return;
           }
-          widget.allIssues.add(
-              {"name": widget.panelName, "value": issueSel.getAbbreviation()});
-          widget.onChange(widget.allIssues);
+          issueSel = IssueTypes.values
+              .where((element) => element.getName() == widget.data[issues[0]])
+              .first;
+          widget.allIssues.removeWhere((Map<String, dynamic> element) =>
+          element['name'] == widget.panelName);
+          if (issueSel != IssueTypes.none) {
+            widget.allIssues.add(
+                {
+                  "name": widget.panelName,
+                  "value": issueSel.getAbbreviation()
+                });
+          }
+          setState(() {
+            widget.onChange(widget.allIssues);
+          });
         },
       ),
     );
+  }
+
+  Future<List<int>> showPickerModal(BuildContext context,
+      List<IssueTypes> values) async {
+    final result = await Picker(
+      adapter: PickerDataAdapter<String>(pickerdata: widget.data),
+      selecteds: values.map((e) => widget.data.indexOf(e.getName())).toList(),
+      changeToFirst: true,
+      hideHeader: false,
+      cancelTextStyle: TextStyle(color: AppColors.portGore,
+          fontFamily: 'poppins',
+          fontSize: 18,
+          fontWeight: FontWeight.w700),
+      confirmTextStyle: TextStyle(color: AppColors.alizarinCrimson,
+          fontFamily: 'poppins',
+          fontSize: 18,
+          fontWeight: FontWeight.w700),
+      textStyle: TextStyle(color: Colors.black,
+          fontFamily: 'poppins',
+          fontSize: 20,
+          fontWeight: FontWeight.w500),
+      selectedTextStyle: TextStyle(color: Colors.blue,
+          fontFamily: 'poppins',
+          fontSize: 20,
+          fontWeight: FontWeight.w500),
+    ).showModal(this.context); //_sca
+    return result;
   }
 }
 
@@ -309,4 +326,5 @@ extension on IssueTypes {
         return "OTHER";
     }
   }
+
 }

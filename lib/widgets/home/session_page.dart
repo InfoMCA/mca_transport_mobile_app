@@ -25,8 +25,6 @@ class _SessionPageState extends State<SessionPage> {
       List<SessionObject> sessionObjects =
       currentStaff?.getUserSessions(sessionStatus: sessionStatus);
       if (sessionObjects != null && sessionObjects.isNotEmpty) {
-        sessions.add(null);
-        sessionTitle.add(sessionStatus.getName());
         for (SessionObject sessionObject in sessionObjects) {
           sessions.add(sessionObject);
           sessionTitle.add("");
@@ -59,7 +57,7 @@ class _SessionPageState extends State<SessionPage> {
                     );
                   }
                 } else {
-                  if (sessions[index].sessionStatus == SessionStatus.DROPPED ||
+                  if (sessions[index].sessionStatus == SessionStatus.PICKUP ||
                       sessions[index].sessionStatus == SessionStatus.TRANSFERRING ||
                       sessions[index].sessionStatus == SessionStatus.STARTED ||
                       sessions[index].sessionStatus == SessionStatus.DISPATCHED) {

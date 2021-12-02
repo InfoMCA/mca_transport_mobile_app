@@ -13,11 +13,11 @@ import 'package:transportation_mobile_app/models/entities/session.dart';
 import 'package:transportation_mobile_app/models/entities/calling_options.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
 import 'package:transportation_mobile_app/utils/app_images.dart';
-import 'package:transportation_mobile_app/widgets/service/call_bottom_sheet.dart';
-import 'package:transportation_mobile_app/widgets/service/call_msg_button.dart';
-import 'package:transportation_mobile_app/widgets/service/marquee_widget.dart';
-import 'package:transportation_mobile_app/widgets/service/rectangular_button.dart';
-import 'package:transportation_mobile_app/widgets/service/time_left_widget.dart';
+import 'package:transportation_mobile_app/widgets/report/bottom_sheet.dart';
+import 'package:transportation_mobile_app/widgets/report/call_msg_button.dart';
+import 'package:transportation_mobile_app/widgets/report/marquee_widget.dart';
+import 'package:transportation_mobile_app/widgets/report/rectangular_button.dart';
+import 'package:transportation_mobile_app/widgets/report/time_left_widget.dart';
 
 class AgreementPage extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _AgreementPageState extends State<AgreementPage>
         actions: <Widget>[
           CallMsgButton(
             onTap: () {
-              CallBottomSheet().showBottomSheet(
+              showCallOptionsBottomSheet(
                 context: context,
                 numbers: [
                   CallingOptions(
@@ -65,13 +65,13 @@ class _AgreementPageState extends State<AgreementPage>
                         session.brokerPhone ?? "Phone number is not available",
                   ),
                   CallingOptions(
-                    name: session.srcName ?? "Pickup Location",
-                    phoneNumber: session.srcAddress.phone ??
+                    name: session.source ?? "Pickup Location",
+                    phoneNumber: session.source.phone ??
                         "Phone number is not available",
                   ),
                   CallingOptions(
-                    name: session.dstName ?? "Drop off Location",
-                    phoneNumber: session.dstAddress.phone ??
+                    name: session.destination ?? "Drop off Location",
+                    phoneNumber: session.destination.phone ??
                         "Phone number is not available",
                   )
                 ],
@@ -258,16 +258,16 @@ class _AgreementPageState extends State<AgreementPage>
             height: 16.0,
           ),
           GestureDetector(
-              onTap: () => MapsLauncher.launchQuery(session.srcAddress.toString()),
+              onTap: () => MapsLauncher.launchQuery(session.source.toString()),
               child: singleItem(
-                  text: "Pickup:" + session.srcAddress.toStringShort(), icon: AppImages.location)),
+                  text: "Pickup:" + session.source.toStringShort(), icon: AppImages.location)),
           SizedBox(
             height: 16.0,
           ),
           GestureDetector(
-              onTap: () => MapsLauncher.launchQuery(session.srcAddress.toString()),
+              onTap: () => MapsLauncher.launchQuery(session.destination.toString()),
               child: singleItem(
-                  text: "Drop: " + session.dstAddress.toStringShort(), icon: AppImages.location)),
+                  text: "Drop: " + session.destination.toStringShort(), icon: AppImages.location)),
           SizedBox(
             height: 16.0,
           ),
@@ -351,7 +351,7 @@ class _AgreementPageState extends State<AgreementPage>
               onTap: () {
                 if (_hasAgreedConditions) {
                   currentSession.updateStatus(SessionStatus.STARTED);
-                  Modular.to.popAndPushNamed('/service/report', arguments: ReportCategories.PICKUP_PICTURES);
+                  Modular.to.popAndPushNamed('/service/report', arguments: ReportCategories.PickupPictures);
                 } else {
                   final snackBar = SnackBar(
                       backgroundColor: Colors.red,

@@ -1,5 +1,7 @@
 
 class Address {
+  String firstName;
+  String lastName;
   String address1;
   String address2;
   String city;
@@ -11,6 +13,8 @@ class Address {
   double lng;
 
   Address({
+    this.firstName,
+    this.lastName,
     this.address1,
     this.address2,
     this.city,
@@ -24,6 +28,8 @@ class Address {
 
   factory Address.fromJson(dynamic json) {
     return Address(
+        firstName: json['firstName'] as String,
+        lastName: json['lastName'] as String,
         address1: json['address1'] as String,
         address2: json['address2'] as String,
         city: json['city'] as String,
@@ -38,6 +44,8 @@ class Address {
 
   Map<String, dynamic> toJson() {
     return {
+      'firstName': firstName,
+      'lastName': lastName,
       'address1': address1,
       'address2': address2,
       'city': city,

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:transportation_mobile_app/models/entities/auth_user.dart';
 import 'package:transportation_mobile_app/models/entities/session.dart';
-import 'package:transportation_mobile_app/models/interfaces/admin_interface.dart';
+import 'package:transportation_mobile_app/utils/interfaces/admin_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 String inspectionConfigStr;

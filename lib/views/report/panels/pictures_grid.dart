@@ -84,6 +84,7 @@ class _GridPicturePageState extends State<GridPicturePage> {
         currentImage.format = 'image/jpg';
       });
     }
+    session.saveToLocalStorage();
   }
 
   Widget makeCaptureImageCard(

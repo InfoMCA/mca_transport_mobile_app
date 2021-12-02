@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/controllers/login_controller.dart';
 import 'package:transportation_mobile_app/models/entities/globals.dart';
 import 'package:transportation_mobile_app/utils/app_colors.dart';
-import 'package:transportation_mobile_app/utils/local_storage.dart';
-import 'package:transportation_mobile_app/views/service/handlers/lifecycle_handler.dart';
+import 'package:transportation_mobile_app/utils/services/local_storage.dart';
+import 'package:transportation_mobile_app/utils/services/location_handler.dart';
+import 'package:transportation_mobile_app/views/report/handlers/lifecycle_handler.dart';
 import 'package:transportation_mobile_app/widgets/home/session_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,23 +27,28 @@ class _HomePageState extends State<HomePage> {
       await _refreshSessions();
     }));
     _refreshSessions();
+    LocationHandler.start(username: this.username);
   }
 
   Future<void> _refreshSessions() async {
     try {
-      setState(() {
-        _isFetchingSessions = true;
-        print("_isFetchingSessions set to true");
+      _isFetchingSessions = true;
+      print("_isFetchingSessions set to true");
+      if (mounted) {
+        setState(() {});
+      }
+      await refreshSessions().whenComplete(() {
+        if (mounted) {
+          setState(() {});
+        }
       });
-      refreshSessions().whenComplete(() => setState(() {}));
-      return true;
     } catch (e) {
       print(e);
-      return false;
     } finally {
-      setState(() {
-        _isFetchingSessions = false;
-      });
+      _isFetchingSessions = false;
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 

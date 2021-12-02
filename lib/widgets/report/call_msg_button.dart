@@ -17,15 +17,15 @@ class CallMsgButton extends StatelessWidget {
         child: Container(
           child: Center(
             child: Container(
-              height: 24.0,
-              width: 24.0,
+              height: 30.0,
+              width: 30.0,
               decoration: BoxDecoration(
                   color: AppColors.alizarinCrimson,
                   borderRadius: BorderRadius.circular(100.0)),
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: SvgPicture.asset(AppImages.phoneMsg,
-                    height: 16.0, width: 16.0),
+                    height: 15.0, width: 15.0),
               ),
             ),
           ),

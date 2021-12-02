@@ -30,11 +30,16 @@ class AppColors{
   static final Color kimberley = Color(0xff706d96);
   static final Color gray = Color(0xff838383);
   static final Color aquaSpring = Color(0xffa1dad7);
+  static final Color lightRed = Color.fromARGB(255, 255, 241, 242);
+  static final Color darkRed = Color(0xffeb262e);
+  static final Color lightYellow = Color.fromARGB(255, 255, 248, 240);
+  static final Color lightBlue = Color(0xffd2e6ff);
+  static final Color darkYellow = Color(0xffffa95d);
 
 
   // session wise card color background
-  static final Color ongoingSession = Color(0xffedfff0);
-  static final Color upcomingSession = Color(0xfff3f7ff);
+  static final Color ongoingSession = lightYellow;
+  static final Color upcomingSession = lightRed;
   static final Color stillUploadingSession = Color(0xfffff8ef);
   static final Color pendingApprovalSession = Color(0xfff3f3f3);
   static final Color approvedSession = Color(0xffE9FFF0);

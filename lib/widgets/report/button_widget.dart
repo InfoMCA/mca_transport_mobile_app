@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transportation_mobile_app/widgets/service/text_widget.dart';
+import 'package:transportation_mobile_app/widgets/report/text_widget.dart';
 
 
 enum ButtonColor {
