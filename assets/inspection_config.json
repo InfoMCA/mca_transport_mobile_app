@@ -113,14 +113,6 @@
         },
         {
             "category": "Drop-off Pictures",
-            "name": "Top",
-            "options": [],
-            "type": "Image",
-            "format": "image/jpg",
-            "default":  ""
-        },
-        {
-            "category": "Drop-off Pictures",
             "name": "Issues",
             "options": [],
             "type": "Text",

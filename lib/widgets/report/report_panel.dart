@@ -36,8 +36,8 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       {"markNumber": 3, "top": 60, "left": 180},
       {"markNumber": 4, "top": 50, "left": 255},
       {"markNumber": 5, "top": 80, "left": 260},
-      {"markNumber": 6, "top": 80, "left": 60},
-      {"markNumber": 7, "top": 80, "left": 225},
+      {"markNumber": 7, "top": 80, "left": 60},
+      {"markNumber": 6, "top": 80, "left": 225},
       {"markNumber": 8, "top": 30, "left": 130},
       {"markNumber": 9, "top": 30, "left": 190},
     ],
@@ -65,10 +65,10 @@ class _VehiclePanelReportState extends State<VehiclePanelReport> {
       {"markNumber": 1, "top": 5, "left": 130},
       {"markNumber": 2, "top": 40, "left": 130},
       {"markNumber": 3, "top": 100, "left": 130},
-      {"markNumber": 4, "top": 65, "left": 205},
-      {"markNumber": 5, "top": 65, "left": 60},
-      {"markNumber": 6, "top": 100, "left": 205},
-      {"markNumber": 7, "top": 100, "left": 60},
+      {"markNumber": 5, "top": 65, "left": 205},
+      {"markNumber": 4, "top": 65, "left": 60},
+      {"markNumber": 7, "top": 100, "left": 205},
+      {"markNumber": 6, "top": 100, "left": 60},
     ],
     "top": [
       {"markNumber": 1, "top": 100, "left": 0},
@@ -160,6 +160,7 @@ class _IssueButtonMenuState extends State<IssueButtonMenu> {
               shape: BoxShape.circle),
         ),
         onPressed: () async {
+          print("panel name: " + widget.panelName);
           IssueTypes issueSel = IssueTypes.none;
           List<IssueTypes> selected = [IssueTypes.none];
           if (currentIssues.isNotEmpty) {
