@@ -25,7 +25,7 @@ PlayStore requires that you have an *upload signature* before you can upload you
 1. Make sure that you have JDK installed and in your path
 2. Run the following command to generate and save the upload keystore to your home directory:
 ```sh
-keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload -storetype JKS
+keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias mycartransport -storetype JKS
 ```
 ### Build App bundle
 1. Build the App bundle with the following:
