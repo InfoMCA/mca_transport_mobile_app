@@ -28,7 +28,7 @@ class _PermissionRequestsState extends State<PermissionRequests> {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            Image.asset("assets/1_Splash_1_Image1.png"),
+            Image.asset("assets/1_Splash_1_Image1.png", height: 150,),
             SizedBox(
               height: 20,
             ),
@@ -52,17 +52,30 @@ class _PermissionRequestsState extends State<PermissionRequests> {
                     Modular.to.pop(true);
                     return;
                   }
-                  PermissionStatus status = await Permission.location.request();
+                  PermissionStatus status = await Permission.location
+                    .request();
                   if (status == PermissionStatus.granted) {
                     Modular.to.pop(true);
                   }
                 },
-                child: const Text('Give permissions'),
+                child: const Text('Give permissions',),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(AppColors.alizarinCrimson)),
               ),
-            )
+            ),
+            Container(
+                width: double.maxFinite,
+                height: 70,
+                child: TextButton(
+                  onPressed: () async {
+                      Modular.to.pop(true);
+                  },
+                  child: const Text("Don't allow", style: TextStyle(color: Colors.black)),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.white)),
+                )),
           ],
         ),
       ),
