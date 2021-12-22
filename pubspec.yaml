@@ -139,7 +139,8 @@ flutter:
     - assets/missing_error.png
     - assets/vin.png
     - assets/lottie/recoding.json
-    - assets/bill.pdf
+    - assets/bol/default.pdf
+    - assets/bol/ga_towing.pdf
     - assets/reporting_issues/iss_back.png
     - assets/reporting_issues/iss_front.png
     - assets/reporting_issues/iss_left.png

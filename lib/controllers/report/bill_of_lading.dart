@@ -63,8 +63,17 @@ class BillOfLading {
     return file;
   }
 
+  Future<ByteData> _getBolFile(String broker) {
+    switch (broker) {
+      // case "GATowing": //TODO: This pdf has issues showing the data. uncomment once its fixed
+      //   return rootBundle.load('assets/bol/ga_towing.pdf');
+      default:
+        return rootBundle.load('assets/bol/default.pdf');
+    }
+  }
+
   void generate(SessionObject session, List<InspectionItem> reportItems) async {
-    final byteData = await rootBundle.load('assets/bill.pdf');
+    final byteData = await _getBolFile(session.broker);
     String templatePath =
         '${(await getTemporaryDirectory()).path}/bill_template.pdf';
     final file = File(templatePath);
