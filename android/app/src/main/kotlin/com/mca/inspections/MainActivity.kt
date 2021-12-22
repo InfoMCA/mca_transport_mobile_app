@@ -1,4 +1,4 @@
-package com.example.transportation_mobile_app
+package com.mca.inspections
 
 import io.flutter.embedding.android.FlutterActivity
 
