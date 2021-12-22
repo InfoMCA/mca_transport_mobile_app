@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:transportation_mobile_app/views/home/home_page.dart';
+import 'package:transportation_mobile_app/views/home/permissions.dart';
 import 'package:transportation_mobile_app/views/security/login_page.dart';
 import 'package:transportation_mobile_app/views/report/agreement_page.dart';
 import 'package:transportation_mobile_app/views/report/picture/take_image_page_landscape.dart';
@@ -17,6 +18,7 @@ class AppModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute('/security/login', child: (_, args) => LoginPage()),
     ChildRoute('/home', child:(_, args) => HomePage()),
+    ChildRoute('/home/permissions', child:(_, args) => PermissionRequests()),
     ChildRoute('/service/agreement', child:(_, args) => AgreementPage()),
     ChildRoute('/service/report', child:(_, args) => InspectionMainPage()),
     ChildRoute('/service/picture/portrait', child:(_, args) => TakePicturePortraitView()),

@@ -198,36 +198,40 @@ class _SessionCardState extends State<SessionCard> {
       child: Column(
         children: [
           Container(
-              width: double.infinity,
+              width: double.maxFinite,
               height: 1.0,
               color: Colors.grey.withOpacity(0.5)),
           Container(
-              width: double.infinity,
+              width: double.maxFinite,
               height: 40,
             child: TextButton(
               onPressed: () => MapsLauncher.launchQuery(widget.session.source.toString()),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(width: 8),
-                  Icon(
-                    Icons.location_city_sharp,
-                    color: Colors.black,
-                    size: 16.0,
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Text("From: ${widget.session.source.toString()}",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          color: AppColors.emperor,
-                          fontWeight: FontWeight.w500)),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.location_city_sharp,
+                      color: Colors.black,
+                      size: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Text("From: ${widget.session.source.toString()}",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            color: AppColors.emperor,
+                            fontWeight: FontWeight.w500)),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -240,28 +244,31 @@ class _SessionCardState extends State<SessionCard> {
             height: 40,
             child: TextButton(
               onPressed: () => MapsLauncher.launchQuery(widget.session.destination.toString()),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(width: 8),
-                  Icon(
-                    Icons.location_city_sharp,
-                    color: Colors.black,
-                    size: 16.0,
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Text("To: ${widget.session.destination.toString()}",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'Poppins',
-                          color: AppColors.emperor,
-                          fontWeight: FontWeight.w500)),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                ],
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.location_city_sharp,
+                      color: Colors.black,
+                      size: 16.0,
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Text("To: ${widget.session.destination.toString()}",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            color: AppColors.emperor,
+                            fontWeight: FontWeight.w500)),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
