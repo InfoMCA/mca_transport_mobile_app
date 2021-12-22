@@ -21,10 +21,8 @@ class IssueItemJson {
   String value;
 
   IssueItemJson(this.name, this.value);
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'value': value
-  };
+
+  Map<String, dynamic> toJson() => {'name': name, 'value': value};
 
   factory IssueItemJson.fromJson(dynamic json) {
     return IssueItemJson(json['name'], json['value']);
@@ -42,13 +40,13 @@ class BillOfLading {
         Platform.isLinux ||
         Platform.isWindows) {
       final Directory directory =
-      await path_provider.getApplicationSupportDirectory();
+          await path_provider.getApplicationSupportDirectory();
       path = directory.path;
     } else {
       path = await PathProviderPlatform.instance.getApplicationSupportPath();
     }
     final File file =
-    File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
+        File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
     await file.writeAsBytes(bytes, flush: true);
     if (Platform.isAndroid || Platform.isIOS) {
       //Launch the file (used open_file package)
@@ -73,13 +71,12 @@ class BillOfLading {
     await file.writeAsBytes(byteData.buffer
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
     final PdfDocument document =
-    PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
+        PdfDocument(inputBytes: File(templatePath).readAsBytesSync());
     Address srcAddress = session.source;
     Address dstAddress = session.destination;
 
-    String issues = reportItems
-        .firstWhere((element) => element.name == "Issues")
-        .value;
+    String issues =
+        reportItems.firstWhere((element) => element.name == "Issues").value;
     List<IssueItemJson> issueItems = [];
     if (issues.isNotEmpty) {
       for (Map item in jsonDecode(issues)) {
@@ -94,9 +91,8 @@ class BillOfLading {
           field.name.contains("front_") ||
           field.name.contains("left_")) {
         (field as PdfTextBoxField).text = issueItems
-            .firstWhere(
-                (element) => element.name == field.name,
-            orElse: () => IssueItemJson(field.name, ''))
+            .firstWhere((element) => element.name == field.name,
+                orElse: () => IssueItemJson(field.name, ''))
             .value;
       }
       switch (field.name.toString()) {
@@ -123,7 +119,7 @@ class BillOfLading {
         case 'Mileage':
           (field as PdfTextBoxField).text = reportItems
               .firstWhere((element) => element.name == "Odometer",
-              orElse: () => InspectionItem(value: ""))
+                  orElse: () => InspectionItem(value: ""))
               .value;
           break;
         case 'Year':
@@ -137,12 +133,16 @@ class BillOfLading {
           break;
         case 'DContact':
           if (dstAddress != null) {
-            (field as PdfTextBoxField).text = dstAddress.firstName + " " + dstAddress.lastName;
+            (field as PdfTextBoxField).text = (dstAddress.firstName ?? "") +
+                " " +
+                (dstAddress.lastName ?? "");
           }
           break;
         case 'PContact':
           if (srcAddress != null) {
-            (field as PdfTextBoxField).text = srcAddress.firstName + " " + srcAddress.lastName;
+            (field as PdfTextBoxField).text = (srcAddress.firstName ?? "") +
+                " " +
+                (srcAddress.lastName ?? "");
           }
           break;
         case 'PAddress':
@@ -191,10 +191,11 @@ class BillOfLading {
           (field as PdfTextBoxField).text = reportItems
               .firstWhere(
                   (element) =>
-              element.name == ReportCategoryItems.CustomerName.getName() &&
-                  element.category ==
-                      ReportCategories.PickupSignature.getName(),
-              orElse: () => InspectionItem(value: ""))
+                      element.name ==
+                          ReportCategoryItems.CustomerName.getName() &&
+                      element.category ==
+                          ReportCategories.PickupSignature.getName(),
+                  orElse: () => InspectionItem(value: ""))
               .value;
           break;
         case 'Receiver_Name':
@@ -212,43 +213,39 @@ class BillOfLading {
       }
     }
 
-    reportItems.forEach((element) {print(element.name + " " + element.category);});
-    Iterable<InspectionItem> shipperSignature = reportItems
-        .where((element) => element.name == ReportCategoryItems.SignatureImage.getName() &&
+    reportItems.forEach((element) {
+      print(element.name + " " + element.category);
+    });
+    Iterable<InspectionItem> shipperSignature = reportItems.where((element) =>
+        element.name == ReportCategoryItems.SignatureImage.getName() &&
         element.category == ReportCategories.PickupSignature.getName());
 
     if (shipperSignature.isNotEmpty) {
       Uint8List signaturePng = shipperSignature.first.data;
       if (signaturePng != null) {
         print("add signature");
-        document.pages[0]
-            .graphics
-            .drawImage(
+        document.pages[0].graphics.drawImage(
             PdfBitmap(signaturePng), Rect.fromLTWH(195, 635, 100, 24));
       }
     }
 
-    Iterable<InspectionItem> receiverSignature = reportItems
-        .where((element) =>
-    element.name == ReportCategoryItems.SignatureImage.getName() &&
+    Iterable<InspectionItem> receiverSignature = reportItems.where((element) =>
+        element.name == ReportCategoryItems.SignatureImage.getName() &&
         element.category == ReportCategories.DropOffSignature.getName());
     if (receiverSignature.isNotEmpty) {
       Uint8List signaturePng = receiverSignature.first.data;
       if (signaturePng != null) {
-        document.pages[0]
-            .graphics
-            .drawImage(
+        document.pages[0].graphics.drawImage(
             PdfBitmap(signaturePng), Rect.fromLTWH(425, 635, 100, 24));
       }
     }
-
 
     final List<int> bytes = document.save();
     document.dispose();
     File pdfFile = await _saveAndLaunchFile(bytes, 'bill.pdf');
     InspectionItem inspectionItem = reportItems
         .where((element) =>
-    element.name == ReportCategoryItems.BillOfLading.getName())
+            element.name == ReportCategoryItems.BillOfLading.getName())
         .first;
     inspectionItem.value = pdfFile.path;
   }
