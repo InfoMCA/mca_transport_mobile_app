@@ -65,8 +65,8 @@ class BillOfLading {
 
   Future<ByteData> _getBolFile(String broker) {
     switch (broker) {
-      // case "GATowing": //TODO: This pdf has issues showing the data. uncomment once its fixed
-      //   return rootBundle.load('assets/bol/ga_towing.pdf');
+      case "GATowing":
+        return rootBundle.load('assets/bol/ga_towing.pdf');
       default:
         return rootBundle.load('assets/bol/default.pdf');
     }
@@ -120,10 +120,10 @@ class BillOfLading {
           }
           break;
         case 'Make':
-          (field as PdfTextBoxField).text = session.title;
+          (field as PdfTextBoxField).text = session.title.split(" ")[1];
           break;
         case 'Model':
-          (field as PdfTextBoxField).text = session.title;
+          (field as PdfTextBoxField).text = session.title.split(" ")[2];
           break;
         case 'Mileage':
           (field as PdfTextBoxField).text = reportItems
@@ -132,7 +132,7 @@ class BillOfLading {
               .value;
           break;
         case 'Year':
-          (field as PdfTextBoxField).text = session.title;
+          (field as PdfTextBoxField).text = session.title.split(" ")[0];
           break;
         case 'VIN':
           (field as PdfTextBoxField).text = session.vin;
@@ -158,6 +158,16 @@ class BillOfLading {
           if (srcAddress != null) {
             (field as PdfTextBoxField).text = srcAddress.address1;
           }
+          break;
+        case 'Delivery_date':
+          DateTime now = new DateTime.now();
+          (field as PdfTextBoxField).text =
+              "${now.month}/${now.day}/${now.year}";
+          break;
+        case 'Pickup_date':
+          DateTime now = new DateTime.now();
+          (field as PdfTextBoxField).text =
+              "${now.month}/${now.day}/${now.year}";
           break;
         case 'DAddress':
           if (dstAddress != null) {
