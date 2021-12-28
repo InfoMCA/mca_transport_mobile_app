@@ -28,15 +28,19 @@ class _PermissionRequestsState extends State<PermissionRequests> {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            Image.asset("assets/1_Splash_1_Image1.png", height: 150,),
+            Image.asset(
+              "assets/1_Splash_1_Image1.png",
+              height: 150,
+            ),
             SizedBox(
               height: 20,
             ),
             Text(
-              "My Car Inspection needs access to your location in the background. "
-              "Your location is used to better assign jobs that are closer "
-              "to you at any moment. This app will automatically stop collecting "
-              "your location whenever you close it.",
+              "My Car Transport collects location data to enable a more "
+              "precise job assignment based on your geo-location. "
+              "Your location will be collected while this app is running in "
+              "the background, and it will stop collecting location data "
+              "once you close the application.",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black),
             ),
@@ -52,13 +56,14 @@ class _PermissionRequestsState extends State<PermissionRequests> {
                     Modular.to.pop(true);
                     return;
                   }
-                  PermissionStatus status = await Permission.location
-                    .request();
+                  PermissionStatus status = await Permission.location.request();
                   if (status == PermissionStatus.granted) {
                     Modular.to.pop(true);
                   }
                 },
-                child: const Text('Give permissions',),
+                child: const Text(
+                  'Give permissions',
+                ),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(AppColors.alizarinCrimson)),
@@ -69,12 +74,12 @@ class _PermissionRequestsState extends State<PermissionRequests> {
                 height: 70,
                 child: TextButton(
                   onPressed: () async {
-                      Modular.to.pop(true);
+                    Modular.to.pop(true);
                   },
-                  child: const Text("Don't allow", style: TextStyle(color: Colors.black)),
+                  child: const Text("Don't allow",
+                      style: TextStyle(color: Colors.black)),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.white)),
+                      backgroundColor: MaterialStateProperty.all(Colors.white)),
                 )),
           ],
         ),
