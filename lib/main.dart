@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
-import 'package:transportation_mobile_app/app/app_module.dart';
-import 'package:transportation_mobile_app/app/app_widget.dart';
-import 'package:transportation_mobile_app/models/entities/auth_user.dart';
-import 'package:transportation_mobile_app/models/entities/globals.dart';
-import 'package:transportation_mobile_app/utils/services/local_storage.dart';
+import 'package:transportation_mobile_app/app_common/app_widget.dart';
+import 'package:transportation_mobile_app/app_driver/driver_module.dart';
+import 'package:transportation_mobile_app/app_driver/models/entities/auth_user.dart';
+import 'package:transportation_mobile_app/app_driver/utils/services/local_storage.dart';
+
+import 'app_driver/models/entities/globals.dart';
 
 Future<void> _loadConfigFile() async {
   String configJson =
@@ -34,7 +35,8 @@ Future<void> main() async {
   }
   runApp(ModularApp(
     child: AppWidget(
-        initialRoute: currentStaff != null ? "/home" : "/security/login"),
-    module: AppModule(),
+        initialRoute:
+            currentStaff?.role?.getModuleRoute() ?? "/security/login"),
+    module: DriverModule(),
   ));
 }
