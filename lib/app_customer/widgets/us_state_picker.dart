@@ -12,7 +12,7 @@ class USStatePicker extends StatefulWidget {
 }
 
 class _USStatePickerState extends State<USStatePicker> {
-  String _value = "CA";
+  String _value;
 
   @override
   Widget build(BuildContext context) {

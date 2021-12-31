@@ -11,7 +11,8 @@ class FormExpansionTile extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(collapsedTextColor: Colors.black45,
+    return ExpansionTile(
+        collapsedTextColor: Colors.black45,
         childrenPadding: EdgeInsets.symmetric(horizontal: 15),
         onExpansionChanged: (isExpanded) {
           if (isExpanded) {

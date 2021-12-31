@@ -188,12 +188,15 @@ class _DashboardState extends State<Dashboard> {
       await TransportInterface().sendTransferRequest(
         request.getRequest(),
       );
+      setState(() {
+        request = TransferRequest();
+      });
       showSnackBar(
           text: "Request sent successfully!",
           context: context,
           backgroundColor: Colors.lightGreen);
     } catch (e, s) {
-      log("Error sending transfer request: " + e.toString(), stackTrace: s);
+      log("Error sending transfer request: " + e.toString());
       showSnackBar(
           text: "Error sending request, please try again.",
           context: context,
