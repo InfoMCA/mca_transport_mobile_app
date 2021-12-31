@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:transportation_mobile_app/app_driver/models/entities/auth_user.dart';
+import 'package:transportation_mobile_app/app_common/models/entities/auth_user.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
 import 'package:transportation_mobile_app/app_driver/utils/interfaces/admin_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,12 +53,7 @@ Future<void> refreshSessions({String sessionId}) async {
   currentStaff.setUserSessions(globalSessions);
 }
 
-void showSnackBar(
-    {BuildContext context, String text, Color backgroundColor = Colors.red}) {
-  SnackBar snackbar =
-      SnackBar(backgroundColor: backgroundColor, content: Text(text));
-  ScaffoldMessenger.of(context).showSnackBar(snackbar);
-}
+
 
 void launchURL(String url,
     {String scheme = "http",

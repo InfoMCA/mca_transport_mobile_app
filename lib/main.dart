@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:transportation_mobile_app/app_common/app_widget.dart';
-import 'package:transportation_mobile_app/app_driver/driver_module.dart';
-import 'package:transportation_mobile_app/app_driver/models/entities/auth_user.dart';
+import 'package:transportation_mobile_app/app_common/module.dart';
+import 'package:transportation_mobile_app/app_common/models/entities/auth_user.dart';
 import 'package:transportation_mobile_app/app_driver/utils/services/local_storage.dart';
 
 import 'app_driver/models/entities/globals.dart';
@@ -37,6 +37,6 @@ Future<void> main() async {
     child: AppWidget(
         initialRoute:
             currentStaff?.role?.getModuleRoute() ?? "/security/login"),
-    module: DriverModule(),
+    module: AppModule(),
   ));
 }

@@ -11,7 +11,7 @@ class AppWidget extends StatelessWidget with ThemeMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MCA Management UI',
+      title: 'My Car Transport',
       theme: getTheme(context),
       initialRoute: this.initialRoute,
     ).modular();

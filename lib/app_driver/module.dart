@@ -15,7 +15,6 @@ class DriverModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    // ChildRoute('/security/login', child: (_, args) => LoginPage()),
     ChildRoute('/home', child:(_, args) => HomePage()),
     ChildRoute('/home/permissions', child:(_, args) => PermissionRequests()),
     ChildRoute('/service/agreement', child:(_, args) => AgreementPage()),

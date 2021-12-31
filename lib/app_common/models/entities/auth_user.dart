@@ -49,7 +49,7 @@ class AuthUserModel {
     return AuthUserModel(
       username: json['username'],
       email: json['email'],
-      role: EnumToString.fromString(UserRole.values, json['role']),
+      role: EnumToString.fromString(UserRole.values, json['role'] ?? ""),
     );
   }
 
@@ -57,20 +57,23 @@ class AuthUserModel {
     return {
       'username': username,
       'email': email,
+      'role': EnumToString.convertToString(role)
     };
   }
 }
 
-enum UserRole { driver, broker, customer }
+enum UserRole { driver, broker, customer, operator }
 
 extension routing on UserRole {
   String getModuleRoute() {
     switch (this) {
+      // case UserRole.customer:
+      //   return "/customer";
+      // case UserRole.broker:
+      //   return "/broker";
       case UserRole.driver:
         return "/driver";
-      case UserRole.broker:
-        return "/broker";
-      case UserRole.customer:
+      case UserRole.operator:
         return "/customer";
       default:
         return "";

@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:transportation_mobile_app/app_driver/models/entities/auth_user.dart';
+import 'package:transportation_mobile_app/app_common/models/entities/auth_user.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/globals.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
 
@@ -82,8 +83,7 @@ class AppResp {
         statusCode: parsedJson['statusCode'],
         preSignedUrl: parsedJson['preSignedUrl'],
         userRole:
-            EnumToString.fromString(UserRole.values, parsedJson['userRole']),
-        //TODO: CHANGE TO API RESULT WHEN READY
+            EnumToString.fromString(UserRole.values, parsedJson['role'] ?? ""),
         sessionsList: sessions);
   }
 }
@@ -165,7 +165,8 @@ class AdminInterface {
       }
       authResponse.statusCode = response.statusCode;
       return authResponse;
-    } catch (e) {
+    } catch (e, s) {
+      log(e.toString(), stackTrace: s);
       print(e);
       authResponse = new AppResp();
       authResponse.statusCode = HttpStatus.clientClosedRequest;

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/globals.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:transportation_mobile_app/app_driver/utils/app_images.dart';
 import 'package:transportation_mobile_app/app_driver/utils/hex_color.dart';
 

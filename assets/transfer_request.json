@@ -1,0 +1,114 @@
+{
+  "transfer": [
+    {
+      "name": "General info",
+      "placeholder": "",
+      "questionFormat": "Subcategory",
+      "items": [
+        {
+          "name": "Pickup date",
+          "placeholder": "",
+          "questionFormat": "DatePicker",
+          "items": [],
+          "responseFormat": "Epoch",
+          "defaultValue": ""
+        },
+        {
+          "name": "Customer name",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Title",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Broker",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Vin",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Note",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        }
+      ]
+    },
+    {
+      "name": "Pickup info",
+      "placeholder": "",
+      "questionFormat": "Subcategory",
+      "items": [
+        {
+          "name": "Location Name",
+          "placeholder": "",
+          "questionFormat": "DatePicker",
+          "items": [],
+          "responseFormat": "Epoch",
+          "defaultValue": ""
+        },
+        {
+          "name": "Customer name",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Title",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Broker",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Vin",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        },
+        {
+          "name": "Note",
+          "placeholder": "",
+          "questionFormat": "TextField",
+          "items": [],
+          "responseFormat": "Text",
+          "defaultValue": ""
+        }
+      ]
+    }
+  ]
+}

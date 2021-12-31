@@ -14,7 +14,7 @@ import 'package:transportation_mobile_app/app_driver/models/entities/globals.dar
 import 'package:transportation_mobile_app/app_driver/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:transportation_mobile_app/app_driver/utils/app_images.dart';
 import 'package:transportation_mobile_app/app_driver/views/report/panels/pictures_grid.dart';
 import 'package:transportation_mobile_app/app_driver/views/report/panels/signature.dart';

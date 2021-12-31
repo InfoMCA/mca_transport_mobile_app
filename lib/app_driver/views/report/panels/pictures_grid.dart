@@ -10,7 +10,7 @@ import 'package:transportation_mobile_app/app_driver/models/entities/inspection_
 import 'package:transportation_mobile_app/app_driver/models/entities/modular-args.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 
 class GridPicturePage extends StatefulWidget {
   final ReportCategories reportTabName;

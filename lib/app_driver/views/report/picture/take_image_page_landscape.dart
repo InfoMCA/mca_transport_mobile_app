@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 
 class TakePictureLandscapeView extends StatefulWidget {
   final String position;

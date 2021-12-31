@@ -11,7 +11,7 @@ import 'package:transportation_mobile_app/app_driver/models/entities/calling_opt
 import 'package:transportation_mobile_app/app_driver/models/entities/globals.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/report_enums.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:transportation_mobile_app/app_driver/utils/app_images.dart';
 import 'package:transportation_mobile_app/app_driver/widgets/report/bottom_sheet.dart';
 import 'package:transportation_mobile_app/app_driver/widgets/report/call_msg_button.dart';

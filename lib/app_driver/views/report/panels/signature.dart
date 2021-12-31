@@ -4,7 +4,7 @@ import 'package:signature/signature.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/globals.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/report_enums.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:transportation_mobile_app/app_driver/utils/services/local_storage.dart';
 
 class SignatureTabPage extends StatefulWidget {

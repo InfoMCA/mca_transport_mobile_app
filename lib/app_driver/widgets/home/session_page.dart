@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/globals.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/session.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:transportation_mobile_app/app_driver/utils/app_images.dart';
 import 'package:transportation_mobile_app/app_driver/utils/app_strings.dart';
 import 'package:transportation_mobile_app/app_driver/widgets/home/session_card.dart';

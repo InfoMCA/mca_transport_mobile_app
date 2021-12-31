@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/app_common/controllers/login_controller.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/globals.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:transportation_mobile_app/app_driver/utils/services/local_storage.dart';
 import 'package:transportation_mobile_app/app_driver/utils/services/location_handler.dart';
 import 'package:transportation_mobile_app/app_driver/views/report/handlers/lifecycle_handler.dart';

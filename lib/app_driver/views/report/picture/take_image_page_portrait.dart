@@ -6,7 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/inspection_item.dart';
 import 'package:transportation_mobile_app/app_driver/models/entities/modular-args.dart';
-import 'package:transportation_mobile_app/app_driver/utils/app_colors.dart';
+import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 
 class TakePicturePortraitView extends StatefulWidget {
   final String position;
