@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:transportation_mobile_app/app_common/utils/app_colors.dart';
 import 'package:us_states/us_states.dart';
 
 class USStatePicker extends StatefulWidget {

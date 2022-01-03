@@ -84,22 +84,59 @@ class _DashboardState extends State<Dashboard> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: AppColors.silverChalice,
-                                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                                      textStyle: TextStyle(color: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 50, vertical: 20),
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           fontWeight: FontWeight.bold)),
                                   child: Text("Cancel")),
                               ElevatedButton(
                                   onPressed: () {
                                     Modular.to.pop();
+                                    if (!request.canSendRequest()) {
+                                      showSnackBar(
+                                          text:
+                                              "There are items missing. Please fill out the form and try again",
+                                          context: context,
+                                          backgroundColor: Colors.red);
+                                      return;
+                                    }
                                     _sendRequest();
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: AppColors.portGore,
-                                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                                      textStyle: TextStyle(color: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 50, vertical: 20),
+                                      textStyle: TextStyle(
+                                          color: Colors.white,
                                           fontWeight: FontWeight.bold)),
                                   child: Text("Send"))
                             ],
+                            contentTextStyle: TextStyle(color: Colors.black),
+                            content: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Missing on general section",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                for (String item in request.getMissingItems(
+                                    section: "general"))
+                                  Text(item),
+                                Text(
+                                  "Missing on pick-up section",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                for (String item in request.getMissingItems(
+                                    section: "pickUp"))
+                                  Text(item),
+                                Text("Missing on drop-off section",
+                                    style: TextStyle(color: Colors.red)),
+                                for (String item in request.getMissingItems(
+                                    section: "dropOff"))
+                                  Text(item),
+                              ],
+                            ),
                           ));
                 },
                 child: Row(
@@ -126,7 +163,7 @@ class _DashboardState extends State<Dashboard> {
 
   Widget getQuestionWidget(Map<String, dynamic> question) {
     switch (question["questionFormat"]) {
-      case "TextField":
+      case "VinField":
         return Column(
           children: [
             Text(
@@ -134,6 +171,33 @@ class _DashboardState extends State<Dashboard> {
               style: TextStyle(color: Colors.black45),
             ),
             ReportTextField(
+              initialValue: question['value'],
+              maxLength: 17,
+              onlyCaps: true,
+              onChange: (newVal) => question['value'] = newVal,
+            ),
+          ],
+        );
+      case "TextField":
+      case "VinField":
+      case "NumberField":
+      case "PhoneField":
+        String format = question["questionFormat"];
+        return Column(
+          children: [
+            Text(
+              question['name'],
+              style: TextStyle(color: Colors.black45),
+            ),
+            ReportTextField(
+              maxLength: format == "VinField" ? 17 : null,
+              onlyCaps: format == "VinField",
+              inputType: format == "NumberField"
+                  ? TextInputType.numberWithOptions(
+                      signed: false, decimal: false)
+                  : format == "PhoneField"
+                      ? TextInputType.phone
+                      : null,
               initialValue: question['value'],
               onChange: (newVal) => question['value'] = newVal,
             ),

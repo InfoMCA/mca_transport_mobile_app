@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ReportTextField extends StatelessWidget {
   final TextInputType inputType;
   final bool isEnabled;
+  final bool onlyCaps;
+  final int maxLength;
   final String initialValue;
   final Function(String newValue) onChange;
 
@@ -11,7 +14,9 @@ class ReportTextField extends StatelessWidget {
     Key key,
     this.inputType: TextInputType.text,
     this.isEnabled,
+    this.onlyCaps,
     this.initialValue,
+    this.maxLength = 999,
     this.onChange,
   }) : super(key: key);
 
@@ -28,6 +33,9 @@ class ReportTextField extends StatelessWidget {
           enabled: this.isEnabled,
           initialValue: initialValue,
           keyboardType: inputType,
+          maxLines: 1,
+          maxLength: maxLength,
+          inputFormatters: [if (onlyCaps) UpperCaseTextFormatter()],
           style: GoogleFonts.poppins(
             fontSize: 13,
             fontWeight: FontWeight.w600,
@@ -43,6 +51,17 @@ class ReportTextField extends StatelessWidget {
           onChanged: onChange,
         ),
       ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
     );
   }
 }
