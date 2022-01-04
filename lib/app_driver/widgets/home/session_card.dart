@@ -20,7 +20,7 @@ class SessionCard extends StatefulWidget {
 }
 
 class _SessionCardState extends State<SessionCard> {
-  String followupScreen = "/service/agreement";
+  String followupScreen = "/driver/service/agreement";
   Color cardBackgroundColor = Colors.white;
   Color iconColor = Colors.black;
   String statusIcon = AppImages.ongoingSession;
@@ -36,9 +36,9 @@ class _SessionCardState extends State<SessionCard> {
     }
 
     if (widget.session.sessionStatus == SessionStatus.DISPATCHED) {
-      followupScreen = "/service/agreement";
+      followupScreen = "/driver/service/agreement";
     } else {
-      followupScreen = "/service/report";
+      followupScreen = "/driver/service/report";
     }
 
     return GestureDetector(

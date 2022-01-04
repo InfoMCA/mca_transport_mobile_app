@@ -60,6 +60,6 @@ class LocationHandler {
   }
 
   static Future<bool> _showPermissionsView() async {
-    return await Modular.to.pushNamed("/home/permissions");
+    return await Modular.to.pushNamed("/driver/home/permissions");
   }
 }
