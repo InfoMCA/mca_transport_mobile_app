@@ -57,7 +57,7 @@ class AuthUserModel {
     return {
       'username': username,
       'email': email,
-      'role': EnumToString.convertToString(role)
+      'role': role == null ? null : EnumToString.convertToString(role)
     };
   }
 }
