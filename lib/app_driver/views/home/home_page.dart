@@ -178,7 +178,7 @@ class _HomePageState extends State<HomePage> {
     LoginController().logoff();
     // await NotificationHandler.stop();
     await LocalStorage.deleteAll();
-    Modular.to.popUntil(ModalRoute.withName('/home'));
+    Modular.to.popUntil(ModalRoute.withName('/driver/home'));
     Modular.to.popAndPushNamed('/security/login');
   }
 }
