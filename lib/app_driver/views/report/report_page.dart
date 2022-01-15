@@ -404,24 +404,6 @@ class _InspectionMainPageState extends State<InspectionMainPage>
                           for (ReportCategories category in reportCategories) {
                             getCurrentSession().uploadReport(category);
                           }
-                          if (reportCategories
-                              .contains(ReportCategories.PickupPictures)) {
-                            _copyInspectionItemValues(
-                                src: getCurrentSession()
-                                    .reportItems
-                                    .where((element) =>
-                                        element.category ==
-                                        ReportCategories.PickupPictures
-                                            .getName())
-                                    .toList(),
-                                dst: getCurrentSession()
-                                    .reportItems
-                                    .where((element) =>
-                                        element.category ==
-                                        ReportCategories.DropOffPictures
-                                            .getName())
-                                    .toList());
-                          }
                           getCurrentSession().saveToLocalStorage();
                           Navigator.of(context).pop();
                           _showUploadDialog(context);
@@ -459,7 +441,7 @@ class _InspectionMainPageState extends State<InspectionMainPage>
                   uploadProgress = getCurrentSession().getUploadProgress();
                   if (uploadProgress == 100) {
                     uploadTimer.cancel();
-                    Modular.to.popAndPushNamed('/home');
+                    Modular.to.popAndPushNamed('/driver/home');
                   }
                   uploadProgress = min(uploadProgress, 100);
                 });
@@ -509,7 +491,7 @@ class _InspectionMainPageState extends State<InspectionMainPage>
               text: 'Continue Upload in Background',
               onTap: () {
                 uploadTimer.cancel();
-                Modular.to.popAndPushNamed('/home');
+                Modular.to.popAndPushNamed('/driver/home');
               },
             ),
           ],

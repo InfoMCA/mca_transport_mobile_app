@@ -120,9 +120,15 @@ class BillOfLading {
           }
           break;
         case 'Make':
+          if (session.title.split(" ").length < 2) {
+            continue;
+          }
           (field as PdfTextBoxField).text = session.title.split(" ")[1];
           break;
         case 'Model':
+          if (session.title.split(" ").length < 2) {
+            continue;
+          }
           (field as PdfTextBoxField).text = session.title.split(" ")[2];
           break;
         case 'Mileage':
@@ -258,6 +264,9 @@ class BillOfLading {
             PdfBitmap(signaturePng), Rect.fromLTWH(425, 635, 100, 24));
       }
     }
+    //Make read only document
+    document.form.readOnly = true;
+    document.form.flattenAllFields();
 
     final List<int> bytes = document.save();
     document.dispose();
