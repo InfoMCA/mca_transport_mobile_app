@@ -119,13 +119,13 @@ class _InspectionMainPageState extends State<InspectionMainPage>
 
   int _getInitialTab() {
     switch (currentSession.sessionStatus) {
-      case SessionStatus.DISPATCHED:
-      case SessionStatus.STARTED:
+      case SessionStatus.Dispatched:
+      case SessionStatus.Started:
         return 0;
-      case SessionStatus.PICKUP:
-      case SessionStatus.TRANSFERRING:
-      case SessionStatus.DROPPED:
-      case SessionStatus.COMPLETED:
+      case SessionStatus.Pickup:
+      case SessionStatus.Transferring:
+      case SessionStatus.Dropped:
+      case SessionStatus.Completed:
         return 1;
       default:
         return 0;

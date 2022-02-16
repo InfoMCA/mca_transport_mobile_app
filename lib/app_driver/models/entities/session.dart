@@ -13,32 +13,32 @@ import 'package:transportation_mobile_app/app_driver/utils/services/local_storag
 import 'address.dart';
 
 enum SessionStatus {
-  DISPATCHED,
-  STARTED,
-  PICKUP,
-  TRANSFERRING,
-  DROPPED,
-  COMPLETED,
-  CANCELED,
-  UPLOADING,
-  NONE
+  Dispatched,
+  Started,
+  Pickup,
+  Transferring,
+  Dropped,
+  Completed,
+  Canceled,
+  Uploading,
+  None
 }
 
 extension SessionStatusString on SessionStatus {
   String getName() {
     print(this);
     switch (this) {
-      case SessionStatus.DISPATCHED:
+      case SessionStatus.Dispatched:
         return "Dispatched";
-      case SessionStatus.STARTED:
+      case SessionStatus.Started:
         return "Started";
-      case SessionStatus.PICKUP:
+      case SessionStatus.Pickup:
         return "Picked Up";
-      case SessionStatus.TRANSFERRING:
+      case SessionStatus.Transferring:
         return "In Transit";
-      case SessionStatus.DROPPED:
+      case SessionStatus.Dropped:
         return "Drop Off";
-      case SessionStatus.COMPLETED:
+      case SessionStatus.Completed:
         return "Completed";
       default:
         return "Unknown";
@@ -240,17 +240,17 @@ class SessionObject {
     if (reportCategory == ReportCategories.PickupPictures) {
       pickupPictureIsUploaded = true;
     } else if (reportCategory == ReportCategories.PickupSignature) {
-      updateStatus(SessionStatus.PICKUP);
-      updateStatus(SessionStatus.TRANSFERRING);
+      updateStatus(SessionStatus.Pickup);
+      updateStatus(SessionStatus.Transferring);
     } else if (reportCategory == ReportCategories.DropOffPictures) {
       dropOffPictureIsUploaded = true;
     } else if (reportCategory == ReportCategories.DropOffSignature) {
-      updateStatus(SessionStatus.COMPLETED);
+      updateStatus(SessionStatus.Completed);
     }
   }
 
   Future<void> uploadAttachments() async {
-    updateStatus(SessionStatus.UPLOADING);
+    updateStatus(SessionStatus.Uploading);
     uploaded = 0;
     uploadingItems = categoryItems.length + 1;
 
@@ -265,7 +265,7 @@ class SessionObject {
 
     uploaded = uploadingItems;
     print("Upload is completed");
-    updateStatus(SessionStatus.COMPLETED);
+    updateStatus(SessionStatus.Completed);
   }
 
   // Update status of Session, sending an update to admin and refresh dashboard
@@ -299,27 +299,27 @@ class SessionObject {
 
   ReportCategories getCurrentReportTab() {
     switch (this.sessionStatus) {
-      case SessionStatus.STARTED:
+      case SessionStatus.Started:
         if (pickupPictureIsUploaded) {
           return ReportCategories.PickupSignature;
         } else {
           return ReportCategories.PickupPictures;
         }
         break;
-      case SessionStatus.PICKUP:
-      case SessionStatus.DROPPED:
-      case SessionStatus.TRANSFERRING:
+      case SessionStatus.Pickup:
+      case SessionStatus.Dropped:
+      case SessionStatus.Transferring:
         if (dropOffPictureIsUploaded) {
           return ReportCategories.DropOffSignature;
         } else {
           return ReportCategories.DropOffPictures;
         }
         break;
-      case SessionStatus.DISPATCHED:
-      case SessionStatus.COMPLETED:
-      case SessionStatus.CANCELED:
-      case SessionStatus.UPLOADING:
-      case SessionStatus.NONE:
+      case SessionStatus.Dispatched:
+      case SessionStatus.Completed:
+      case SessionStatus.Canceled:
+      case SessionStatus.Uploading:
+      case SessionStatus.None:
         break;
     }
     return ReportCategories.PickupPictures;
