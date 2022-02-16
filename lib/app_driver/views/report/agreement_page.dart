@@ -354,7 +354,7 @@ class _AgreementPageState extends State<AgreementPage>
               textColor: Colors.white,
               onTap: () {
                 if (_hasAgreedConditions) {
-                  currentSession.updateStatus(SessionStatus.STARTED);
+                  currentSession.updateStatus(SessionStatus.Started);
                   Modular.to.popAndPushNamed('/driver/service/report',
                       arguments: ReportCategories.PickupPictures);
                 } else {

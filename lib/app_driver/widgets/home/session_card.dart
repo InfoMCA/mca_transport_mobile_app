@@ -35,7 +35,7 @@ class _SessionCardState extends State<SessionCard> {
       );
     }
 
-    if (widget.session.sessionStatus == SessionStatus.DISPATCHED) {
+    if (widget.session.sessionStatus == SessionStatus.Dispatched) {
       followupScreen = "/driver/service/agreement";
     } else {
       followupScreen = "/driver/service/report";
@@ -287,32 +287,32 @@ class _SessionCardState extends State<SessionCard> {
   }
 
   getCardBackgroundColor() {
-    if (widget.session.sessionStatus == SessionStatus.DISPATCHED) {
+    if (widget.session.sessionStatus == SessionStatus.Dispatched) {
       cardBackgroundColor = AppColors.lightBlue;
       iconColor = AppColors.cadetBlue;
       statusIcon = AppImages.ongoingSession;
       stepperColor = AppColors.lightBlue;
-    } else if (widget.session.sessionStatus == SessionStatus.STARTED) {
+    } else if (widget.session.sessionStatus == SessionStatus.Started) {
       cardBackgroundColor = AppColors.lightRed;
       iconColor = Colors.white;
       statusIcon = AppImages.ongoingSession;
       stepperColor = AppColors.darkRed;
-    } else if (widget.session.sessionStatus == SessionStatus.PICKUP) {
+    } else if (widget.session.sessionStatus == SessionStatus.Pickup) {
       cardBackgroundColor = AppColors.lightYellow;
       iconColor = Colors.white;
       statusIcon = AppImages.upcomingSession;
       stepperColor = AppColors.darkYellow;
-    } else if (widget.session.sessionStatus == SessionStatus.TRANSFERRING) {
+    } else if (widget.session.sessionStatus == SessionStatus.Transferring) {
       cardBackgroundColor = AppColors.stillUploadingSession;
       iconColor = AppColors.cadetBlue;
       statusIcon = AppImages.uploadingSession;
       stepperColor = AppColors.athenesGrey;
-    } else if (widget.session.sessionStatus == SessionStatus.DROPPED) {
+    } else if (widget.session.sessionStatus == SessionStatus.Dropped) {
       cardBackgroundColor = AppColors.pendingApprovalSession;
       iconColor = AppColors.cadetBlue;
       statusIcon = AppImages.pendingApprovedSession;
       stepperColor = AppColors.athenesGrey;
-    } else if (widget.session.sessionStatus == SessionStatus.COMPLETED) {
+    } else if (widget.session.sessionStatus == SessionStatus.Completed) {
       cardBackgroundColor = AppColors.approvedSession;
       iconColor = Colors.white;
       statusIcon = AppImages.pendingApprovedSession;

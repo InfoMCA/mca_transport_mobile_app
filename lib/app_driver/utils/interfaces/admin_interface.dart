@@ -152,7 +152,7 @@ class AdminInterface {
     try {
       AppReq appReq = AppReq(
           cmd: AppReqCmd.Login,
-          sessionStatus: SessionStatus.NONE,
+          sessionStatus: SessionStatus.None,
           username: username,
           password: password);
       print("Send Login Request: " + endpoint);

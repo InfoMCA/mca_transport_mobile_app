@@ -86,12 +86,12 @@ class _TimeLeftWidgetState extends State<TimeLeftWidget> {
   String getMessage(int differenceMinutes) {
     if (differenceMinutes < 0) {
       return "Hasn't started yet";
-    } else if (sessionStatus == SessionStatus.DISPATCHED &&
+    } else if (sessionStatus == SessionStatus.Dispatched &&
         differenceMinutes > 0) {
       return "Passed due!";
-    } else if (sessionStatus == SessionStatus.TRANSFERRING && hours < 12) {
+    } else if (sessionStatus == SessionStatus.Transferring && hours < 12) {
       return "$hours hour $minutes minutes";
-    } else if (sessionStatus == SessionStatus.TRANSFERRING && hours >= 12) {
+    } else if (sessionStatus == SessionStatus.Transferring && hours >= 12) {
       return "More than 12 hrs";
     } else {
       return "$sessionStatus";

@@ -20,11 +20,11 @@ extension ReportCTabsExtension on ReportTabs {
   bool canUserEditTab(SessionStatus sessionStatus) {
     switch (this) {
       case ReportTabs.PickUp:
-        return sessionStatus == SessionStatus.DISPATCHED ||
-            sessionStatus == SessionStatus.STARTED;
+        return sessionStatus == SessionStatus.Dispatched ||
+            sessionStatus == SessionStatus.Started;
       case ReportTabs.DropOff:
-        return sessionStatus == SessionStatus.PICKUP ||
-            sessionStatus == SessionStatus.TRANSFERRING;
+        return sessionStatus == SessionStatus.Pickup ||
+            sessionStatus == SessionStatus.Transferring;
       default:
         return false;
     }
@@ -71,12 +71,12 @@ extension ReportCategoriesExtension on ReportCategories {
     switch (this) {
       case ReportCategories.PickupPictures:
       case ReportCategories.PickupSignature:
-        return sessionStatus == SessionStatus.DISPATCHED ||
-            sessionStatus == SessionStatus.STARTED;
+        return sessionStatus == SessionStatus.Dispatched ||
+            sessionStatus == SessionStatus.Started;
       case ReportCategories.DropOffPictures:
       case ReportCategories.DropOffSignature:
-        return sessionStatus == SessionStatus.PICKUP ||
-            sessionStatus == SessionStatus.TRANSFERRING;
+        return sessionStatus == SessionStatus.Pickup ||
+            sessionStatus == SessionStatus.Transferring;
       default:
         return false;
     }
@@ -86,10 +86,10 @@ extension ReportCategoriesExtension on ReportCategories {
     switch (this) {
       case ReportCategories.PickupPictures:
       case ReportCategories.PickupSignature:
-        return sessionStatus.index >= SessionStatus.PICKUP.index;
+        return sessionStatus.index >= SessionStatus.Pickup.index;
       case ReportCategories.DropOffPictures:
       case ReportCategories.DropOffSignature:
-        return sessionStatus.index >= SessionStatus.DROPPED.index;
+        return sessionStatus.index >= SessionStatus.Dropped.index;
       default:
         return false;
     }

@@ -46,7 +46,7 @@ class _SessionPageState extends State<SessionPage> {
               if (sessions[index] != null) {
                 if (isActive) {
                   if (sessions[index].sessionStatus ==
-                      SessionStatus.COMPLETED) {
+                      SessionStatus.Completed) {
                     return Container(
                       height: 0.0,
                       width: 0.0,
@@ -58,12 +58,12 @@ class _SessionPageState extends State<SessionPage> {
                     );
                   }
                 } else {
-                  if (sessions[index].sessionStatus == SessionStatus.PICKUP ||
+                  if (sessions[index].sessionStatus == SessionStatus.Pickup ||
                       sessions[index].sessionStatus ==
-                          SessionStatus.TRANSFERRING ||
-                      sessions[index].sessionStatus == SessionStatus.STARTED ||
+                          SessionStatus.Transferring ||
+                      sessions[index].sessionStatus == SessionStatus.Started ||
                       sessions[index].sessionStatus ==
-                          SessionStatus.DISPATCHED) {
+                          SessionStatus.Dispatched) {
                     return Container(
                       height: 0.0,
                       width: 0.0,
